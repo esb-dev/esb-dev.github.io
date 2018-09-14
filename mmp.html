@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="de">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="utf-8">
+<title>Projekte, MMP</title>
+<meta name="description" content="Internetauftritt von Prof. Dr. Burkhardt Renz, Technische Hochschule
+		Mittelhessen, Projekt MNI Proposition Analyzer">
+<meta name="keywords" content="Burkhardt Renz, THM, Technische Hochschule Mittelhessen, MNI, university of applied sciences, Informatik, computer science, Projekte, MMP, MNI Macro
+	Processor, M4">
+<meta name="author" content="Burkhardt Renz">
+<meta name="date" content="2018/01/11 08:58:52">
+<meta name="robots" content="index, nofollows">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/skeleton.css">
+<link rel="stylesheet" href="css/custom.css">
+<link rel="short icon" type="image/png" href="img/favicon.png">
+<link rel="icon" type="image/png" href="img/favicon.png">
+</head>
+<div class="container">
+
+	<div class="header">
+<h2 class="title"><a href="index.html">Burkhardt Renz</a></h2>
+<div class="row" style="margin-top: -1em;">
+<div class="one-half column"><ul class="contact"><li><a href="http://www.thm.de" target="_blank">Technische Hochschule Mittelhessen</a></li></ul></div>
+<div class="one-half column"><ul class="contact"><li><a href="http://www.mni.thm.de" target="_blank">Fachbereich MNI</a></li></ul></div>
+</div>
+</div>
+
+	<div class="row" style="margin-top: 4rem;"><div class="twelve columns">
+			
+				<h2>MMP: MNI Macro Processor</h2>
+
+				<p class="pen">The MNI Macro Processor (MMP) is an embeddable, extensible,
+					M4-compatible macro processor written in the Java programming 
+					language.  The M4 macro processor is <i>the</i> macro processor 
+					in the Unix tool set. It was first described and implemented by 
+					Brian W. Kernighan and Dennis M. Ritchie. There is a sophisticated 
+					implementation of M4 as part of GNU, see 
+					<a href="http://www.gnu.org/software/m4/" target="_blank">GNU M4 ➚ </a>,
+					accompanied by a terrific user's manual.
+				</p>
+				<p class="pen">MMP adds the following features:<br>
+					- MMP provides an application programming interface (API) in Java
+					that allows Java programs to use macro processing facilities 
+					directly.  <br>
+					- MMP uses Java objects to implement builtin macros as well as the
+					user defined macros given in the M4 language. This mechanism is
+					available via an abstract class and an API that allows to control 
+					the macro processing engine of MMP. This means that it is possible 
+					to implement M4 macros in tha Java programming language and 
+					register them with the MMP processing engine. This mechanism 
+					provides new applications of macro processing within Java 
+					applications. MPA, e.g., uses some special macros written in Java.
+				</p>
+
+<table><tbody><tr>
+<td class="doc"><a href="dist/mmp.jar" target="_blank"><img src="img/jar.png" border="0" width="16" height="16"></a></td>
+<td class="doc">Software engineering project group: <a href="dist/mmp.jar" target="_self"><i>MNI Macro Processor MMP.</i></a> Fachhochschule Gießen-Friedberg 
+						University of Applied Sciences<br><span style="font-size: 75%">JVM Programm, 131 KB, Stand 25.05.2018</span>
+</td>
+</tr></tbody></table>
+<table><tbody><tr>
+<td class="doc"><a href="dist/mmp-src.zip" target="_blank"><img src="img/zip.png" border="0" width="16" height="16"></a></td>
+<td class="doc">Software engineering project group: <a href="dist/mmp-src.zip" target="_self"><i>MNI Macro Processor MMP -- Source code and 
+						API documentation.</i></a> Fachhochschule Gießen-Friedberg 
+					University of Applied Sciences<br><span style="font-size: 75%">Zip Archivdatei, 239 KB, Stand 25.05.2018</span>
+</td>
+</tr></tbody></table>
+				<p class="pen">The implementation of M4's eval in MMP is the MNI Integer 
+					Calculator.
+				</p>
+
+<table><tbody><tr>
+<td class="doc"><a href="dist/mic-src.zip" target="_blank"><img src="img/zip.png" border="0" width="16" height="16"></a></td>
+<td class="doc">Software engineering project group: <a href="dist/mic-src.zip" target="_self"><i>MNI Integer Calculator MIC -- Source code and 
+						API documentation.</i></a> Fachhochschule Gießen-Friedberg 
+						University of Applied Sciences<br><span style="font-size: 75%">Zip Archivdatei, 142 KB, Stand 25.05.2018</span>
+</td>
+</tr></tbody></table>
+				<p>Der MNI Macro Processor MMP ist ein einbettbarer, erweiterbarer
+					Makroprozessor, der kompatibel mit M4 ist und in Java geschrieben 
+					ist.  Der M4 Makroprozessor ist <i>der</i> Makroprozessor unter 
+					den Unix-Werkzeugen – universell einsetzbar und nicht so 
+					bekannt, wie er es verdiente. Er stammt von Brian W. Kernighan 
+					und Dennis M. Ritchie. Eine erweiterte Version des M4 ist Teil 
+					des Gnu-Projekts, siehe 
+					<a href="http://www.gnu.org/software/m4/" target="_blank">GNU M4 ➚ </a>. 
+					Dazu gibt es ein ganz ausgezeichnetes Handbuch.
+				</p>
+				<p>MMP ist eine Implementierung von M4 in Java und bietet dadurch 
+					folgende Zusatzeigenschaften:<br>
+					- MMP hat eine API in Java, wodurch Java-Programme die 
+						Möglichkeiten von M4 direkt nutzen können.<br>
+					- Die in M4 eingebauten Makros wie auch benutzerdefinierte Makros 
+						sind in MMP als Java-Objekte implementiert. Dadurch ist es 
+						möglich, Makros nicht nur in der M4-Sprache, sondern in Java zu 
+						schreiben. MMP stellt eine abstrakte Klasse zur Verfügung und 
+						hat eine API zur Steuerung der eigentlichen Maschine, die die 
+						Makroersetzung durchführt. Durch diesen Mechanismus kann man 
+						ganz neue Anwendungen von Makrotechniken in Java-Programmen 
+						erreichen. MPA benutzt z.B. spezielle Makros, die in
+						Java geschrieben sind.
+				</p>
+		
+	</div></div>
+
+	<div class="row"><div class="twelve columns footer">
+<a href="impressum.html">Impressum</a>  © 2004 - 2018 by Burkhardt Renz, V 36.0 [11.01.2018] <br>
+			Design nach der Vorlage von <a href="http://getskeleton.com">Skeleton</a>
+</div></div> 
+
+</div>
+</html>
