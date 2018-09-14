@@ -1,0 +1,7 @@
+## ignore please
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
