@@ -1,32 +1,32 @@
 /* css für skeleton Layout der WebSeiten
-   Copyright (c) 2002 - 2017 by Burkhardt Renz. All rights reserved.
-   $Id: custom.css 4042 2017-06-12 07:10:20Z br $
+   Copyright (c) 2002 - 2018 by Burkhardt Renz. All rights reserved.
+   $Id: custom.css 4088 2017-08-03 13:33:02Z br $
 */
+
+body {
+	font-family: 'Verdana', sans serif; 
+}
 
 .container {
   max-width: 900px; }
 
 .header {
- 	color: #0000ff;
+ 	color: #354da6;
   margin-top: 2rem; 
   margin-bottom: 0rem;
   border-bottom: 2px solid #eee; }
 
 .header a {
-  color: #0000ff; }
-
-.header a:hover {
-  color: #0FA0CE; }
+ color: #354da6; }
 
 .header p {
   margin: 0;
   padding: 0; }
   
 .footer {
-  padding-top: 2rem;
-  border-top: 2px solid #eee;
-  margin-bottom: 2rem;
-  font-size: 1.2rem; }
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    font-size: 1.2rem; }
 
 .title { text-align: left; }
 
@@ -72,14 +72,3 @@ p.pen {
 	padding-left: 10px;
 	}
 
-/* doc paragraph */
-
-p.doc {
-	margin-bottom: .5rem;
-}
-/* small font paragraph */
-p.small {
-	font-size: 1.2rem;
-  line-height: 1.2;
-	margin-bottom: .5rem;
-}
