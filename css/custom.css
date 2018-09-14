@@ -1,0 +1,85 @@
+/* css für skeleton Layout der WebSeiten
+   Copyright (c) 2002 - 2017 by Burkhardt Renz. All rights reserved.
+   $Id: custom.css 4042 2017-06-12 07:10:20Z br $
+*/
+
+.container {
+  max-width: 900px; }
+
+.header {
+ 	color: #0000ff;
+  margin-top: 2rem; 
+  margin-bottom: 0rem;
+  border-bottom: 2px solid #eee; }
+
+.header a {
+  color: #0000ff; }
+
+.header a:hover {
+  color: #0FA0CE; }
+
+.header p {
+  margin: 0;
+  padding: 0; }
+  
+.footer {
+  padding-top: 2rem;
+  border-top: 2px solid #eee;
+  margin-bottom: 2rem;
+  font-size: 1.2rem; }
+
+.title { text-align: left; }
+
+ul.contact {
+  list-style: none;
+}
+
+li.mail::after {
+    content: "@mni.thm.de";
+}
+
+li {
+    margin-bottom: 0rem;}
+
+ul {
+    margin-top: 0rem; }
+
+a {
+    text-decoration: none;
+}
+
+/* ordered lists */
+ol {
+	counter-reset: section;
+	list-style-type: none;
+	}
+ol li:before {	
+	counter-increment: section;
+	content: counters(section, ".") "\a0\a0\a0";
+	}
+
+/* doc table */
+td.doc {
+	padding: 3px 10px;
+	vertical-align: top;
+  border-bottom: 0px;
+}
+
+/* english paragraph */
+p.pen {
+	color: #4c7fb2;
+	border-left: 2px dotted silver;
+	padding-left: 10px;
+	}
+
+/* doc paragraph */
+
+p.doc {
+	margin-bottom: .5rem;
+}
+/* small font paragraph */
+p.small {
+	font-size: 1.2rem;
+  line-height: 1.2;
+	margin-bottom: .5rem;
+}
