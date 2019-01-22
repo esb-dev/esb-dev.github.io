@@ -4,12 +4,31 @@
   CC BY-NC-SA 
 *)
 
-(** * Natürliches Sschließen in Coq *)
+(** * Natürliches Schließen in Coq *)
 Section Natural_Deduction.
 
-Variables P Q R: Prop.
 
 (** ** Implikation *)
+
+Section impl_i.
+
+Variables P Q: Prop.
+
+(* Regel rückwärts *)
+Example impl_i: P -> Q.
+Proof.
+  intro H.
+  (* Nun muss man einen Beweis finden, der
+     Q aus P herleitet *)
+Abort.
+
+Example impl_i_f: P -> Q.
+Proof.
+  assert (P -> Q).
+  (* erzeugt neues Subziel P -> Q, das man dann rückwärts
+     verwenden muss *)
+  intro H.
+Abort.
 
 Example impl_i: P -> P.
 Proof.
@@ -18,15 +37,41 @@ Proof.
   (* oder exact H. *)
 Qed.
 
-Example impl_e: P -> (P -> Q) -> Q.
+Example impl_i_f: P -> P.
+  assert (P -> P).
+  intro H; assumption.
+  assumption.
+Qed.
+
+End impl_i.
+
+Check impl_i.
+
+Section impl_e.
+
+Variables P Q: Prop.
+Hypothesis (H1: P) (H2: P -> Q).
+
+Example impl_e: Q.
 Proof.
-  intros H1 H2.
   apply H2.
   exact H1.
 Qed.
 
+Example impl_e_f: Q.
+  apply impl_e.
+Qed.
+
+End impl_e.
+
+Check impl_e.
+
 (* Interessantes Beispiel 
    Coq'Art Übung 3.2 *)
+
+Section weak_peirce.
+
+Variable P Q: Prop.
 
 Theorem weak_peirce: ((((P -> Q) -> P) -> P) -> Q) -> Q.
 Proof. 
@@ -38,30 +83,65 @@ Proof.
   exact H2.
 Qed.
 
+End weak_peirce.
+
+Check weak_peirce.
+
 (** ** Konjunktion *)
 
-Example and_i: P -> Q -> P /\ Q.
+Section and_i.
+
+Variables P Q: Prop.
+Hypothesis (H1: P) (H2: Q).
+
+Example and_i: P /\ Q.
 Proof.
-  intros H1 H2.
   split.
   - exact H1.
   - exact H2.
 Qed.
 
-Example and_e1: P /\ Q -> P.
-  intro H.
+Variables R: Prop.
+Hypotheses (H: P /\ Q -> R).
+
+Example and_i_f: R.
+Proof.
+  assert (P /\ Q).
+  split; assumption.
+  (* Jetzt muss man noch R zeigen: *)
+  apply H; assumption.
+Qed.
+
+End and_i.
+
+Section and_e.
+
+Variables P Q: Prop.
+Hypothesis (H: P /\ Q).
+
+Example and_e1: P.
+Proof.
   elim H.
   intros.
   assumption.
 Qed.
 
-(* geht auch viel einfacher: *)
-
-Example and_e2: P /\ Q -> Q.
+Example and_e1_f: P.
 Proof.
-  intro H.
+  destruct H.
+  assumption.
+Qed.
+
+Example and_e2: Q.
+Proof.
   apply H.
 Qed.
+
+End and_e.
+
+Section and_comm.
+
+Variables P Q: Prop.
 
 Theorem and_comm: P /\ Q -> Q /\ P.
 Proof.
@@ -78,8 +158,14 @@ Proof.
   split; assumption.
 Qed.
 
+End and_comm.
+
 (* Zerlegende Bindung (_Destructuring_) kann man
    schön einsetzen. *)
+
+Section and_assoc.
+
+Variables P Q R: Prop.
 
 Theorem and_assoc: (P /\ Q) /\ R -> P /\ (Q /\ R).
 Proof.
@@ -88,29 +174,77 @@ Proof.
   repeat split; assumption.
 Qed.
 
+End and_assoc.
+
 (** ** Disjunktion *)
 
-Example or_i1: P -> P \/ Q.
+Section or_i.
+
+Variables P Q: Prop.
+Hypothesis (H1: P).
+
+Example or_i1: P \/ Q.
 Proof.
-  intro H.
   left.
-  exact H.
+  exact H1.
 Qed.
 
-Example or_i2: Q -> P \/ Q.
+Example or_i1_f: P \/ Q.
 Proof.
-  intro H.
-  right.
-  exact H.
+  assert (P \/ Q).
+  left; assumption.
+  left; assumption.
 Qed.
+
+Hypothesis (H2: Q).
+
+Example or_i2: P \/ Q.
+Proof.
+  right.
+  exact H2.
+Qed.
+
+End or_i.
+
+Section or_e.
+
+Variables P Q R: Prop.
+
+Hypothesis (H: P \/ Q) (H1: P -> R) (H2: Q -> R).
+
+Example or_e: R.
+Proof.
+  elim H.
+  - intro Hp. apply H1. assumption.
+  - intro Hq. apply H2. assumption.
+Qed.
+
+Example or_e': R.
+Proof.
+  destruct H as [Hp|Hq].
+  apply H1; assumption.
+  apply H2; assumption.
+Qed.
+
+End or_e.
+
+Section or_comm.
+
+Variables P Q: Prop.
 
 Theorem or_comm: P \/ Q -> Q \/ P.
 Proof.
   intro H.
-  elim H.
-  - intro H1; right; assumption.
-  - intro H2; left; assumption.
+  destruct H as [Hp|Hq].
+  right; assumption.
+  left; assumption.
 Qed.
+
+End or_comm.
+
+Section or_assoc.
+
+Variables P Q R: Prop.
 
 Theorem or_assoc: (P \/ Q) \/ R -> P \/ (Q \/ R).
 Proof.
@@ -131,32 +265,57 @@ Proof.
   - right; right; assumption.
 Qed.
 
+End or_assoc.
+
 (** * Negation *)
 
-Example not_i: ~ (P /\ ~P).
+Section not_i.
+
+Variable P: Prop.
+Hypothesis (HP: P -> False).
+
+Example not_i: ~P.
 Proof.
   intro H.
-  destruct H as [H1 H2].
-  apply H2; assumption.
+  (* Jetzt muss man aus [P] den Widerspruch folgern,
+     was wir voraussetzen *)
+  apply HP; assumption.
 Qed.
 
-Example not_e: P /\ ~P -> Q.
+End not_i.
+
+Section not_e.
+
+Variables P Q: Prop.
+
+Hypothesis (H: P /\ ~P).
+
+Example not_e: Q.
 Proof.
-  intro H.
   elim H.
-  intro H1.
-  intro H2.
+  intros H1 H2.
   elim H2.
   assumption.
 Qed.
 
 (* geht auch einfacher *)
-Example not_e': P /\ ~P -> Q.
+Example not_e': Q.
 Proof.
-  intro H.
   destruct H as [H1 H2].
-  elim H2; assumption.
+  elim H2.
+  assumption.
 Qed.
+
+Example not_e'': Q.
+Proof.
+  absurd P; destruct H ;assumption.
+Qed.
+
+End not_e.
+
+Section double_neg.
+
+Variable P: Prop.
 
 Theorem double_neg: P -> ~~P.
 Proof.
@@ -165,6 +324,12 @@ Proof.
   assumption.
 Qed.
 
+End double_neg.
+
+Section contraposition.
+
+Variables P Q: Prop.
+
 Theorem contraposition: (P -> Q) -> ~Q -> ~P.
 Proof.
   intros H H1 H2.
@@ -172,24 +337,36 @@ Proof.
   apply H; assumption.
 Qed.
 
+End contraposition.
+
 (** ** Allquantor *)
 
+Section quantors.
+
 Variable U: Set.    (* Das Universum *)
-Variable a: U.
 Variable S: U -> Prop.
+
+Section forall_i.
 
 Example forall_i: forall x: U, S x -> S x.
 Proof.
-  intro x.
-  intro H.
+  intros x H.
   assumption.
 Qed.
+
+End forall_i.
+
+Section forall_e.
+
+Variable a: U.
 
 Example forall_e: (forall x: U, S x) -> S a.
 Proof.
   intro H.
   apply H.
 Qed.
+
+End forall_e.
 
 Section Ex_forall.
 
@@ -210,12 +387,20 @@ End Ex_forall.
 
 (** ** Existenzquantor *)
 
+Section exists_i.
+
+Variable a: U.
+
 Example exists_i: (forall x: U, S x) -> (exists x: U, S x).
 Proof.
   intro H.
   exists a.
   apply H.
 Qed.
+
+End exists_i.
+
+Section exists_e.
 
 Example exists_e: (exists x: U, S x) -> ~(forall x: U, ~S x).
 Proof.
@@ -225,33 +410,54 @@ Proof.
   assumption.
 Qed.
 
+
+Example exists_e': (exists x: U, S x) -> ~(forall x: U, ~S x).
+Proof.
+  intro H.
+  destruct H as (x, HS).
+  intro HN.
+  elim HN with (x:=x).
+  assumption.
+Qed.
+
+
 Theorem forall_not_exists_not: (forall x: U, S x) -> ~(exists y: U, ~S y).
 Proof.
   intro H.
   intro H1.
-  elim H1.
-  intros x H2.
-  elim H2.
+  destruct H1 as (x, HS).
+  elim HS.
   apply H.
 Qed.
+End exists_e.
 
 
 (** ** Gleichheit *)
 
-Variables t t1 t2: U.
+Section equal_i.
+
+Variable t: U.
 
 Example equal_i: t = t.
 Proof.
   reflexivity.
 Qed.
 
-Example equal_e: t1 = t2 /\ S t1 -> S t2.
+End equal_i.
+
+Section equal_e.
+
+Variables t1 t2: U.
+
+Hypothesis (H1: t1 = t2) (H2: S t1).
+
+Example equal_e: S t2.
 Proof.
-  intro H.
-  destruct H as [H1 H2].
   rewrite <- H1.
   assumption.
 Qed.
+
+End equal_e.
 
 Theorem equal_sym: forall x y: U, x = y -> y = x.
 Proof.
@@ -260,6 +466,7 @@ Proof.
   reflexivity.
 Qed.
 
+End quantors.
 End Natural_Deduction.
 
 (* Tatsächlich haben wir Aussagen über Meta-Variablen
