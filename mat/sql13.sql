@@ -5,9 +5,9 @@
    SQL Teil 13
    Rekursion in SQL
 
-	$Id: sql13.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql13.sql 370 2019-03-04 08:46:45Z br $
    ----------------------------------------------------------------------- */
-
+;
 
 /* Rekursion in SQL
 
@@ -18,7 +18,7 @@
    Ein "Follower" ist ein anderer TwitterUser, der automatisch Kurznachrichten
    des TwitterUsers erhalten will, dem er "folgt".
 */
-
+;
 -- Wir legen neue Tabellen an, in der wir TwitterUser und FollowedBy verzeichnen:
 
 create table FollowedBy(
@@ -50,7 +50,7 @@ select * from FollowedBy;
  Justin      | Jenny
  Justin      | Tommy
 */
-
+;
 /* Diese Information (eine binäre Relation) können wir als gerichteten Graph
    darstellen:
 
@@ -62,7 +62,7 @@ select * from FollowedBy;
         ↓
      Tommy
 */
-
+;
 
 -- Es ist einfach, die Follower von 'Jack' zu finden:
 
@@ -76,7 +76,7 @@ select follower
 ----------
  Sarah
 */
-
+;
 /*
    Was aber, wenn wir die Anhänger der Anhänger von 'Jack' finden wollen?
 */
@@ -112,10 +112,10 @@ With
    und verwenden sie dann -- 
    eigentlich auch nicht groß anders wie geschachteltes SQL, bloß
    etwas übersichtlicher hinzuschreiben 
-	 und besonders geeignet, wenn man in einer Anweisung den geschachtelten Teil
-	 mehrfach braucht
+   und besonders geeignet, wenn man in einer Anweisung den geschachtelten Teil
+   mehrfach braucht
 */                    
-
+;
 -- alle Pfade der Länge 2 in unserem Graphen:
 
 With
@@ -138,7 +138,7 @@ With
    finden, wenn wir nicht wissen, wieviele Stufen es gibt
    => wir brauchen Rekursion:
 */   
-
+;
 -- Rekursive SQL-Anweisung
 
 -- Beispiel: Anhänger der Anhänger der Anhänger etc. von ’Jack’ finden
@@ -160,7 +160,7 @@ with recursive
  Jack | Justin
  Jack | Tommy
 */                    
-
+;
 
 /* Beispiel abgewandelt aus der PostgreSQL Doku zur 
    Erläuterung von with recursive:
@@ -187,6 +187,7 @@ with t1(n) as (select 1)
 ---
  1
 */
+;
 
 with t1(n) as (select 1),
      t2(n) as (select n+1 from t1)
@@ -201,6 +202,7 @@ with t1(n) as (select 1),
  1
  2
 */
+;
 
 with t1(n) as (select 1),
      t2(n) as (select n+1 from t1),
@@ -219,6 +221,7 @@ with t1(n) as (select 1),
  2
  3
 */
+;
 	
 with t1(n) as (select 1),
      t2(n) as (select n+1 from t1),
@@ -241,6 +244,7 @@ with t1(n) as (select 1),
  3
  4
 */
+;
 
 /* An diesem Beispiel kann man auch sehen, warum in dieser Rekursion
    union und union all identisch ist:
@@ -249,7 +253,7 @@ with t1(n) as (select 1),
    t3 hat das Tupel [3]
    usw.
 */
-  
+;  
 -- mit Rekursion:
 
 with recursive
@@ -273,6 +277,14 @@ with recursive
   select * from t;
   
 -- ERROR: aggregate functions are not allowed in a recursive query's recursive term
+;
+-- Wie wäre es besser?
+with recursive
+  t(n) as (
+    select 1        
+    union
+    select n+1 from t where n < 10 )
+  select max(n) from t;
 
 -- noch ein Beispiel: Berechnen von 6!
 
@@ -298,6 +310,7 @@ with recursive fac(zahl, produkt) as (
   Bruce Momjian: Programming the SQL Way with Common Table Expressions
   https://momjian.us/main/writings/pgsql/cte.pdf
 */
+;
 
 -- Transitiver Abschluss einer binären Relation 
 
@@ -326,6 +339,7 @@ with recursive
  Sarah  | Justin
  Sarah  | Jenny
 */
+;
 
 -- Was passiert, wenn die binäre Relation einen Zyklus hat?
 
@@ -355,7 +369,7 @@ with recursive
    Wir stellen vorsichtshalber ein Timeout ein 
 */
 
-set statement_timeout = '1s';
+set statement_timeout to '1s';
 
 with recursive
   Follower(t,f,depth) as (select TwitterUser as t, Follower as f, 0 from Followedby

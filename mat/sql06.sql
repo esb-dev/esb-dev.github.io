@@ -5,16 +5,17 @@
    SQL Teil 6
    Mengenoperatoren
 
-	$Id: sql06.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql06.sql 363 2019-03-04 08:28:31Z br $
    ----------------------------------------------------------------------- */
 
 /* Das Ergebnis einer SQL-Anfrage ist eine (Multi-)Menge von Datensätzen 
    (Tupeln).
 
    Hat man nun mehrere Ergebnisse, die Tupel derselben Struktur enthalten, 
-   die also dasselbe Schema haben, kann man die üblichen Mengenoperationen:
-   Vereinigung, Durchschnitt und Differenz verwenden.
+   die also dasselbe Schema haben, kann man die üblichen Mengenoperationen
+	 - Vereinigung, Durchschnitt und Differenz - verwenden.
 */
+;
     
 -- Vereinigung (union)
 
@@ -30,6 +31,7 @@ select Name from Kunde;
  Kehl
  Riesling
 */
+;
 
 select Firma as Name from Lieferant;
 
@@ -40,6 +42,7 @@ select Firma as Name from Lieferant;
  Weinimport Lehr
  Bremer Weinkontor
 */
+;
 
 /* Wir haben also zwei Ergebnisse mit identischem Schema,
    also können wir die Vereinigung bilden:
@@ -61,7 +64,7 @@ select Firma as Name from Lieferant;
 Wie wir sehen, ist "union" tatsächlich eine Mengenoperation:
 Duplikate sind "verschwunden".
 */
-
+;
 
 
 -- Beispiel: Namen, Straße bzw. Postfach, PLZ Ort aller Lieferanten und der Kunden
@@ -103,6 +106,7 @@ select Vorname || ' ' || Name as Name, Str as Anschrift1, PLZ || ' ' || Ort as A
  Karin Riesling | 67, Rue du Château | F-68567 Colmar
 
 */
+;
 
 /*
    Jetzt haben beide Ergebnistabellen denselben Aufbau und 
@@ -125,6 +129,7 @@ select Vorname || ' ' || Name as Name, Str as Anschrift1, PLZ || ' ' || Ort as A
  Karin Riesling    | 67, Rue du Château | F-68567 Colmar
  Weinimport Lehr   | PF 45367           | F-68567 Colmar
 */
+;
   
 /* Wenn man Duplikate im Ergebnis behalten möchte,
    verwendet man "union all"
@@ -146,6 +151,7 @@ select Ort from Lieferant;
  Colmar
  Kaiserstuhl
 */
+;
 
 select ort from Kunde
 union all
@@ -161,6 +167,7 @@ select ort from Lieferant;
  Colmar
  Bremen
 */
+;
 
 -- Durchschnitt (intersect)
 
@@ -176,6 +183,7 @@ select Ort from Lieferant;
 --------
  Colmar
 */
+;
 
 -- Mengendifferenz (except)
 
@@ -192,6 +200,7 @@ select Ort from Lieferant;
  Kaiserstuhl
  Eltville
 */
+;
 
 -- Beispiel: Alle Orte, an denen ein Lieferant wohnt, jedoch kein Kunde
 

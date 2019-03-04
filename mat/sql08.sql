@@ -5,16 +5,16 @@
    SQL Teil 8
    Modifizierende Anweisungen
 
-	$Id: sql08.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql08.sql 365 2019-03-04 08:36:20Z br $
    ----------------------------------------------------------------------- */
-
+;
 /* Modifizierende Anweisungen
    
    insert: neue Datensätze in eine Tabelle einfügen
    update: Werte in vorhandenen Datensätzen ändern
    delete: Datensätze in einer Tabelle löschen
 */ 
-
+;
 -- Beispiel für insert: Einfügen eines neuen Artikels
 
 select * from Artikel;
@@ -29,6 +29,7 @@ select * from Artikel;
  604851 | Prosecco Val Monte  | Cave Bellenda |          | weiß  |  7.60
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
 */
+;
 
 insert into Artikel(ArtNr, Bez, Weingut, Jahrgang, Farbe, Preis)
   values (100104, 'Ancien Domaine', 'Louis Max' , 2004, 'rot', 17.00);   
@@ -47,7 +48,7 @@ select * from Artikel;
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
  100104 | Ancien Domaine      | Louis Max     |     2004 | rot   | 17.00
 */
-
+;
 
 /* Struktur der Insert-Anweisung:
 
@@ -74,7 +75,7 @@ select * from Artikel;
    dabei muss die Select-Anweisung eine Tupelmenge liefern, deren Schema dem
    der Tabelle entspricht.
 */
-
+;
 
 -- Beispiel für update: Ändern eines Artikel, 
 -- wir erhöhen den Preis des neuen Artikel um 10%
@@ -96,7 +97,7 @@ select * from Artikel;
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
  100104 | Ancien Domaine      | Louis Max     |     2004 | rot   | 18.70
 */
-
+;
 
 -- Beispiel für update: Ändern mehrerer Felder  
 
@@ -119,17 +120,18 @@ select * from Artikel;
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
  100104 | Nouveau Ligne       | Louis Max     |     2003 | rot   | 14.30
 */
+;
 
 /* Struktur der Update-Anweisung
 
    update <Tabelle>
      set <Attr_1> = <Wert_1>,
          <Attr_2> = <Wert_2>,
-
          ... ,
          <Attr_n> = <Wert_n>
      where <Bedingung>
 */
+;
 
 -- Beispiel für delete: Löschen des Artikels mit der Artikelnummer 100104
 
@@ -148,10 +150,13 @@ select * from Artikel;
  604851 | Prosecco Val Monte  | Cave Bellenda |          | weiß  |  7.60
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
 */
+;
 
 /* Struktur der Delete-Anweisung:
 
    delete from <Tabelle>
      where <Bedingung>
 */
-
+;
+/* Was passiert, wenn man ein delete ohne where verwendet?
+*/

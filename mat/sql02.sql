@@ -5,7 +5,7 @@
    SQL Teil 2
    Abfragen einer Tabelle
 
-   $Id: sql02.sql 4423 2018-04-11 07:34:44Z br $
+   $Id: sql02.sql 359 2019-03-04 08:26:14Z br $
    ----------------------------------------------------------------------- */
 
 /* Wir verwenden die Tabelle _Artikel_ aus der Datenbank _Wein_ und probieren
@@ -103,10 +103,10 @@ select distinct Weingut from Artikel;
 */
 
 /* Bemerkung
-   Manchmal möchte man nur eine Zeile zu einem bestimmten Attribut. 
-   So möchte man vielleicht in unserer Tabelle Artikel einen Wein pro Weingut sehen, 
-   egal welchen. Dafür gibt es distinct on.
-	Als Ergebnis erhält man in unserer Datenbank drei Weine, von jedem Weingut eines; 
+	 Manchmal möchte man nur eine Zeile zu einem bestimmten Attribut.  So
+	 möchte man vielleicht in unserer Tabelle Artikel einen Wein pro
+	 Weingut sehen, egal welchen. Dafür gibt es distinct on.  Als Ergebnis
+	 erhält man in unserer Datenbank drei Weine, von jedem Weingut eines; 
    welcher Wein von „Louis Max“ dies ist, ist zufällig.
 */
 
@@ -423,14 +423,14 @@ select * from Artikel
 
    Wir beobachten schon mal hier:
    Hinter _in_ kommt selbst eine Tabelle, nämlich eine mit genau einer Spalte,
-   also eine Liste --
+   also eine Liste von Werten --
    das werden wir später brauchen!
 */
 ;
 -- Die Operatoren like und similar to
 
 /* Der Operator _like_ erlaubt die Verwendung von "Wildcards"
-   und _similar to_ kann einfache reguläre Ausdrücke
+   und _similar to_ kann einfache reguläre Ausdrücke auswerten
 */
 
 -- Beispiel:  Alle Weine, deren Bezeichnung die Zeichenfolge 'Château' enthält

@@ -5,9 +5,9 @@
    SQL Teil 10
    Views
 
-	$Id: sql10.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql10.sql 367 2019-03-04 08:39:50Z br $
    ----------------------------------------------------------------------- */
-
+;
 /* Das Ergebnis einer Select-Anweisung ist konzeptionell aufgebaut wie
    eine Tabelle, man kann es also als eine _logische_ Tabelle sehen.
 
@@ -16,8 +16,9 @@
    Select-Anweisungen wie eine Tabelle verwenden.
 
    In diesem Abschnitt werden wir Views definieren und verwenden (und am Ende
-   auch wieder löschen.
+   auch wieder löschen).
 */
+;
 
 -- Erstellen einer View
 
@@ -42,6 +43,7 @@ select * from Kontakte;
  Karin Riesling    | 67, Rue du Château | F-68567 Colmar
  Weinimport Lehr   | PF 45367           | F-68567 Colmar
 */
+;
 		
 -- Wir können im Systemkatalog sehen, welche Tabellen und Views es in
 -- unserer Datenbank gibt
@@ -64,6 +66,7 @@ select table_name
  auftrpos
  kontakte
 */
+;
 
 -- nur die Tabellen
 
@@ -82,6 +85,7 @@ select table_name
  artikel
  auftrpos
 */
+;
 
 -- nur die Views
 
@@ -95,6 +99,7 @@ select table_name
 ------------
  kontakte
 */
+;
   
 -- geht auch so:
 
@@ -112,7 +117,7 @@ select table_name
    Views sind in der ANSI/SPARC-Architektur Teil der externen Sicht, 
    ihre Definition übersetzt die externe Sicht in die konzeptuelle Sicht
 */
-
+;
 
 -- Eine View kann man (in der Abfrage) verwenden wie eine Tabelle
 
@@ -129,6 +134,7 @@ select *
  Thomas Kehl | Weinstr. 3    | 79675 Kaiserstuhl
  Thomas Kehl | Im Riesling 3 | 68734 Eltville
 */
+;
 
 /* Updates sind mit Views im Allgemeinen nicht möglich.
    
@@ -140,6 +146,7 @@ select *
    definiert präzise, welche Select-Anweisung für änderbare
    Sichten erlaubt sind. 
 */
+;
 
 -- Wir löschen die View wieder
 

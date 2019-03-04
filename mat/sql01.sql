@@ -5,7 +5,7 @@
    SQL Teil 1
    SQL als Taschenrechner
 
-	$Id: sql01.sql 4423 2018-04-11 07:34:44Z br $
+	$Id: sql01.sql 358 2019-03-04 08:25:41Z br $
    ----------------------------------------------------------------------- */
 
 
@@ -170,6 +170,10 @@ ein String aus mehreren Teilen
 
 select substring('Hello World, this is SQL!' from 7 for 5) as "Teilstring";
 
+select substring('Hello World, this is SQL!' from 7 to 12) as "Teilstring";
+-- Fehler bei 'to'
+
+
 select substring('Hello World, this is SQL!' from 7) as "Teilstring";
 
 /* ergibt:
@@ -256,7 +260,7 @@ select time '10:02';
 10:02:00
 */
 
--- Datentyp timestamp
+-- Datentypen timestamp und interval
 
 select timestamp '2018-04-01 08:00:30' + interval '1 hour';
 
@@ -278,7 +282,7 @@ select interval '3 days 4 hours';  -- PostgreSQL
 select interval '3 4:00:00';       -- SQL Standard
 
 
-/* Einige Operatoren und Funktionen mit Datums- und Zeitypen
+/* Einige Operatoren und Funktionen mit Datums- und Zeittypen
 
 - Addition von Tagen, Stunden, Intervallen: +
 - Subtraktion...                          : -
@@ -333,6 +337,27 @@ select not 1 = 1;             -- False
    Klammern verwenden - bessere Lesbarkeit
 */
 
+/* Wahrheitstafel in SQL */
+
+
+select * from (values (true), (false)) t(a);
+-- siehe https://www.postgresql.org/docs/10/static/queries-values.html
+
+/* Wahrheitstafel für 'not a' */
+select a, not a as "not a"
+	from (values(true), (false)) t(a);
+
+/* Wahrheitstafel für die Aussage 'a or b' */
+select a, b, (a or b) as "a or b"
+	from (values(true), (false)) t1(a)
+	cross join (values (true), (false)) t2(b);
+	
+/* Wahrheitstafel für die Aussage 'a and b' */
+select a, b, (a and b) as "a and b"
+	from (values(true), (false)) t1(a)
+	cross join (values (true), (false)) t2(b);
+		
+	
 -- Eingebaute Variablen
 
 -- Aktuellen Tag und aktuelle Zeit ausgeben
@@ -387,11 +412,11 @@ select CURRENT_USER;
    2016  SQL:2016 Erweiterungen für JSON
 */
 
-/* Zum Nachlesen in der PostgreSQL-Dokumwentation:
+/* Zum Nachlesen in der PostgreSQL-Dokumentation:
    Datentypen
-   Kap. 8 Data Types https://www.postgresql.org/docs/10/static/datatype.html
-   Operatoren und Funktionen
-   Kap. 9 Functions and Operators https://www.postgresql.org/docs/10/static/functions.html
+   Kap. 8 Data Types https://www.postgresql.org/docs/11/datatype.html   
+ 	 Operatoren und Funktionen
+   Kap. 9 Functions and Operators https://www.postgresql.org/docs/11/functions.html
 */                               
                   
    

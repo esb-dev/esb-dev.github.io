@@ -5,8 +5,9 @@
    SQL Teil 12
    Trigger
 
-	$Id: sql12.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql12.sql 369 2019-03-04 08:44:49Z br $
    ----------------------------------------------------------------------- */
+;
 
 /* 
 	 Trigger machen ein Datenbanksystem zu einer sogenannten "aktiven Datenbank":
@@ -23,15 +24,20 @@
    deshalb erstellen wir uns eine Tabelle "HistorieKunde", in der wir
    Änderungen an der Tabelle "Kunde" protokollieren werden.
 */
+;
 
 create table HistorieKunde ( 
 	like Kunde
 );
 
+select * from Kunde;
+
+select * from HistorieKunde;
+
 /* Mit dieser Anweisung wird eine neue (leere) Tabelle erstellt, die genau die
    gleiche Struktur (like!) hat wie die Tabelle "Kunde".
 */
-
+;
 /* Nun reichern wir die Tabelle mit Feldern an, in denen wir die Historie
    speichern können:
   
@@ -44,7 +50,7 @@ create table HistorieKunde (
    In das Attribut "Zeitpunkt" wollen wir eintragen, wann genau die Änderung
    gemacht wurde.
 */
-
+;
 alter table HistorieKunde 
 	add column Benutzer varchar(20);
 alter table HistorieKunde 
@@ -60,6 +66,7 @@ select column_name, data_type
 	from information_schema.columns
 	where table_name = 'historiekunde';
 
+select * from HistorieKunde;
 
 /* Nun erzeugen wir eine Funktion , die die Modifikationen an den
    Kundendaten protokollieren soll.
@@ -91,7 +98,7 @@ $$ language plpgsql;
      Dokumentation von PostgreSQL)
    - "old" ist der Datensatz vor Ausführen der Aktion, "new" hinterher
 */
-  
+;  
 -- nachsehen:
 
 select routine_name, routine_type
@@ -104,7 +111,7 @@ select routine_name, routine_type
 --------------+--------------
  auditkunde   | FUNCTION
 */
-
+;
 -- Wir verwenden jetzt diese Funktion, um Trigger zu erzeugen:
 
 create trigger InsertTrigger after insert
@@ -131,12 +138,13 @@ select trigger_name, event_manipulation
  inserttrigger | INSERT
  updatetrigger | UPDATE
 */
+;
 	
 -- Wir geben nun einen neuen Kunden ein, ändern ihn und löschen ihn.
 -- Danach wollen wir sehen, was in der Tabelle HistorieKunde passiert ist:
 
 insert into Kunde
-	values ( 200001, 'Neumann', 'Klaus', 'Hauptstr.', '35390', 'Gießen' );
+	values ( 200002, 'Neumann', 'Klaus', 'Hauptstr.', '35390', 'Gießen' );
 	
 select * from Kunde;
 
@@ -150,8 +158,10 @@ update Kunde
 	
 select * from Kunde;
 
+select * from HistorieKunde;
+
 -- die Straße in der Adresse des neuen Kunden ist geändert worden
-	
+;	
 -- wir löschen diesen Kunden
 	
 delete from Kunde
@@ -164,7 +174,8 @@ select * from Kunde;
 
 -- wir wollen jetzt den Effekt der Trigger sehen:
 
-select * from HistorieKunde;
+select * from HistorieKunde
+where KndNr = 200001;
 
 /* ergab beim Vorbereiten:
 
@@ -175,10 +186,15 @@ select * from HistorieKunde;
  200001 | Neumann | Klaus   | Marktplatz | 35390 | Gießen | postgres | d      | 2017-03-07 10:16:16.489178
 */
 
-
+;
 -- wir löschen die Trigger wieder sowie die Historien-Tabelle
 
 drop function auditKunde() cascade;
 -- cascade löscht auch die Trigger, die diese Funktion verwenden!
 drop table HistorieKunde;
+
+select * from Kunde;
+
+delete from Kunde
+	where KndNr = 200001;
 	

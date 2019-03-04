@@ -5,9 +5,9 @@
    SQL Teil 11
    Benutzerdefinierte Funktionen und Prozeduren
 
-	$Id: sql11.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql11.sql 368 2019-03-04 08:43:20Z br $
    ----------------------------------------------------------------------- */
-
+;
 /* Es ist in SQL möglich, eigene, benutzerdefinierte Funktionen und
    Prozeduren zu definieren. Diese werden vom SQL-Prozessor des DBMS
    übersetzt und in der Datenbank selbst gespeichert.
@@ -24,11 +24,11 @@
    - Microsoft SQL Server hat TransactSQL
 
 */
-
+;
 -- Definition einer benutzerdefinierten Funktion
 
 -- Beispiel: eine Funktion, die den Kartonpreis für Weine berechnet
-
+;
 create function kartonpreis(numeric) returns numeric as $$
 	select $1 * 11;
 $$ language sql;
@@ -39,7 +39,7 @@ $$ language sql;
    - language sql gibt an, in welcher Sprache die Funktion definiert
      wurde
 */
-
+;
 -- Nachsehen im information_schema
 
 select routine_name, routine_type
@@ -52,7 +52,7 @@ select routine_name, routine_type
 --------------+--------------
  kartonpreis  | FUNCTION
 */
-
+;
 -- Wir verwenden diese Funktion
 
 select ArtNr, Bez, Preis, kartonpreis(Preis) as "Kartonpreis"
@@ -68,7 +68,7 @@ select ArtNr, Bez, Preis, kartonpreis(Preis) as "Kartonpreis"
  604851 | Prosecco Val Monte  |  7.60 |       83.60
  145119 | Le Cop de Cazes     |  6.90 |       75.90
 */
-
+;
 -- Man kann auch Funktionen definieren, die eine Tupelvariable als
 -- Parameter haben
 
@@ -94,7 +94,7 @@ select routine_name, specific_name, routine_type
    SQL unterstützt das Überladen von Funktionen.
 */
 
-
+;
 -- Wir verwenden diese Funktion:
 
 select ArtNr, Bez, kartonpreis(Artikel) as "Kartonpreis"
@@ -113,7 +113,7 @@ select ArtNr, Bez, kartonpreis(A) as "Kartonpreis"
  604851 | Prosecco Val Monte  |       83.60
  145119 | Le Cop de Cazes     |       75.90
 */
-
+;
 -- Wir löschen die beiden Funktionen wieder
 
 drop function kartonpreis(numeric);

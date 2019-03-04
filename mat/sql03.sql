@@ -5,7 +5,7 @@
    SQL Teil 3
    Aggregatfunktionen und Gruppierung mit einer Tabelle
 
-	 $Id: sql03.sql 4423 2018-04-11 07:34:44Z br $
+	 $Id: sql03.sql 360 2019-03-04 08:26:31Z br $
    ----------------------------------------------------------------------- */
 
 -- Aggregationen und Aggregatfunktionen
@@ -16,6 +16,7 @@
    Man spricht dann von der Aggregation von Daten.
 
    Wir betrachten zunächst die wichtigsten Aggregatfunktionen in SQL:
+
    - Anzahl:       count
    - Summe:        sum
    - Minimum:      min
@@ -178,7 +179,7 @@ select Bez, max(Preis) as "höchster Preis"
 -- gibt Fehler, warum?
 ;
 
-select Bez, Preis
+select Bez "Name des Weins", Preis as "höchster Preis"
   from Artikel
   where Preis = (select max(Preis) from Artikel); 
 
@@ -247,7 +248,8 @@ select Farbe, ArtNr
 
 select Farbe, count(ArtNr) as Anzahl
   from Artikel
-  group by Farbe;
+  group by Farbe
+  order by Farbe;
 
 /* ergibt:
 
@@ -377,7 +379,7 @@ select Farbe, round(avg(Preis), 2) as "Durchschnittspreis"
 -- ihr Durchschnittspreis nicht über 12 Euro ist --
 -- dazu formulieren wir eine Bedingung an die Gruppe
 
-select Farbe
+select Farbe, avg(Preis)
   from Artikel
   group by Farbe
   having avg(Preis) > 12.00;
@@ -479,11 +481,9 @@ eingeordnet.
 /* Wer mehr über solche Möglichkeiten von SQL erfahren möchte,
    kann in Kapitel 3.5 "Window Functions" der Dokumentation
    von PostgreSQL nachlesen.
-   https://www.postgresql.org/docs/10/static/tutorial-window.html
+   https://www.postgresql.org/docs/11/tutorial-window.html
 */
 
 -- Löschen der Tabelle Artikel2
 drop table Artikel2;
-
-
 

@@ -5,9 +5,9 @@
    SQL Teil 7
    Geschachtelte Anweisungen
 
-	$Id: sql07.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql07.sql 364 2019-03-04 08:31:40Z br $
    ----------------------------------------------------------------------- */
-
+;
 /* In SQL kann man stets
 
    - an Stelle eines Werts auch einen Ausdruck schreiben, der einen Wert ergibt, 
@@ -17,7 +17,7 @@
    Man nennt dies dann "geschachtelte SQL-Anweisungen".
 */
 
-
+;
 -- Beispiel: Anzahl der Weißweine und Rotweine im Angebot
 
 /* Ziel ist eine Tabelle mit folgendem Aufbau
@@ -59,6 +59,7 @@ select (select count(*) from Artikel where Farbe = 'weiß') as "Anz Weißweine",
 ---------------+--------------
              2 |            2
 */
+;
 
 
 -- Beispiel: Adressen von Lieferanten oder Kunden in Frankreich
@@ -92,10 +93,11 @@ select *
  Karin Riesling  | 67, Rue du Château | F-68567 Colmar
  Weinimport Lehr | PF 45367           | F-68567 Colmar
 */
+;
 
- -- Beispiel: Artikel mit dem höchsten Preis
+-- Beispiel: Artikel mit dem höchsten Preis
 
- select * from Artikel
+select * from Artikel
    where Preis = (select max(Preis) from Artikel);  
 
 /* ergibt:
@@ -104,8 +106,7 @@ select *
 --------+--------------+-----------+----------+-------+-------
  100001 | Les Châteaux | Louis Max |     2002 | rot   | 17.90
 */
-
-
+;
 
 -- Beispiel: Kunden, die einen Auftrag erteilt haben
 
@@ -136,6 +137,7 @@ select KndNr, Name, Vorname, Ort
  100101 | Kehl | Thomas  | Kaiserstuhl
  100102 | Kehl | Thomas  | Eltville
 */
+;
 
 /* Nun setzen wir die erste Anweisung an Stelle der Folge ein:
 */
@@ -151,6 +153,7 @@ select KndNr, Name, Vorname, Ort
  100101 | Kehl | Thomas  | Kaiserstuhl
  100102 | Kehl | Thomas  | Eltville
 */
+;
 
 -- Beispiel: Kunden, die noch KEINEN Auftrag erteilt haben
 
@@ -164,8 +167,24 @@ select KndNr, Name, Vorname, Ort
 --------+----------+---------+--------
  100105 | Riesling | Karin   | Colmar
 */
+;
 
 /* Diskussion: weshalb braucht man "is not null"
+
+   Die Konstruktion x in (a1, a2, ..., an) bedeutet
+   x = a1 or x = a2 or ... or x = an.
+   Ist nun eines der ai null, so wird der Ausdruck doch wahr, wenn
+   eines der anderen a denselben Wert wie x hat.
+   
+   Verneint man den Ausdruck, also x not in (a1, a2, ..., an)
+   erhält man
+   not (x = a1 or x = a2 or ... or x = an)
+   Mit dem DeMorganschen Gesetz ist dies äquivalent zu
+   (not (x = a1)) and (not (x = a2)) and ... (not (x = an)),
+   also
+   x <> a1 and x <> a2 and ... and x <> an
+   Wenn jetzt eines der ai null ist, dann kann dieser Ausdruck niemals
+   true werden, sondern ist selbst null! 
 */
 
 select KndNr, Name, Vorname, Ort 
@@ -176,6 +195,7 @@ select KndNr, Name, Vorname, Ort
 /* In SQL kann man den Verbund durch geschachtelte Anweisungen ausdrücken
    und umgekehrt:
 */
+;
 -- Beispiel: Kunden, die Weißweine bestellt haben
 
 /* Abfrage mit Verbund
@@ -205,14 +225,17 @@ select KndNr, Name from Kunde where KndNr in
 --------+------
  100101 | Kehl
 */
+;
 
 /* Korrelierte geschachtelte Anweisung
    Von einer korrelierten geschachtelten Anweisung spricht man, wenn in der
    inneren Anweisung Angaben aus der äußeren Anweisung verwendet werden
    (ist ähnlich einer geschachtelten Schleife in der Programmierung)
 */
+;
 
 -- Beispiel: Ältester Jahrgang jeder Farbe
+select * from Artikel;
 
 select A.Bez, A.Weingut, A.Jahrgang, A.Farbe
   from Artikel A
@@ -230,7 +253,7 @@ select A.Bez, A.Weingut, A.Jahrgang, A.Farbe
  Chablis             | Louis Max |     2005 | weiß
  Château Caraguilhes | Louis Max |     2005 | rosé
 */
-
+;
 
 /* In geschachtelten Anweisungen werden auch noch die
    Ausdrücke _exists_, _all_ und _any_ verwendet.
@@ -264,7 +287,32 @@ select *
 --------+----------+---------+--------------------+---------+--------
  100105 | Riesling | Karin   | 67, Rue du Château | F-68567 | Colmar
 */
+;
 
+/* Vorsicht bei geschachtelten Anweisungen, die plötzlich
+   korreliert werden:
+   
+   Die Anweisung [1] zählt die Zahl der Kunden von
+   Auftrag 1002 und 1003, das sind natürlich 2
+   
+   Die Anweisung [2] hat einen Fehler: es gibt gar kein Attribut Name
+   in Auftrag, aber in Kunde. Das bedeutet, dass in der inneren Anweisung
+   der Name von Kunde genommen wird, d.h. das select lautet
+   select 'Riesling' from ... z.B. und gibt also 'Reisling' zurück,
+   d.h. das Ergebins ist 3, weil wir 3 Kunden haben.
+*/;  
+
+-- [1] 
+select count(*)
+	from Kunde
+	where KndNr in (select KndNr from Auftrag where AuftrNr between 1002 and 1003);
+	
+-- [2]	
+select count(*)
+	from Kunde
+	where Name in (select Name from Auftrag where AuftrNr between 1002 and 1003);
+	
+	
 /* Für die weiteren Beispiel bauen wir uns eine Tabelle mit den
    Kunden und ihrem Gesamtumsatz:
 */

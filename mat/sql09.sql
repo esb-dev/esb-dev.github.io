@@ -5,8 +5,10 @@
    SQL Teil 9
    Datendefinitionen (DDL)
 
-	$Id: sql09.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql09.sql 366 2019-03-04 08:37:50Z br $
    ----------------------------------------------------------------------- */
+;
+select * from Artikel;
 
 /* Folgende Anweisungen zeigen, wie die Tabellen der Datenbank "Wein"
    definiert wurden:
@@ -20,6 +22,7 @@ create table Artikel (
   Farbe      char(4) check (Farbe in ('rot', 'rosé', 'weiß')),
   Preis      numeric(6,2) not null
 );
+
 
 Struktur der Create-Anweisung
 
@@ -58,10 +61,12 @@ create table Lieferant (
 create index Lieferant_Firma_idx on Lieferant(Firma);
 
 create table LieferBez (
-  LftNr      numeric(2) not null references Lieferant,
+  LftNr      numeric(2) not null references Lieferant(LftNr),
   ArtNr      numeric(6) not null references Artikel,
   primary key (LftNr, ArtNr)
 );
+
+select * from Lieferant;
 
 Weitere Beispiele für Integritätsbedingungen:
 
@@ -101,6 +106,7 @@ create table AuftrPos (
 /* Nun folgen Anweisungen, mit denen man ein bereits definiertes
    Datenbankschema ändern kann:
 */
+;
 
 -- Name einer Tabelle ändern
 
@@ -184,8 +190,8 @@ alter table Artikel
 
 select * from Artikel;  
 
-/* Manchmal möchte man, dass beim Einfügen von Datensätzen des DBMS automatisch
-   einen fortlaufenden ganzzahligen Wert für eine Primärschlüssel erzeugt.
+/* Manchmal möchte man, dass beim Einfügen von Datensätzen das DBMS automatisch
+   einen fortlaufenden ganzzahligen Wert für einen Primärschlüssel erzeugt.
 
    Das Konzept in SQL dafür ist der Sequenzgenerator (sequence generator), den 
    wir hier noch betrachten wollen.
@@ -195,6 +201,7 @@ select * from Artikel;
 
 create sequence KndNr_seq start 200000;
 
+delete from Kunde where KndNr = 200000;
 select * from Kunde;
 
 /* ergibt: 
@@ -233,6 +240,18 @@ currval
 200000
 */
 
+insert into Kunde(KndNr, Name, Vorname, PLZ, Str, Ort)
+  values( nextval('KndNr_seq'), 'Altmann', 'Hans', '60311',
+    'Heinestr. 12', 'Frankfurt am Main');
+    
+select * from Kunde;  
+
+delete from Kunde
+	where KndNr >= 200000;
+	
+select * from Kunde;	
+	   
+    
 drop sequence KndNr_seq;
 
 -- Man kann Sequenzgeneratoren verwenden, um automatische Nummernvergabe

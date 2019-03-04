@@ -5,10 +5,10 @@
    SQL Teil 5
    Äußerer Verbund
 
-	$Id: sql05.sql 3907 2017-03-07 09:32:38Z br $
+	$Id: sql05.sql 362 2019-03-04 08:27:03Z br $
    ----------------------------------------------------------------------- */
 
-
+;
 /* Erinnern wir uns an das kartesische Produkt ("cross join"),
    Kombination aller Kunden mit jedem beliebigen Auftrag
 */
@@ -18,7 +18,7 @@ select AuftrNr, Kunde.KndNr, Auftrag.KndNr
   order by AuftrNr;
 
 /* ergibt 12 Datensätze : 3 Kunden * 4 Aufträge */
-
+;
 
 /* Der (innere) Verbund ("inner join"), den wir
    bisher betrachtet haben, ergibt die 
@@ -37,6 +37,7 @@ select AuftrNr, Kunde.KndNr, Auftrag.KndNr
     1002 | 100102 | 100102
     1003 | 100101 | 100101
 */
+;
 
 select count(*) from Auftrag;
 
@@ -58,6 +59,7 @@ select AuftrNr, KndNr from Auftrag
     1003 | 100101
     1004 |       
 */
+;
 
 -- Der linke äußere Verbund ("left outer join")
 -- ALLE Kunden mit Aufträgen, ggfs. auch ohne Auftrag
@@ -73,6 +75,7 @@ select KndNr, Name, Vorname, Ort, AuftrNr, Datum
  100101 | Kehl | Thomas  | Kaiserstuhl |    1001 | 2006-10-12
  100102 | Kehl | Thomas  | Eltville    |    1002 | 2006-02-12
 */
+;
 	
 select KndNr, Name, Vorname, Ort, AuftrNr, Datum
   from Kunde left outer join Auftrag using (KndNr); 
@@ -86,6 +89,7 @@ select KndNr, Name, Vorname, Ort, AuftrNr, Datum
  100102 | Kehl     | Thomas  | Eltville    |    1002 | 2006-02-12
  100105 | Riesling | Karin   | Colmar      |         | 
 */
+;
 
 /* "left" bedeutet, dass ALLE Einträge der Tabelle die in der
    Formulierung der Anweisung links vom Schlüsselwort "outer join"
@@ -112,6 +116,7 @@ select KndNr, Name, Vorname, Ort, AuftrNr,Datum
  100102 | Kehl | Thomas  | Eltville    |    1002 | 2006-02-12
         |      |         |             |    1004 | 2006-02-12
 */
+;
   
 -- ALLE Kunden ggfs. ohne Auftrag sowie ALLE Aufträge ggfs. ohne Kunde
 
@@ -128,12 +133,13 @@ select KndNr, Name, Vorname, Ort, AuftrNr,Datum
         |          |         |             |    1004 | 2006-02-12
  100105 | Riesling | Karin   | Colmar      |         |             
 */
-
+;
 
 /* Man kann das mit dem äußeren Verbund erreichte Ergebnis auch auf andere
    Weise erreichen, nämlich durch Mengenoperatoren, die wir im nächsten
    Abschnitt diskutieren werden:
 */
+;
 
 -- alle Kunden mit Auftrag
 select KndNr, Name, Vorname, Ort, AuftrNr, Datum
@@ -160,3 +166,6 @@ union
 select null, null, null, null, AuftrNr, Datum
   from Auftrag where KndNr is null;
 
+/* Mehr zu Mengenoperatoren in SQL im nächsten Abschnitt der 
+	Einführung in SQL
+*/	
