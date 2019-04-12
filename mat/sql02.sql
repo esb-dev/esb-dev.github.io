@@ -5,7 +5,7 @@
    SQL Teil 2
    Abfragen einer Tabelle
 
-   $Id: sql02.sql 359 2019-03-04 08:26:14Z br $
+   $Id: sql02.sql 433 2019-04-12 07:02:57Z br $
    ----------------------------------------------------------------------- */
 
 /* Wir verwenden die Tabelle _Artikel_ aus der Datenbank _Wein_ und probieren
@@ -22,6 +22,7 @@
 
 -- Wiedergabe einer Tabelle
 -- Alle Angaben zu allen Artikeln der Tabelle Artikel
+;
 
 select * from Artikel;
 
@@ -40,6 +41,7 @@ select * from Artikel;
    Reihenfolge der Attribute verlassen. 
    Also eignet sich dieses Konstrukt im Grunde nur für Ad-hoc-Abfragen.
 */
+;
 
 -- Projektion, d.h. Ausgabe bestimmter Spalten einer Tabelle
 
@@ -57,6 +59,7 @@ select ArtNr, Bez, Weingut from Artikel;
  604851 | Prosecco Val Monte  | Cave Bellenda
  145119 | Le Cop de Cazes     | Domaine Cazes
 */
+;
 
 -- Umbenennung der Spalten für das Ergebnis
 
@@ -73,6 +76,7 @@ select ArtNr as "ArtikelNr", Bez as "Bezeichnung", Weingut as "Produzent"
     604851 | Prosecco Val Monte  | Cave Bellenda
     145119 | Le Cop de Cazes     | Domaine Cazes
 */
+;
 
 -- Projektion kann zu Duplikaten führen
 
@@ -88,6 +92,7 @@ select Weingut from Artikel;
  Cave Bellenda
  Domaine Cazes
 */
+;
 
 -- Wir wollen aber nur wissen, welche Weingüter vorkommen:
 
@@ -103,12 +108,13 @@ select distinct Weingut from Artikel;
 */
 
 /* Bemerkung
-	 Manchmal möchte man nur eine Zeile zu einem bestimmten Attribut.  So
-	 möchte man vielleicht in unserer Tabelle Artikel einen Wein pro
-	 Weingut sehen, egal welchen. Dafür gibt es distinct on.  Als Ergebnis
-	 erhält man in unserer Datenbank drei Weine, von jedem Weingut eines; 
+   Manchmal möchte man nur eine Zeile zu einem bestimmten Attribut.  So
+   möchte man vielleicht in unserer Tabelle Artikel einen Wein pro
+   Weingut sehen, egal welchen. Dafür gibt es distinct on.  Als Ergebnis
+   erhält man in unserer Datenbank drei Weine, von jedem Weingut eines; 
    welcher Wein von „Louis Max“ dies ist, ist zufällig.
 */
+;
 
 select distinct on (Weingut) * from Artikel;
 
@@ -120,6 +126,7 @@ select distinct on (Weingut) * from Artikel;
  145119 | Le Cop de Cazes    | Domaine Cazes |     2004 | rot   |  6.90
  100001 | Les Châteaux       | Louis Max     |     2002 | rot   | 17.90
 */
+;
 
 -- Ausgabe von Werten mit gleichzeitiger Berechnung und Umbenennung
 
@@ -138,6 +145,7 @@ select ArtNr, Bez, Preis as "Einzelpreis", 11 * Preis as "Kartonpreis" from Arti
  604851 | Prosecco Val Monte  |        7.60 |       83.60
  145119 | Le Cop de Cazes     |        6.90 |       75.90
 */
+;
 
 -- Der Operator case:
 
@@ -172,6 +180,7 @@ from Artikel;
  Prosecco Val Monte  | Cave Bellenda | o.A.
  Le Cop de Cazes     | Domaine Cazes | 2004
 */
+;
 
 /* Bemerkung:
    Wenn es speziell um Null-Werte geht, kann man die
@@ -192,6 +201,7 @@ select Bez, Weingut,
      from <Tabelle>
 
 */
+;
 
 -- Restriktion
 
@@ -206,6 +216,7 @@ select Bez, Weingut,
      from <Tabelle>
      where <Filterbedingung>
 */
+;
 
 -- Einfache Filterbedingung
 
@@ -222,6 +233,7 @@ select *
  100001 | Les Châteaux    | Louis Max     |     2002 | rot   | 17.90
  145119 | Le Cop de Cazes | Domaine Cazes |     2004 | rot   |  6.90
 */
+;
 
 -- Filterbedingung mit not oder <>
 
@@ -240,8 +252,8 @@ select * from Artikel where not (Farbe = 'rot');
  100003 | Château Caraguilhes | Louis Max     |     2005 | rosé  | 14.90
  604851 | Prosecco Val Monte  | Cave Bellenda |          | weiß  |  7.60
 */
-
 ;
+
 -- Vergleiche in Bedingungen
 
 -- Beispiel: Alle Weine, die weniger als 15 Euro kosten
@@ -256,6 +268,7 @@ select * from Artikel where Preis < 15.00;
  604851 | Prosecco Val Monte  | Cave Bellenda |          | weiß  |  7.60
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
 */
+;
 
 /* Wir haben die üblichen Vergleichsoperatoren in SQL:
 
@@ -266,6 +279,7 @@ select * from Artikel where Preis < 15.00;
    - größer:         >
    - größer gleich:  >=
 */
+;
 
 select 1 < 2;                -- true
 select 'abc' < 'abd';        -- true
@@ -289,6 +303,7 @@ select * from Artikel
  145119 | Le Cop de Cazes | Domaine Cazes |     2004 | rot   |  6.90
 */
 ;
+
 -- Der Operator or
 
 -- Beispiel: Alle Angaben zu Weinen, die rot oder günstiger als 15 Euro sind.
@@ -305,6 +320,7 @@ select * from Artikel
  604851 | Prosecco Val Monte  | Cave Bellenda |          | weiß  |  7.60
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
 */
+;
 
 /* Bemerkungen:
    Die Operatoren _and_ und _or_ sind kommutativ. 
@@ -317,6 +333,7 @@ select * from Artikel
    es ist nicht garantiert, dass bei der Auswertung des Ausdrucks alle 
    Funktionen wirklich ausgeführt werden.
 */
+;
 
 -- Beispiel: Alle Angaben zu Weißweinen oder günstigen Rotweinen
 
@@ -332,6 +349,7 @@ select * from Artikel
  145119 | Le Cop de Cazes    | Domaine Cazes |     2004 | rot   |  6.90
 
 */
+;
 
 select * from Artikel
   where Farbe = 'weiß' or (Farbe = 'rot' and Preis < 15.00);
@@ -369,6 +387,7 @@ select * from Artikel
 --------+--------------+-----------+----------+-------+-------
  100001 | Les Châteaux | Louis Max |     2002 | rot   | 17.90
 */
+;
 
 /* Bemerkung:
    In SQL kann man Tupelvergleiche auch mit anderen Vergleichsoperatoren
@@ -376,6 +395,7 @@ select * from Artikel
    Dies kann verwirrend sein, deshalb rate ich davon ab.
 */
 ;
+
 -- Der Operator between ... and
 
 -- Beispiel: Alle Angaben zu den Weinen aus den Jahrgängen 2004 - 2006
@@ -395,6 +415,7 @@ select * from Artikel
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
 */
 ;
+
 -- Der Operator in
 
 -- Beispiel: Alle Angaben zu den Weinen von 'Louis Max' und 'Domaine Cazes'
@@ -416,6 +437,7 @@ select * from Artikel
  100003 | Château Caraguilhes | Louis Max     |     2005 | rosé  | 14.90
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
 */
+;
 
 /* Bemerkung:
    Der Operator in spielt eine wichtige Rolle bei geschachtelten
@@ -427,6 +449,7 @@ select * from Artikel
    das werden wir später brauchen!
 */
 ;
+
 -- Die Operatoren like und similar to
 
 /* Der Operator _like_ erlaubt die Verwendung von "Wildcards"
@@ -473,6 +496,7 @@ select *
  145119 | Le Cop de Cazes | Domaine Cazes |     2004 | rot   |  6.90
 */
 ;
+
 /* Wildcards in SQL: 
    
    _ steht für ein einzelnes Zeichen,
@@ -483,6 +507,7 @@ select *
    (kann DBMS-spezifisch eingestellt werden)
 */
 ;
+
 -- Es gibt auch einfache reguläre Ausdrücke mit dem Operator _similar to_
 
 -- Beispiel: Alle Weine, die mit 'L' oder 'P' anfangen
@@ -524,7 +549,8 @@ select * from Artikel
  100002 | Chablis             | Louis Max     |     2005 | weiß  | 15.50
  100001 | Les Châteaux        | Louis Max     |     2002 | rot   | 17.90
 */
-;  
+;
+  
 -- Beispiel: Alle Rotweine nach Preis sortiert
 
 select *
@@ -542,6 +568,7 @@ select *
  145119 | Le Cop de Cazes | Domaine Cazes |     2004 | rot   |  6.90
  100001 | Les Châteaux    | Louis Max     |     2002 | rot   | 17.90
 */
+;
 
 -- Beispiel: Lexikographische Sortierung nach mehreren Kriterien:
 
@@ -558,8 +585,8 @@ select *
  100002 | Chablis             | Louis Max     |     2005 | weiß  | 15.50
  100001 | Les Châteaux        | Louis Max     |     2002 | rot   | 17.90
 */
+;
   
-
 -- Beispiel absteigender Sortierung: Alle Weine mit Preis, der teuerste zuerst
 
 select *
@@ -576,8 +603,7 @@ select *
  604851 | Prosecco Val Monte  | Cave Bellenda |          | weiß  |  7.60
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90
 */
-
-
+;
 
 -- Aufsteigende und absteigende Sortierung kann man auch kombinieren:
 -- Alle Weine sortiert nach Weingut (aufsteigend) und Preis (absteigend)
@@ -597,6 +623,7 @@ select *
  100003 | Château Caraguilhes | Louis Max     |     2005 | rosé  | 14.90
 */
 ;
+
 /* Zusammenfassung:
 
    Wir haben gesehen:

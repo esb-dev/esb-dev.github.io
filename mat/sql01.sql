@@ -5,7 +5,7 @@
    SQL Teil 1
    SQL als Taschenrechner
 
-	$Id: sql01.sql 358 2019-03-04 08:25:41Z br $
+	$Id: sql01.sql 432 2019-04-12 06:55:57Z br $
    ----------------------------------------------------------------------- */
 
 
@@ -52,10 +52,11 @@ ergebnis
 
 /* Bezeichner in SQL
    - Bezeichner für Spalten, Tabellen etc werden intern
-     normiert, PostgreSQL normiert sie auf Kleinbuchstaben
+     normiert: Großbuchstaben im SQL Standard,
+     PostgreSQL normiert sie auf Kleinbuchstaben
    - Möchte man Sonderzeichen oder Leerstellen in einem
      Bezeichner, setzt man ihn in Anführungszeichen ("),
-     dann wird er nicht normiert
+     dann wird er nicht normiert.
 */
 
 select 2 * 21 as "Dies ist das Ergebnis";
@@ -212,44 +213,44 @@ select upper('groß') as Beispiel;
 
 -- Datums- und Zeittypen
 
-select date '2018-04-01' as "Erster April";
+select date '2019-04-01' as "Erster April";
 
 /* ergibt:
 
 Erster April
 ------------
-2018-04-01
+2019-04-01
 */
 
 -- Rechnen mit Datumswerten
 
-select date '2018-04-01' + 36 as "Später";
+select date '2019-04-01' + 36 as "Später";
 
 /* ergibt:
 
 Später
 ----------
-2018-05-07
+2019-05-07
 */
 
 -- Werte aus Datumsangaben extrahieren
 
-select extract(year from date '2018-04-01');
-select extract(month from date '2018-04-01');
-select extract(day from date '2018-04-01');
+select extract(year from date '2019-04-01');
+select extract(month from date '2019-04-01');
+select extract(day from date '2019-04-01');
 
 /* ergibt:
 
-2018
+2019
 4
 1
 */
 
 /* geht auch: */
 
-select date_part('year', date '2018-04-01');
-select date_part('month', date '2018-04-01');
-select date_part('day', date '2018-04-01');
+select date_part('year', date '2019-04-01');
+select date_part('month', date '2019-04-01');
+select date_part('day', date '2019-04-01');
 
 -- Datentyp time
 
@@ -262,11 +263,11 @@ select time '10:02';
 
 -- Datentypen timestamp und interval
 
-select timestamp '2018-04-01 08:00:30' + interval '1 hour';
+select timestamp '2019-04-01 08:00:30' + interval '1 hour';
 
 /* ergibt
 
-2018-04-01 09:00:30
+2019-04-01 09:00:30
 */
 
 /*
@@ -414,8 +415,8 @@ select CURRENT_USER;
 
 /* Zum Nachlesen in der PostgreSQL-Dokumentation:
    Datentypen
-   Kap. 8 Data Types https://www.postgresql.org/docs/11/datatype.html   
- 	 Operatoren und Funktionen
+   Kap. 8 Data Types https://www.postgresql.org/docs/11/datatype.html  
+   Operatoren und Funktionen
    Kap. 9 Functions and Operators https://www.postgresql.org/docs/11/functions.html
 */                               
                   
