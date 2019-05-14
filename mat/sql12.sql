@@ -154,7 +154,7 @@ select * from HistorieKunde;
 	
 update Kunde
 	set Str = 'Marktplatz'
-	where KndNr = 200001;
+	where KndNr = 200002;
 	
 select * from Kunde;
 
@@ -165,7 +165,7 @@ select * from HistorieKunde;
 -- wir löschen diesen Kunden
 	
 delete from Kunde
-	where KndNr = 200001;
+	where KndNr = 200002;
 	
 select * from Kunde;
 
@@ -175,15 +175,15 @@ select * from Kunde;
 -- wir wollen jetzt den Effekt der Trigger sehen:
 
 select * from HistorieKunde
-where KndNr = 200001;
+where KndNr = 200002;
 
 /* ergab beim Vorbereiten:
 
  kndnr  |  name   | vorname |    str     |  plz  |  ort   | benutzer | aktion |         zeitpunkt          
 --------+---------+---------+------------+-------+--------+----------+--------+----------------------------
- 200001 | Neumann | Klaus   | Hauptstr.  | 35390 | Gießen | postgres | i      | 2017-03-07 10:15:23.038172
- 200001 | Neumann | Klaus   | Marktplatz | 35390 | Gießen | postgres | u      | 2017-03-07 10:15:48.002077
- 200001 | Neumann | Klaus   | Marktplatz | 35390 | Gießen | postgres | d      | 2017-03-07 10:16:16.489178
+ 200002 | Neumann | Klaus   | Hauptstr.  | 35390 | Gießen | postgres | i      | 2019-03-07 10:15:23.038172
+ 200002 | Neumann | Klaus   | Marktplatz | 35390 | Gießen | postgres | u      | 2019-03-07 10:15:48.002077
+ 200002 | Neumann | Klaus   | Marktplatz | 35390 | Gießen | postgres | d      | 2019-03-07 10:16:16.489178
 */
 
 ;
@@ -195,6 +195,4 @@ drop table HistorieKunde;
 
 select * from Kunde;
 
-delete from Kunde
-	where KndNr = 200001;
 	

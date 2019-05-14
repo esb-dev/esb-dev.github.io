@@ -55,7 +55,7 @@ select routine_name, routine_type
 ;
 -- Wir verwenden diese Funktion
 
-select ArtNr, Bez, Preis, kartonpreis(Preis) as "Kartonpreis"
+select ArtNr, Bez, Preis, Preis * 12, kartonpreis(Preis) as "Kartonpreis"
 	from Artikel;
 
 /* ergibt:
@@ -71,10 +71,20 @@ select ArtNr, Bez, Preis, kartonpreis(Preis) as "Kartonpreis"
 ;
 -- Man kann auch Funktionen definieren, die eine Tupelvariable als
 -- Parameter haben
+-- in unserem Beispiel sollen nur die Weißweine einen Rabatt bekommen
 
 create function kartonpreis(Artikel) returns numeric as $$
-	select $1.preis * 11;
-$$ language sql;	
+	declare
+		result numeric(6,2);
+	begin	
+	if $1.farbe = 'weiß' then
+		result := $1.preis * 11;
+	else	
+		result := $1.preis * 12;
+	end if;
+	return result;
+	end
+$$ language plpgsql;	
 
 -- nachsehen im information_schema
 
@@ -97,7 +107,7 @@ select routine_name, specific_name, routine_type
 ;
 -- Wir verwenden diese Funktion:
 
-select ArtNr, Bez, kartonpreis(Artikel) as "Kartonpreis"
+select ArtNr, Bez, Farbe, Preis, Preis * 12 as "Normalpreis", kartonpreis(Artikel) as "Kartonpreis"
 	from Artikel;
 
 select ArtNr, Bez, kartonpreis(A) as "Kartonpreis"
@@ -107,11 +117,11 @@ select ArtNr, Bez, kartonpreis(A) as "Kartonpreis"
 
  artnr  |         bez         | Kartonpreis 
 --------+---------------------+-------------
- 100001 | Les Châteaux        |      196.90
+ 100001 | Les Châteaux        |      214.80
  100002 | Chablis             |      170.50
- 100003 | Château Caraguilhes |      163.90
+ 100003 | Château Caraguilhes |      178.80
  604851 | Prosecco Val Monte  |       83.60
- 145119 | Le Cop de Cazes     |       75.90
+ 145119 | Le Cop de Cazes     |       82.80
 */
 ;
 -- Wir löschen die beiden Funktionen wieder

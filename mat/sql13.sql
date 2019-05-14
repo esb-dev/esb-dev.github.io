@@ -188,6 +188,15 @@ with t1(n) as (select 1)
  1
 */
 ;
+with t1(n) as (select 1)
+	select n+1 from t1;
+/* ergibt:
+
+ ?column? 
+---
+ 2
+*/	
+
 
 with t1(n) as (select 1),
      t2(n) as (select n+1 from t1)
@@ -318,7 +327,7 @@ with recursive fac(zahl, produkt) as (
 
 with recursive
   Follower(t,f) as 
-  	(select TwitterUser as t, Follower as f from Followedby
+  		(select TwitterUser as t, Follower as f from Followedby
      union
      select Follower.t, FollowedBy.follower as f
        from Follower, FollowedBy
@@ -369,7 +378,7 @@ with recursive
    Wir stellen vorsichtshalber ein Timeout ein 
 */
 
-set statement_timeout to '1s';
+set statement_timeout = 800;
 
 with recursive
   Follower(t,f,depth) as (select TwitterUser as t, Follower as f, 0 from Followedby
