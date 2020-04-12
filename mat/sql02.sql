@@ -19,6 +19,7 @@
    produziert vom Weingut <Weingut>, er hat den Jahrgang <Jahrgang>, 
    die Farbe <Farbe> und kostet <Preis>.
 */
+;
 
 -- Wiedergabe einer Tabelle
 -- Alle Angaben zu allen Artikeln der Tabelle Artikel
@@ -106,6 +107,7 @@ select distinct Weingut from Artikel;
  Cave Bellenda
  Louis Max
 */
+;
 
 /* Bemerkung
    Manchmal möchte man nur eine Zeile zu einem bestimmten Attribut.  So
@@ -289,6 +291,7 @@ select false < true;         -- true
 select false < null;         -- null
 select false >= null;        -- null
 
+;
 -- Der Operator and
 
 -- Beispiel: Alle Angaben zu Rotweinen, die weniger als 15 Euro kosten
@@ -454,7 +457,7 @@ select * from Artikel
 
 /* Der Operator _like_ erlaubt die Verwendung von "Wildcards"
    und _similar to_ kann einfache reguläre Ausdrücke auswerten
-*/
+*/;
 
 -- Beispiel:  Alle Weine, deren Bezeichnung die Zeichenfolge 'Château' enthält
 
@@ -467,7 +470,7 @@ select *
 --------+---------------------+-----------+----------+-------+-------
  100001 | Les Châteaux        | Louis Max |     2002 | rot   | 17.90
  100003 | Château Caraguilhes | Louis Max |     2005 | rosé  | 14.90
-*/
+*/;
   
 -- Beispiel: Alle Weine, deren Bezeichnung mit der Zeichenfolge 'Château' beginnt
 
@@ -480,7 +483,7 @@ select *
  artnr  |         bez         |  weingut  | jahrgang | farbe | preis 
 --------+---------------------+-----------+----------+-------+-------
  100003 | Château Caraguilhes | Louis Max |     2005 | rosé  | 14.90
-*/
+*/;
   
 -- Beispiel: Alle Weine, deren Bezeichnung als zweiten Buchstaben ein 'e' hat
 
@@ -494,8 +497,7 @@ select *
 --------+-----------------+---------------+----------+-------+-------
  100001 | Les Châteaux    | Louis Max     |     2002 | rot   | 17.90
  145119 | Le Cop de Cazes | Domaine Cazes |     2004 | rot   |  6.90
-*/
-;
+*/;
 
 /* Wildcards in SQL: 
    

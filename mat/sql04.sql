@@ -308,7 +308,7 @@ select distinct KndNr, Name, Vorname
 
 select A.Name, A.Vorname, A.Str, A.PLZ, A.Ort
   from Kunde A, Kunde B
-  where A.Name = B. Name and A.Vorname = B.Vorname
+  where A.Name = B.Name and A.Vorname = B.Vorname
     and not (A.Str = B.Str and A.PLZ = B.PLZ and A.Ort = B.Ort);
     
 select A.Name, A.Vorname, A.Str, A.PLZ, A.Ort
@@ -480,5 +480,8 @@ select KndNr, Name, (coalesce(sum(Anzahl * Preis), 0.00)) as "Gesamtumsatz"
  100105 | Riesling |         0.00
  100101 | Kehl     |       634.80
  100102 | Kehl     |       715.20
-*/ 
+*/ ;
 
+/* Lektürehinweis:
+   Wikipedia über den Join in SQL: https://de.wikipedia.org/wiki/Join_(SQL)
+   */

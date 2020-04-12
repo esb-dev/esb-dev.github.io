@@ -7,7 +7,7 @@
 
 	 $Id: sql03.sql 360 2019-03-04 08:26:31Z br $
    ----------------------------------------------------------------------- */
-
+;
 -- Aggregationen und Aggregatfunktionen
 
 /* Es kommt häufig vor, dass man nicht Informationen über einzelne
@@ -23,7 +23,7 @@
    - Maximum:      max
    - Durchschnitt: avg 
 */
-
+;
 -- Aggregatfunktion count
 
 -- Beispiel: Anzahl der Artikel zählen
@@ -42,7 +42,7 @@ select count(*) as Anzahl
 --------
       5
 */
-
+;
 -- Beispiel: Anzahl mit distinct
 
 select Weingut
