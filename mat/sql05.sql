@@ -62,78 +62,100 @@ select AuftrNr, KndNr from Auftrag
 ;
 
 -- Der linke äußere Verbund ("left outer join")
--- ALLE Kunden mit Aufträgen, ggfs. auch ohne Auftrag
-
-select KndNr, Name, Vorname, Ort, AuftrNr, Datum
-	from Kunde join Auftrag using (KndNr);
+-- ALLE Aufträge, ggfs. auch ohne Kunde
+;
+-- bisher hatten wir den inneren Verbund:
+select AuftrNr, Datum, KndNr, Name, Vorname, Ort 
+	from Auftrag join Kunde using (KndNr);
 
 /* ergibt:
-
- kndnr  | name | vorname |     ort     | auftrnr |   datum    
---------+------+---------+-------------+---------+------------
- 100101 | Kehl | Thomas  | Kaiserstuhl |    1003 | 2007-03-01
- 100101 | Kehl | Thomas  | Kaiserstuhl |    1001 | 2006-10-12
- 100102 | Kehl | Thomas  | Eltville    |    1002 | 2006-02-12
++---------+------------+--------+------+---------+-------------+
+| auftrnr | datum      | kndnr  | name | vorname | ort         |
++---------+------------+--------+------+---------+-------------+
+| 1003    | 2007-03-01 | 100101 | Kehl | Thomas  | Kaiserstuhl |
+| 1001    | 2006-10-12 | 100101 | Kehl | Thomas  | Kaiserstuhl |
+| 1002    | 2006-02-12 | 100102 | Kehl | Thomas  | Eltville    |
++---------+------------+--------+------+---------+-------------+
 */
 ;
-	
-select KndNr, Name, Vorname, Ort, AuftrNr, Datum
-  from Kunde left outer join Auftrag using (KndNr); 
+-- wir ersetzen "join" durch "left outer join"	
+select AuftrNr, Datum, KndNr, Name, Vorname, Ort
+  from Auftrag left outer join Kunde using (KndNr); 
 
-/* ergibt: 
+/* und erhalten: 
 
- kndnr  |   name   | vorname |     ort     | auftrnr |   datum    
---------+----------+---------+-------------+---------+------------
- 100101 | Kehl     | Thomas  | Kaiserstuhl |    1003 | 2007-03-01
- 100101 | Kehl     | Thomas  | Kaiserstuhl |    1001 | 2006-10-12
- 100102 | Kehl     | Thomas  | Eltville    |    1002 | 2006-02-12
- 100105 | Riesling | Karin   | Colmar      |         | 
++---------+------------+--------+------+---------+-------------+
+| auftrnr | datum      | kndnr  | name | vorname | ort         |
++---------+------------+--------+------+---------+-------------+
+| 1003    | 2007-03-01 | 100101 | Kehl | Thomas  | Kaiserstuhl |
+| 1001    | 2006-10-12 | 100101 | Kehl | Thomas  | Kaiserstuhl |
+| 1002    | 2006-02-12 | 100102 | Kehl | Thomas  | Eltville    |
+| 1004    | 2006-02-12 | NULL   | NULL | NULL    | NULL        |
++---------+------------+--------+------+---------+-------------+
+
 */
 ;
 
 /* "left" bedeutet, dass ALLE Einträge der Tabelle die in der
-   Formulierung der Anweisung links vom Schlüsselwort "outer join"
-   verwendet werden, auch dann, wenn es keinen korrespondierenden
-   Datensatz in der Tabelle rechts von "outer join" gibt.
+   Formulierung der Anweisung links vom Schlüsselwort "join"
+   im Ergebnis vorkommen, auch dann, wenn es keinen korrespondierenden
+   Datensatz in der Tabelle rechts von "join" gibt. 
+   Fehlende Felder bekommen den Wert "NULL", denn ihr Wert ist ja
+   unbekannt.
 
    Was ergibt folgendes?
 */
   
-select KndNr, Name, Vorname, Ort, AuftrNr,Datum
+select AuftrNr,Datum, KndNr, Name, Vorname, Ort
+  from Kunde right outer join Auftrag using (KndNr); 
+  
+/* Ergebnis erraten? */;  
+
+-- Nun wollen wir haben: ALLE Kunden, ggfs. auch ohne Aufträge
+
+select AuftrNr,Datum, KndNr, Name, Vorname, Ort
   from Auftrag right outer join Kunde using (KndNr); 
 
--- ALLE Aufträge, ggfs. auch ohne Kunden
-
-select KndNr, Name, Vorname, Ort, AuftrNr,Datum
-  from Kunde right outer join Auftrag using (KndNr); 
-
 /* ergibt:
++---------+------------+--------+----------+---------+-------------+
+| auftrnr | datum      | kndnr  | name     | vorname | ort         |
++---------+------------+--------+----------+---------+-------------+
+| 1003    | 2007-03-01 | 100101 | Kehl     | Thomas  | Kaiserstuhl |
+| 1001    | 2006-10-12 | 100101 | Kehl     | Thomas  | Kaiserstuhl |
+| 1002    | 2006-02-12 | 100102 | Kehl     | Thomas  | Eltville    |
+| NULL    | NULL       | 100105 | Riesling | Karin   | Colmar      |
++---------+------------+--------+----------+---------+-------------+
 
- kndnr  | name | vorname |     ort     | auftrnr |   datum    
---------+------+---------+-------------+---------+------------
- 100101 | Kehl | Thomas  | Kaiserstuhl |    1003 | 2007-03-01
- 100101 | Kehl | Thomas  | Kaiserstuhl |    1001 | 2006-10-12
- 100102 | Kehl | Thomas  | Eltville    |    1002 | 2006-02-12
-        |      |         |             |    1004 | 2006-02-12
 */
 ;
   
--- ALLE Kunden ggfs. ohne Auftrag sowie ALLE Aufträge ggfs. ohne Kunde
+-- Und jetzt: ALLE Aufträge ggfs. ohne Kunde sowie ALLE Kunden ggfs. ohne Auftrag
 
-select KndNr, Name, Vorname, Ort, AuftrNr,Datum
-  from Kunde full outer join Auftrag using (KndNr); 
+select AuftrNr, Datum, KndNr, Name, Vorname, Ort
+  from Auftrag full outer join Kunde using (KndNr); 
 
 /* ergibt:
 
- kndnr  |   name   | vorname |     ort     | auftrnr |   datum    
---------+----------+---------+-------------+---------+------------
- 100101 | Kehl     | Thomas  | Kaiserstuhl |    1003 | 2007-03-01
- 100101 | Kehl     | Thomas  | Kaiserstuhl |    1001 | 2006-10-12
- 100102 | Kehl     | Thomas  | Eltville    |    1002 | 2006-02-12
-        |          |         |             |    1004 | 2006-02-12
- 100105 | Riesling | Karin   | Colmar      |         |             
++---------+------------+--------+----------+---------+-------------+
+| auftrnr | datum      | kndnr  | name     | vorname | ort         |
++---------+------------+--------+----------+---------+-------------+
+| 1003    | 2007-03-01 | 100101 | Kehl     | Thomas  | Kaiserstuhl |
+| 1001    | 2006-10-12 | 100101 | Kehl     | Thomas  | Kaiserstuhl |
+| 1002    | 2006-02-12 | 100102 | Kehl     | Thomas  | Eltville    |
+| 1004    | 2006-02-12 | NULL   | NULL     | NULL    | NULL        |
+| NULL    | NULL       | 100105 | Riesling | Karin   | Colmar      |
++---------+------------+--------+----------+---------+-------------+           
 */
 ;
+
+/* Fazit:
+   Der äußere Verbund berücksichtigt auch unbekannte Information,
+   fehlende Daten werden durch NULL ersetzt.
+   
+   Ein weiteres Beispiel zum äußeren Verbund finden Sie in der
+   Wikipedia zum Stichwort Join (SQL): https://de.wikipedia.org/wiki/Join_(SQL)
+*/;
+   
 
 /* Man kann das mit dem äußeren Verbund erreichte Ergebnis auch auf andere
    Weise erreichen, nämlich durch Mengenoperatoren, die wir im nächsten
@@ -141,30 +163,31 @@ select KndNr, Name, Vorname, Ort, AuftrNr,Datum
 */
 ;
 
--- alle Kunden mit Auftrag
-select KndNr, Name, Vorname, Ort, AuftrNr, Datum
+-- alle Aufträge mit Kunden (innerer Verbund)
+select AuftrNr, Datum, KndNr, Name, Vorname, Ort
   from Kunde join Auftrag using (KndNr);
 
 -- alle Kunden ohne Auftrag
-select KndNr, Name, Vorname, Ort, null, null
+select null, null, KndNr, Name, Vorname, Ort
   from Kunde 
   where KndNr not in (select KndNr from Auftrag where KndNr is not null);
 
 -- alle Aufträge ohne Kunde
-select null, null, null, null, AuftrNr, Datum
+select AuftrNr, Datum, null, null, null, null
   from Auftrag where KndNr is null;
 
 -- und nun die Vereinigung der drei Ergebnisse
 
-select KndNr, Name, Vorname, Ort, AuftrNr, Datum
+select AuftrNr, Datum, KndNr, Name, Vorname, Ort
   from Kunde join Auftrag using (KndNr)
-union
-select KndNr, Name, Vorname, Ort, null, null
+union  
+select null, null, KndNr, Name, Vorname, Ort
   from Kunde 
   where KndNr not in (select KndNr from Auftrag where KndNr is not null)
-union
-select null, null, null, null, AuftrNr, Datum
+union  
+select AuftrNr, Datum, null, null, null, null
   from Auftrag where KndNr is null;
+
 
 /* Mehr zu Mengenoperatoren in SQL im nächsten Abschnitt der 
 	Einführung in SQL
