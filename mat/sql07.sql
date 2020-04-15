@@ -51,7 +51,7 @@ select 2 as "Anz Weißweine", 2 as "Anz Rotweine";
 -- vorher einsetzen!!
 
 select (select count(*) from Artikel where Farbe = 'weiß') as "Anz Weißweine",
- (select count(*) from Artikel where Farbe = 'rot') as "Anz Rotweine";
+       (select count(*) from Artikel where Farbe = 'rot') as "Anz Rotweine";
 
 /* ergibt:
 
@@ -144,7 +144,7 @@ select KndNr, Name, Vorname, Ort
  
 select KndNr, Name, Vorname, Ort 
    from Kunde
-   where KndNr in (select KndNr from Auftrag);
+   where KndNr in (select KndNr from Auftrag where KndNr is not null);
 
 /* ergibt:
 
@@ -200,6 +200,7 @@ select KndNr, Name, Vorname, Ort
 
 /* Abfrage mit Verbund
    Wir verfolgen im Datenbankschema die Referenzen
+   Kunde -- Auftrag -- AuftrPos -- Artikel
 */
 
 select distinct KndNr, Name
@@ -210,8 +211,11 @@ select distinct KndNr, Name
 
 
 /* Abfrage mit geschachteltem SQL
-   Wir bauen die Anweisung gewissermaßen von innen nach
-   außen auf:
+   Wir bauen die Anweisung gewissermaßen von innen nach außen auf:
+   1. Suche ArtNr der Weißweine in Artikel
+   2. Suche AuftrNr der Auftragspositionen mit diesen Artikelnummern
+   3. Suche KndNr der Aufträge mit diesen Auftragsnummern
+   4. Gebe KndNr und Name der Kunden mit diesen Kundennummern aus
 */
  
 select KndNr, Name from Kunde where KndNr in 
@@ -298,7 +302,7 @@ select *
    Die Anweisung [2] hat einen Fehler: es gibt gar kein Attribut Name
    in Auftrag, aber in Kunde. Das bedeutet, dass in der inneren Anweisung
    der Name von Kunde genommen wird, d.h. das select lautet
-   select 'Riesling' from ... z.B. und gibt also 'Reisling' zurück,
+   select 'Riesling' from ... z.B. und gibt also 'Riesling' zurück,
    d.h. das Ergebins ist 3, weil wir 3 Kunden haben.
 */;  
 
@@ -330,6 +334,7 @@ select * from Kunde_Umsatz;
 -- Beispiel: Kunde mit dem höchsten Umsatz
 select * from Kunde_Umsatz
   where Umsatz >= all (select Umsatz from Kunde_Umsatz);
+  -- Umsatz soll >= jeder Umsatz in Kunde_Umsatz sein, also der höchste
 
 select * from Kunde_Umsatz
   where Umsatz = (select max(Umsatz) from Kunde_Umsatz);
@@ -337,6 +342,7 @@ select * from Kunde_Umsatz
 -- die anderen Kunden
 select * from Kunde_Umsatz
   where Umsatz < any (select Umsatz from Kunde_Umsatz);
+  -- Umsatz soll < irgendein Umsatz, d.h. jeder, aber nicht der höchste
 
 select * from Kunde_Umsatz
   where Umsatz <> (select max(Umsatz) from Kunde_Umsatz);
