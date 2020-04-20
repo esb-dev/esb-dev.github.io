@@ -23,7 +23,7 @@
 -- Erstellen einer View
 
 -- Beispiel: View für Kontakte des Weinhändlers
-
+;
 create view Kontakte as
 	select Vorname || ' ' || Name as Name, Str as Anschrift1,
 		PLZ || ' ' || Ort as Anschrift2 from Kunde
@@ -122,7 +122,7 @@ select table_name
 -- Eine View kann man (in der Abfrage) verwenden wie eine Tabelle
 
 -- Beispiel: Abfrage mit Bedingung
-
+;
 select * 
   from Kontakte
 	where Name like '%Kehl%';

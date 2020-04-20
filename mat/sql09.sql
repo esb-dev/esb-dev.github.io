@@ -111,6 +111,9 @@ create table AuftrPos (
 -- Name einer Tabelle ändern
 
 -- Beispiel: Umtaufen der Tabelle "Artikel" in "Wein"
+;
+
+select * from Artikel;
 
 alter table Artikel rename to Wein;
 
@@ -132,6 +135,7 @@ select * from Artikel;
 
 -- Name einer Spalte ändern
 -- Beispiel: Umtaufen der Spalte "ArtNr" in "WeinId"
+;
 
 alter table Artikel
   rename column ArtNr to WeinId;
@@ -150,6 +154,7 @@ select * from Artikel;
 */
 
 -- und zurück
+;
 
 alter table Artikel
   rename column WeinId to ArtNr;
@@ -159,6 +164,7 @@ select * from Artikel;
 -- Eine neue Spalte dem Schema einer Tabelle hinzufügen
 
 -- Beispiel: Spalte mit Angabe zu Anbauart
+;
 
 alter table Artikel
   add column Anbauart varchar(12)
@@ -182,6 +188,7 @@ select * from Artikel;
  604851 | Prosecco Val Monte  | Cave Bellenda |          | weiß  |  7.60 | herkömmlich
  145119 | Le Cop de Cazes     | Domaine Cazes |     2004 | rot   |  6.90 | herkömmlich
 */
+;
 
 -- und zurück
 
@@ -196,12 +203,12 @@ select * from Artikel;
    Das Konzept in SQL dafür ist der Sequenzgenerator (sequence generator), den 
    wir hier noch betrachten wollen.
 */
+;
 
 -- Beispiel: Erzeugen und Verwenden eines Sequenzgenerators mit Startwert 200000
-
+;
 create sequence KndNr_seq start 200000;
 
-delete from Kunde where KndNr = 200000;
 select * from Kunde;
 
 /* ergibt: 
@@ -212,6 +219,7 @@ select * from Kunde;
  100102 | Kehl     | Thomas  | Im Riesling 3      | 68734   | Eltville
  100105 | Riesling | Karin   | 67, Rue du Château | F-68567 | Colmar
 */
+;
 
 insert into Kunde(KndNr, Name, Vorname, PLZ, Str, Ort)
   values( nextval('KndNr_seq'), 'Neumann', 'Holger', '60311',
@@ -228,6 +236,7 @@ select * from Kunde;
  100105 | Riesling | Karin   | 67, Rue du Château | F-68567 | Colmar
  200000 | Neumann  | Holger  | Heinestr. 12       | 60311   | Frankfurt am Main
 */
+;
 
 -- Ermitteln des aktuellen Werts der Sequenz
 
@@ -293,7 +302,7 @@ select * from Kunde2;
  100000 | Schneider | Albert  | Wiesenstr. 14 | 35390 | Gießen
  100001 | Just      | Bettina | Wiesenstr. 14 | 35390 | Gießen
 */
-
+;
 -- Wir wollen vielleicht wissen, welche Nummer der neu eingefügte Kunde hat
 -- das geht so
 
@@ -318,11 +327,11 @@ select currval('KndNr_seq');
      colname integer DEFAULT nextval('tablename_colname_seq') NOT NULL
 );
 */
-
+;
 /* Man kann insert mit returning verwenden, dann  erhält man den
    automatisch vergebenen Wert:
 */
-
+;
 insert into Kunde2(Name, Vorname, Str, PLZ, Ort)
 	values ('Metz', 'Hans-Rudolf', 'Wiesenstr. 14', '35390', 'Gießen') returning KndNr;
 

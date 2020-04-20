@@ -169,7 +169,7 @@ delete from Kunde
 	
 select * from Kunde;
 
--- der eben eingefügte, dann  geänderte Kunde ist gelöscht worden.
+-- der eben eingefügte, dann geänderte Kunde ist gelöscht worden.
 
 
 -- wir wollen jetzt den Effekt der Trigger sehen:
