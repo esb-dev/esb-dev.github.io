@@ -140,10 +140,6 @@
 
 ; S K K = S K S im Sinne der extensionalen Gleichheit 
 
-(session '[S K S])
-(exp :K)
-(swap
-
 
 ; --------------------------------------------------------------
 
@@ -237,7 +233,7 @@
   (let [red (weak-reduce (conj term 't 'f))]
     (cond
       (= red '[t]) 'True
-      (= red '[f])   'False
+      (= red '[f]) 'False
       :else nil))) 
 
 ; Definition von not
