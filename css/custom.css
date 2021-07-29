@@ -59,11 +59,24 @@ ol li:before {
 	}
 
 /* doc table */
-td.doc {
+td.doc{
 	padding: 3px 10px;
 	vertical-align: top;
   border-bottom: 0px;
 }
+
+/* doc2 */
+td.doc2{
+	padding: 3px 10px;
+	vertical-align: top;
+  border-bottom: 0px;
+}
+
+.doc2 span {
+	display: inline-block;
+	width: 16px;
+  border-bottom: 0px;
+}	
 
 /* english paragraph */
 p.pen {
