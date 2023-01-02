@@ -1,3 +1,7 @@
+/*
+   Beispiele zum Text Bäume in SQL
+	 (c) Burkhardt Renz, Jan 2023, all rights reserved
+*/	 
 create table tree (
 	id int primary key,
 	pid int references tree(id),
