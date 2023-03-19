@@ -7,9 +7,9 @@
 <meta name="description" content="Internetauftritt von Prof. Dr. Burkhardt Renz, Technische Hochschule
 		Mittelhessen, Projekt MNI Proposition Analyzer">
 <meta name="keywords" content="Burkhardt Renz, THM, Technische Hochschule Mittelhessen, MNI, university of applied sciences, Informatik, computer science, Spezifikation, Verifikation, Model Finding, Model Checking, Logic,
-	Logik, Alloy, Electrum, Lightweight Modeling">
+	Logik, Alloy, Lightweight Modeling">
 <meta name="author" content="Burkhardt Renz">
-<meta name="date" content="2022/06/20 14:15:37">
+<meta name="date" content="2023/03/19 10:31:31">
 <meta name="robots" content="index, nofollows">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/normalize.css">
@@ -56,8 +56,10 @@
 					<li>Erste Begegnung mit Alloy 6
 						<ol>
 							<li>Zum Anfang ein (leichtes) Rätsel</li>
-							<li>Spezifikation und Verifikation des Echo-Algorithmus</li>
-							<li>Prinzipien des formalen Designs mit Alloy 6</li>
+							<li>Ein Beispiel: Serialisierbarkeit von Transaktionen
+							in Datenbanken</li>
+							<li>Prinzipien des formalen Designs mit Alloy</li>
+							<li>Wie arbeitet Alloy?</li>
 						</ol>
 					</li>
 					<li>Design der Struktur eines Systems in Alloy
@@ -84,8 +86,10 @@
 					<li>Interessante Beispiele von Spezifikationen mit Alloy
 						<ol>
 							<li>Euklidischer Algorithmus</li>
-							<li>Needham-Schroeder Authentifizierungsprotokoll</li>
 							<li>Zwei-Phasen-Commit-Protokoll</li>
+							<li>Needham-Schroeder Authentifizierungsprotokoll</li>
+							<li>Echo-Algorithmus zum Erstellen eines Spannbaums
+							eines Graphen</li>
 						</ol>
 					</li>
 				</ol>
@@ -96,11 +100,6 @@
 				<h4>Materialien</h4>
 
 <table><tbody><tr>
-<td class="doc"><a href="mat/tempop.pdf" target="_blank"><img src="img/pdf.png" border="0" width="16" height="16"></a></td>
-<td class="doc">Burkhardt Renz: <a href="mat/tempop.pdf" target="_self"><i>Temporale Operatoren in Alloy.</i></a> THM, Februar 2022<br><span style="font-size: 75%">Portable Document Format, 230 KB, Stand  9.02.2022</span>
-</td>
-</tr></tbody></table>
-<table><tbody><tr>
 <td class="doc"><a href="mat/diehard.pdf" target="_blank"><img src="img/pdf.png" border="0" width="16" height="16"></a></td>
 <td class="doc">Burkhardt Renz: <a href="mat/diehard.pdf" target="_self"><i>Die Hard in Electrum.</i></a> THM, Juni 2021<br><span style="font-size: 75%">Portable Document Format, 728 KB, Stand 28.06.2021</span>
 </td>
@@ -110,16 +109,14 @@
 <td class="doc">Burkhardt Renz: <a href="mat/diehard.als" target="_self"><i>Quelle zu Die Hard in Electrum.</i></a> Juni 2021<br><span style="font-size: 75%">Alloy Source, 1 KB, Stand 27.06.2021</span>
 </td>
 </tr></tbody></table>
-<table><tbody><tr>
-<td class="doc"><a href="mat/echo.pdf" target="_blank"><img src="img/pdf.png" border="0" width="16" height="16"></a></td>
-<td class="doc">Burkhardt Renz: <a href="mat/echo.pdf" target="_self"><i>Erste Begegnung mit Alloy 6.</i></a> THM, Mai 2022<br><span style="font-size: 75%">Portable Document Format, 5575 KB, Stand 17.05.2022</span>
+				<table><tbody><tr>
+<td class="doc2"><span> »</span></td>
+<td class="doc">Burkhardt Renz: <i>Serialisierbarkeit von Transaktionen in Datenbanken.</i> in: <a href="https://alloytools.discourse.group/t/how-to-solve-a-database-exercise/295">Alloy
+					Diskussionsseite</a>. November 2022
+					<br><span style="font-size: 75%"></span>
 </td>
 </tr></tbody></table>
-<table><tbody><tr>
-<td class="doc"><a href="mat/echo.zip" target="_blank"><img src="img/zip.png" border="0" width="16" height="16"></a></td>
-<td class="doc">Burkhardt Renz: <a href="mat/echo.zip" target="_self"><i>Quellen zum Echo-Algorithmus.</i></a> April 2022<br><span style="font-size: 75%">Zip Archivdatei, 5 KB, Stand  4.04.2022</span>
-</td>
-</tr></tbody></table>
+
 <table><tbody><tr>
 <td class="doc"><a href="mat/strukt.zip" target="_blank"><img src="img/zip.png" border="0" width="16" height="16"></a></td>
 <td class="doc">Burkhardt Renz: <a href="mat/strukt.zip" target="_self"><i>Spezifikation von Strukturen in Alloy am Beispiel
@@ -145,13 +142,29 @@
 </td>
 </tr></tbody></table>
 <table><tbody><tr>
+<td class="doc"><a href="mat/tempop.pdf" target="_blank"><img src="img/pdf.png" border="0" width="16" height="16"></a></td>
+<td class="doc">Burkhardt Renz: <a href="mat/tempop.pdf" target="_self"><i>Temporale Operatoren in Alloy.</i></a> THM, Februar 2022<br><span style="font-size: 75%">Portable Document Format, 230 KB, Stand  9.02.2022</span>
+</td>
+</tr></tbody></table>
+<table><tbody><tr>
 <td class="doc"><a href="mat/ltl.zip" target="_blank"><img src="img/zip.png" border="0" width="16" height="16"></a></td>
 <td class="doc">Burkhardt Renz: <a href="mat/ltl.zip" target="_self"><i>Lineare temporale Logik in Alloy.</i></a> Januar 2022<br><span style="font-size: 75%">Zip Archivdatei, 4 KB, Stand 27.01.2022</span>
 </td>
 </tr></tbody></table>
 <table><tbody><tr>
+<td class="doc"><a href="mat/echo.pdf" target="_blank"><img src="img/pdf.png" border="0" width="16" height="16"></a></td>
+<td class="doc">Burkhardt Renz: <a href="mat/echo.pdf" target="_self"><i>Erste Begegnung mit Alloy 6.</i></a> THM, Mai 2022<br><span style="font-size: 75%">Portable Document Format, 5575 KB, Stand 17.05.2022</span>
+</td>
+</tr></tbody></table>
+<table><tbody><tr>
+<td class="doc"><a href="mat/echo.zip" target="_blank"><img src="img/zip.png" border="0" width="16" height="16"></a></td>
+<td class="doc">Burkhardt Renz: <a href="mat/echo.zip" target="_self"><i>Quellen zum Echo-Algorithmus.</i></a> April 2022<br><span style="font-size: 75%">Zip Archivdatei, 5 KB, Stand  4.04.2022</span>
+</td>
+</tr></tbody></table>
+
+<table><tbody><tr>
 <td class="doc"><a href="mat/isv-e.pdf" target="_blank"><img src="img/pdf.png" border="0" width="16" height="16"></a></td>
-<td class="doc">Burkhardt Renz: <a href="mat/isv-e.pdf" target="_self"><i>Übungen.</i></a> Juni 2022<br><span style="font-size: 75%">Portable Document Format, 388 KB, Stand 20.06.2022</span>
+<td class="doc">Burkhardt Renz: <a href="mat/isv-e.pdf" target="_self"><i>Übungen.</i></a> April 2023<br><span style="font-size: 75%">Portable Document Format, 393 KB, Stand 17.03.2023</span>
 </td>
 </tr></tbody></table>			
 
@@ -159,7 +172,7 @@
 	</div></div>
 
 	<div class="row"><div class="twelve columns footer">
-<a href="impressum.html">Impressum und Datenschutzerklärung</a>  © 2015 - 2022 by Burkhardt Renz, V 43.23 [20.06.2022] <br>
+<a href="impressum.html">Impressum und Datenschutzerklärung</a>  © 2015 - 2023 by Burkhardt Renz, V 45.1 [19.03.2023] <br>
 			Design nach der Vorlage von <a href="http://getskeleton.com" target="_blank">Skeleton</a>
 </div></div> 
 
