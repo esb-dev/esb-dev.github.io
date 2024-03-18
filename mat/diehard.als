@@ -1,11 +1,9 @@
-module mfc/diehard
+module diehard
 
 open util/integer
 
-// Variante, die mehr dem Alloy-Stil entspricht
 // Hinweise von Peter Kriens und David Chemouil haben geholfen, diese
 // Version zu entwickeln
-
 
 abstract sig Jug {
 	var gallons : Int,
@@ -23,7 +21,7 @@ pred fill[j: Jug] {
 besser: 
 
 gallons ist eine Relation Jug x Int
-j->j.capacity ist die Relation, die ein Tupel enthält
+j->j.capacity ist ein Tupel in dieser Relation (zum Jug j)
 Der Operator ++ überschreibt das Tupel j->Zahl in gallons
 */
 pred fill[j: Jug] {
@@ -43,7 +41,7 @@ pred empty[j: Jug] {
 
 
 /*
-Wir hatten für das Umfüllen folgende Funktion:
+Wir können Umfüllen mit:
 pred smallToBig {
 	let amount = add[State.Big, State.Small] |
 		int amount <= 5 implies		
@@ -67,10 +65,12 @@ pred pour[from, to: Jug] {
 	} 
 }
 
+// Startzustand
 pred init {
 	all j: Jug | j.gallons = 0
 }
 
+// Wie soll sich das System im  Laufe der Zeit verhalten?
 fact traces {
 	init
 	always { 
