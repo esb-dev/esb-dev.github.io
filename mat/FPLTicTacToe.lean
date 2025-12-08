@@ -1,8 +1,8 @@
-import Mathlib
+import Std.Data.HashMap
 /-
-Dieses Beispiel war auf der Seite
-[Lean Manual: 12.5.
-State](https://lean-lang.org/lean4/doc/monads/states.lean.html)
+Dieses Beispiel war auf der Seite [Lean Manual: 12.5.
+State](https://lean-lang.org/lean4/doc/monads/states.lean.html) und
+stammt von Sebastian Ullrich
 -/
 
 open Std (HashMap)
@@ -39,7 +39,7 @@ open TileState
 def findOpen : StateM GameState (List TileIndex) := do
   let game ← get
   return game.board.toList.filterMap
-    λ (i, x) => guard (x == TileEmpty) *> pure i
+    fun (i, x) => guard (x == TileEmpty) *> pure i
 
 def chooseRandomMove : StateM GameState TileIndex := do
   let game ← get
@@ -59,7 +59,7 @@ def nextPlayer : Player → Player
   | XPlayer => OPlayer
   | OPlayer => XPlayer
 
-def applyMove (i : TileIndex): StateM GameState Unit := do
+def applyMove (i : TileIndex) : StateM GameState Unit := do
   let game ← get
   let p := game.currentPlayer
   let newBoard := game.board.insert i (tileStateForPlayer p)
@@ -76,14 +76,14 @@ def nextTurn := do
   isGameDone
 
 def initBoard : Board := Id.run do
-  let mut board := HashMap.empty
+  let mut board := HashMap.emptyWithCapacity
   for i in [0:3] do
     for j in [0:3] do
       let t : TileIndex := (i, j)
       board := board.insert t TileEmpty
   board
 
-def printBoard (board : Board): IO Unit := do
+def printBoard (board : Board) : IO Unit := do
   let mut row : List String := []
   for i in board.toList do
     let s := match i.2 with
@@ -95,12 +95,12 @@ def printBoard (board : Board): IO Unit := do
       IO.println row
       row := []
 
-def playGame := do
+def playGame : StateM GameState Unit := do
   while true do
     let finished ← nextTurn
     if finished then return
 
-def tictactoe : IO Unit := do
+def main : IO Unit := do
   let gen ← IO.stdGenRef.get
   let (x, gen') := randNat gen 0 1
   let gs := {
@@ -110,4 +110,4 @@ def tictactoe : IO Unit := do
   let (_, g) := playGame |>.run gs
   printBoard g.board
 
-#eval tictactoe
+#eval main
