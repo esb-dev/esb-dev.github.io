@@ -1,0 +1,1 @@
+window.docContents[162].resolve({"/Anhang/#Funktionale-Programmierung-in-Lean--Anhang":{"contents":"\n\n\n\n\n\n","context":"Funktionale Programmierung in Lean","header":"11. Anhang","id":"/Anhang/#Funktionale-Programmierung-in-Lean--Anhang"}});

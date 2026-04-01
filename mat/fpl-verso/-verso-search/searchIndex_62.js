@@ -1,0 +1,1 @@
+window.docContents[62].resolve({"/Programmierung-mit-Effekten/#Funktionale-Programmierung-in-Lean--Programmierung-mit-Effekten":{"contents":"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n","context":"Funktionale Programmierung in Lean","header":"8. Programmierung mit Effekten","id":"/Programmierung-mit-Effekten/#Funktionale-Programmierung-in-Lean--Programmierung-mit-Effekten"}});

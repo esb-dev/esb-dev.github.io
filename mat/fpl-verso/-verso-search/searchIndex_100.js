@@ -1,0 +1,1 @@
+window.docContents[100].resolve({"/Typklassen/#Funktionale-Programmierung-in-Lean--Typklassen":{"contents":"\n\n\n\n\n\n\n\n\n\n","context":"Funktionale Programmierung in Lean","header":"6. Typklassen","id":"/Typklassen/#Funktionale-Programmierung-in-Lean--Typklassen"}});

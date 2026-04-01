@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      (function(){
+  const {protocol:proto, host:hostName, pathname:path, search:srch, hash:hsh} = window.location;
+  if (!(path.endsWith("/") || path.endsWith(".html"))) {
+    window.location.replace(`${proto}//${hostName}${path}/${srch}${hsh}`);
+  }
+})()</script>
+    <base href="./../../"><meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>Typen</title><link rel="stylesheet" href="book.css">
+    <link rel="stylesheet" href="verso-vars.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js" integrity="sha384-zbcZAIxlvJtNE3Dp5nxLXdXtXyxwOdnILY1TDPVmKFhl4r4nSUG1r8bcFXGVa4Te" crossorigin="anonymous"></script>
+    <script src="-verso-search/elasticlunr.min.js"></script>
+    <script src="-verso-search/fuzzysort.min.js"></script>
+    <script src="-verso-search/searchIndex.js"></script>
+    <script type="module" src="-verso-search/search-init.js"></script>
+    <link rel="stylesheet" href="-verso-search/search-box.css">
+    <link rel="stylesheet" href="-verso-search/search-highlight.css">
+    <link rel="stylesheet" href="-verso-search/domain-display.css">
+    <script src="-verso-data/popper.min.js"></script>
+    <script src="-verso-data/katex/math.js"></script>
+    <script src="-verso-data/tippy-bundle.umd.min.js"></script>
+    <script src="-verso-data/katex/katex.js"></script>
+    <link rel="stylesheet" href="-verso-data/tippy-border.css">
+    <link rel="stylesheet" href="-verso-data/katex/katex.css">
+    <style>
+table.tabular {
+  margin: auto;
+  border-spacing: 1rem;
+}
+table.tabular.left-align {
+  margin-right: auto;
+  margin-left: 0;
+}
+table.tabular.center-align {
+  margin: auto;
+}
+table.tabular.right-align {
+  margin-left auto;
+  margin-right: 0;
+}
+table.tabular td, table.tabular th {
+  text-align: left;
+  vertical-align: top;
+}
+table.tabular td > p:first-child, table.tabular th > p:first-child {
+  margin-top: 0;
+}
+table.tabular td > p:last-child, table.tabular th > p:first-child {
+  margin-bottom: 0;
+}
+</style><style>
+.marginalia .note {
+  position: relative;
+  padding: 0.5rem;
+}
+
+/* Wide viewport */
+@media screen and (min-width: 1400px) {
+  .marginalia .note {
+    float: right;
+    clear: right;
+    margin-right: -16rem;
+    width: 13rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Very wide viewport */
+@media screen and (min-width: 1600px) {
+  .marginalia .note {
+    margin-right: -19vw;
+    width: 15vw;
+  }
+}
+
+.marginalia:hover, .marginalia:hover .note, .marginalia:has(.note:hover) {
+  background-color: var(--lean-accent-light-blue);
+}
+
+/* Medium viewport */
+@media screen and (700px < width <= 1400px) {
+  .marginalia .note {
+    float: right;
+    clear: right;
+    width: 40%;
+    margin: 1rem 0;
+    margin-left: 10%;
+  }
+}
+
+/* Narrow viewport (e.g. phone) */
+@media screen and (width <= 700px) {
+  .marginalia .note {
+    float: left;
+    clear: left;
+    width: 90%;
+    margin: 1rem 5%;
+  }
+}
+
+body {
+  counter-reset: margin-note-counter;
+}
+.marginalia .note {
+  counter-increment: margin-note-counter;
+}
+.marginalia .note::before {
+  content: counter(margin-note-counter) ".";
+  position: absolute;
+  vertical-align: baseline;
+  font-size: 0.9em;
+  font-weight: bold;
+  left: -3rem;
+  width: 3rem;
+  text-align: right;
+}
+.marginalia::after {
+  content: counter(margin-note-counter);
+  vertical-align: super;
+  font-size: 0.7em;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+</style><style>
+
+.hl.lean {
+  white-space: pre;
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
+}
+
+.hl.lean .keyword {
+  color: var(--verso-code-keyword-color,);
+  font-weight: var(--verso-code-keyword-weight, bold);
+  font-style: var(--verso-code-keyword-style, normal);
+  font-family: var(--verso-code-keyword-font-family,);
+}
+
+.hl.lean .const {
+  color: var(--verso-code-const-color,);
+  font-weight: var(--verso-code-const-weight, normal);
+  font-style: var(--verso-code-const-style, normal);
+  font-family: var(--verso-code-const-font-family,);
+}
+
+.hl.lean .var {
+  color: var(--verso-code-var-color,);
+  font-weight: var(--verso-code-var-weight, normal);
+  font-style: var(--verso-code-var-style, italic);
+  font-family: var(--verso-code-var-font-family,);
+
+  position: relative;
+}
+
+.hl.lean .literal, .hl.lean .unknown {
+  color: var(--verso-code-color,);
+  font-weight: normal;
+  font-style: normal;
+  font-family: var(--verso-code-font-family,);
+}
+
+.hover-container {
+  width: 0;
+  height: 0;
+  position: relative;
+  display: inline;
+}
+
+.hl.lean a {
+  color: inherit;
+  text-decoration: currentcolor underline dotted;
+}
+
+.hl.lean a:hover {
+  text-decoration: currentcolor underline solid;
+}
+
+.hl.lean .hover-info {
+  white-space: normal;
+}
+
+.hl.lean .token .hover-info {
+  display: none;
+  position: absolute;
+  background-color: #e5e5e5;
+  border: 1px solid black;
+  padding: 0.5rem;
+  z-index: 300;
+}
+
+.hl.lean .hover-info.messages {
+  max-height: 10rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  padding: 0 0.5rem 0 0;
+  display: block;
+}
+
+.hl.lean .hover-info code {
+  white-space: pre-wrap;
+  background: none;
+  color: black;
+}
+
+.hl.lean .hover-info.messages > code {
+  padding: 0.5rem;
+  display: block;
+  width: fit-content;
+}
+
+.hl.lean .hover-info.messages > code:only-child {
+  margin: 0;
+}
+
+.hl.lean .hover-info.messages > code {
+  margin: 0.1rem;
+}
+
+.hl.lean .hover-info.messages > code:not(:first-child) {
+  margin-top: 0rem;
+}
+
+.hl.lean {
+}
+
+.hl.lean.block {
+  display: block;
+}
+
+.hl.lean.inline {
+  display: inline;
+  white-space: pre-wrap;
+}
+
+.hl.lean * {
+}
+
+.hl.lean .token {
+  transition: all 0.25s; /* Slight fade for highlights */
+}
+
+@media (hover: hover) {
+  .hl.lean .token.binding-hl, .hl.lean .literal.string:hover, .hl.lean .token.typed:hover {
+    background-color: #eee;
+    border-radius: 2px;
+    transition: none;
+  }
+}
+
+
+.hl.lean .has-info .token:not(.tactic-state):not(.tactic-state *), .hl.lean .has-info .inter-text:not(.tactic-state):not(.tactic-state *) {
+  text-decoration-style: wavy;
+  text-decoration-line: underline;
+  text-decoration-thickness: from-font;
+  text-decoration-skip-ink: none;
+}
+
+.hl.lean .has-info .hover-info {
+  display: none;
+  position: absolute;
+  transform: translate(0.25rem, 0.3rem);
+  border: 1px solid black;
+  padding: 0.5rem;
+  z-index: 400;
+  text-align: left;
+}
+
+.hl.lean .has-info.error :not(.tactic-state):not(.tactic-state *){
+  text-decoration-color: red;
+}
+
+@media (hover: hover) {
+  .hl.lean .has-info.error:hover {
+    background-color: #ffb3b3;
+  }
+}
+
+.hl.lean .hover-info.messages > code.error {
+  background-color: #e5e5e5;
+  border-left: 0.2rem solid #ffb3b3;
+}
+
+.tippy-box[data-theme~='error'] .hl.lean .hover-info.messages > code.error {
+  background: none;
+  border: none;
+}
+
+.error .verso-message, .error .verso-message .token, .error .verso-message label {
+  color: var(--verso-error-color);
+}
+
+.error .verso-message .case-label:has(input[type="checkbox"])::before {
+  background-color: var(--verso-error-color) !important;
+}
+
+.hl.lean .has-info.warning :not(.tactic-state):not(.tactic-state *) {
+  text-decoration-color: var(--verso-warning-indicator-color);
+}
+
+@media (hover: hover) {
+  .hl.lean .has-info.warning:hover {
+    background-color:var(--verso-warning-color);
+  }
+}
+
+.hl.lean .hover-info.messages > code.warning {
+  background-color: var(--verso-warning-color);
+}
+
+.lean-output {
+  border-left: 0.2em solid transparent;
+  padding: 0 0 0 0.5em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.lean-output.error {
+  border-color: var(--verso-error-indicator-color);
+}
+
+.lean-output.information {
+  border-color: var(--verso-info-indicator-color);
+}
+
+.lean-output.warning {
+  border-color: var(--verso-warning-indicator-color);
+}
+
+.hl.lean .hover-info.messages > code.error {
+  background-color: #e5e5e5;
+  border-left: 0.2rem solid var(--verso-warning-color);
+}
+
+.tippy-box[data-theme~='warning'] .hl.lean .hover-info.messages > code.warning {
+  background: none;
+  border: none;
+}
+
+
+.hl.lean .has-info.information :not(.tactic-state):not(.tactic-state *) {
+  text-decoration-color: var(--verso-info-indicator-color, blue);
+}
+
+@media (hover: hover) {
+  .hl.lean .has-info.information:hover {
+    background-color: #4777ff;
+  }
+}
+
+
+.hl.lean .hover-info.messages > code.information {
+  background-color: #e5e5e5;
+  border-left: 0.2rem solid #4777ff;
+}
+
+.tippy-box[data-theme~='info'] .hl.lean .hover-info.messages > code.information {
+  background: none;
+  border: none;
+}
+
+.hl.lean div.docstring {
+  font-family: var(--verso-text-font-family, sans-serif);
+  white-space: normal;
+  max-width: calc(min(40rem, 90vw));
+  width: max-content;
+}
+
+.hl.lean div.docstring > :last-child {
+  margin-bottom: 0;
+}
+
+.hl.lean div.docstring > :first-child {
+  margin-top: 0;
+}
+
+.hl.lean .hover-info .sep {
+  display: block;
+  width: auto;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  height: 1px;
+  border-top: 1px solid #ccc;
+}
+
+.hl.lean code {
+  font-family: var(--verso-code-font-family);
+}
+
+.hl.lean .tactic-state {
+  display: none;
+  position: relative;
+  width: fit-content;
+  border: 1px solid #888888;
+  border-radius: 0.1rem;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  background-color: #ffffff;
+}
+
+.hl.lean.popup .tactic-state {
+  position: static;
+  display: block;
+  width: auto;
+  border: none;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  background-color: #ffffff;
+}
+
+
+.hl.lean .tactic {
+  position: relative;
+  display: inline;
+  vertical-align: top;
+  /* Without these, mobile Safari will start making font sizes inconsistent when its text size adjustment feature is triggered.*/
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.hl.lean .tactic:has(.tactic-toggle:checked) {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+}
+
+.hl.lean .tactic-toggle:checked ~ .tactic-state {
+  display: inline-block;
+  vertical-align: top;
+  grid-row: 2;
+  justify-self: start;
+}
+
+.hl.lean .tactic > label {
+  position: relative;
+  grid-row: 1;
+  display: inline;
+}
+
+@media (hover: hover) {
+  .hl.lean .tactic:has(.tactic-toggle:not(:checked)) > label:hover {
+    background-color: #eeeeee;
+  }
+}
+
+.hl.lean .tactic-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  z-index: -10;
+}
+
+.hl.lean .tactic > label::after {
+  content: "";
+  border: 1px solid #bbbbbb;
+  /* These need to be em, not rem, to scale with the font */
+  border-radius: 1em;
+  height: 0.25em;
+  vertical-align: middle;
+  width: 0.6em;
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+  display: inline-block;
+  transition: all 0.5s;
+}
+
+/*
+@media (hover: hover) {
+  .hl.lean .tactic > label:hover::after {
+    border: 1px solid #aaaaaa;
+    background-color: #aaaaaa;
+    transition: all 0.5s;
+  }
+}
+*/
+
+.hl.lean .tactic > label:has(+ .tactic-toggle:checked)::after {
+  border: 1px solid #999999;
+  background-color: #999999;
+  transition: all 0.5s;
+}
+
+.hl.lean .tactic-state .goal + .goal {
+  margin-top: 1.5em;
+}
+
+/*
+Some CSS frameworks customize details/summary in ways not compatible with Verso's output.
+*/
+
+.hl.lean details {
+  display: block !important;
+  margin: 0;
+}
+
+.hl.lean details summary {
+  display: list-item !important;
+  margin: 0;
+}
+
+.hl.lean details summary:focus {
+  outline: none;
+  outline-offset: none;
+  color: inherit;
+}
+
+.hl.lean ul > li {
+  margin-bottom: 0;
+}
+
+.hl.lean details summary::marker {
+  display: inline !important;
+}
+
+.hl.lean details > summary:first-of-type {
+  list-style-type: disclosure-closed;
+  list-style-position: inside;
+}
+
+.hl.lean details[open] > summary:first-of-type {
+  list-style-type: disclosure-open;
+}
+
+.hl.lean details summary::before, .hl.lean details summary::after {
+  content: "" !important;
+  background: none;
+  display: none;
+}
+
+.hl.lean .tactic-state summary {
+  /* These need to be em, not rem, to scale with the font */
+  margin-left: -0.5em;
+}
+
+.hl.lean .tactic-state details {
+  /* These need to be em, not rem, to scale with the font */
+  padding-left: 0.5em;
+}
+
+.hl.lean .case-label {
+  display: block;
+  position: relative;
+}
+
+.hl.lean .case-label input[type="checkbox"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  z-index: -10;
+}
+
+.hl.lean .case-label:has(input[type="checkbox"])::before {
+  display: inline-block;
+  background-color: black;
+  content: ' ';
+  transition: ease 0.2s;
+  margin-right: 0.7em;
+  clip-path: polygon(100% 0, 0 0, 50% 100%);
+  width: 0.6em;
+  height: 0.6em;
+  vertical-align: middle;
+}
+
+.hl.lean .case-label:has(input[type="checkbox"]:not(:checked))::before {
+  transform: rotate(-90deg);
+}
+
+.hl.lean .case-label:has(input[type="checkbox"]) {
+
+}
+
+.hl.lean .case-label:has(input[type="checkbox"]:checked) {
+
+}
+
+
+.hl.lean .labeled-case > :not(:first-child) {
+  max-height: 0px;
+  display: block;
+  overflow: hidden;
+  transition: max-height 0.1s ease-in;
+  /* These need to be em, not rem, to scale with the font */
+  margin-left: 0.5em;
+  margin-top: 0.1em;
+}
+
+.hl.lean .labeled-case:has(.case-label input[type="checkbox"]:checked) > :not(:first-child) {
+  max-height: 100%;
+}
+
+
+.hl.lean .goal-name::before {
+  font-style: normal;
+  content: "case ";
+}
+
+.hl.lean .goal-name {
+  font-style: italic;
+  font-family: var(--verso-code-font-family);
+  color: inherit;
+}
+
+.hl.lean .hypotheses {
+  display: table;
+}
+
+.hl.lean .hypothesis {
+  display: table-row;
+}
+
+.hl.lean .hypothesis > * {
+  display: table-cell;
+}
+
+
+.hl.lean .hypotheses .colon {
+  text-align: center;
+  /* This needs to be em, not rem, to scale with the font */
+  min-width: 1em;
+}
+
+.hl.lean .hypotheses .name {
+  text-align: right;
+}
+
+.hl.lean .hypotheses .name,
+.hl.lean .hypotheses .type,
+.hl.lean .conclusion .type {
+  font-family: var(--verso-code-font-family);
+}
+
+.tippy-box {
+  /* Without these, mobile Safari will start making font sizes inconsistent when its text size adjustment feature is triggered.*/
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+}
+
+.tippy-box[data-theme~='lean'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 1px solid black;
+}
+.tippy-box[data-theme~='lean'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #e5e5e5;
+}
+.tippy-box[data-theme~='lean'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: #e5e5e5;
+}
+.tippy-box[data-theme~='lean'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #e5e5e5;
+}
+.tippy-box[data-theme~='lean'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #e5e5e5;
+}
+
+.tippy-box[data-theme~='message'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #e5e5e5;
+  border-width: 11px 11px 0;
+}
+.tippy-box[data-theme~='message'][data-placement^='top'] > .tippy-arrow::after {
+  bottom: -11px;
+  border-width: 11px 11px 0;
+}
+.tippy-box[data-theme~='message'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-width: 0 11px 11px;
+}
+.tippy-box[data-theme~='message'][data-placement^='bottom'] > .tippy-arrow::after {
+  top: -11px;
+  border-width: 0 11px 11px;
+}
+.tippy-box[data-theme~='message'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #e5e5e5;
+  border-width: 11px 0 11px 11px;
+}
+.tippy-box[data-theme~='message'][data-placement^='left'] > .tippy-arrow::after {
+  right: -11px;
+  border-width: 11px 0 11px 11px;
+}
+
+.tippy-box[data-theme~='message'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #e5e5e5;
+  border-width: 11px 11px 11px 0;
+}
+.tippy-box[data-theme~='message'][data-placement^='right'] > .tippy-arrow::after {
+  left: -11px;
+  border-width: 11px 11px 11px 0;
+}
+
+
+
+.tippy-box[data-theme~='warning'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 3px solid var(--verso-warning-color);
+}
+
+.tippy-box[data-theme~='error'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 3px solid #f7a7af;
+}
+
+.tippy-box[data-theme~='info'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 3px solid #99b3c2;
+}
+
+.tippy-box[data-theme~='tactic'] {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: white;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: white;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: white;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: white;
+}
+
+.extra-doc-links {
+  list-style-type: none;
+  margin-left: 0;
+  padding: 0;
+}
+
+.extra-doc-links > li {
+  display: inline-block;
+}
+
+.extra-doc-links > li:not(:last-child)::after {
+  content: '|';
+  display: inline-block;
+  margin: 0 0.25em;
+}
+
+.verso-message .trace {
+  display: block;
+}
+
+.verso-message .trace > summary::marker {
+  color: var(--verso-text-color);
+}
+
+.verso-message .trace-children {
+  margin: 0;
+  padding: 0;
+}
+
+.verso-message .trace-children > li {
+  list-style-type: none;
+  margin-left: 1.5em;
+}
+
+.verso-message .trace-children > li:not(:has(.trace)) {
+  margin-left: 0;
+}
+
+.verso-message .trace-class {
+  color: color-mix(in srgb, currentColor 70%, transparent);
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+.verso-message .text {
+  white-space: pre-wrap;
+}
+
+</style><script>
+      
+window.onload = () => {
+
+    // Don't show hovers inside of closed tactic states
+    function blockedByTactic(elem) {
+      let parent = elem.parentNode;
+      while (parent && "classList" in parent) {
+        if (parent.classList.contains("tactic")) {
+          const toggle = parent.querySelector("input.tactic-toggle");
+          if (toggle) {
+            return !toggle.checked;
+          }
+        }
+        parent = parent.parentNode;
+      }
+      return false;
+    }
+
+    function blockedByTippy(elem) {
+      // Don't show a new hover until the old ones are all closed.
+      // Scoped to the nearest "top-level block" to avoid being O(n) in the size of the document.
+      var block = elem;
+      const topLevel = new Set(["section", "body", "html", "nav", "header"]);
+      while (block.parentNode && !topLevel.has(block.parentNode.nodeName.toLowerCase())) {
+        block = block.parentNode;
+      }
+      for (const child of block.querySelectorAll(".token, .has-info")) {
+        if (child._tippy && child._tippy.state.isVisible) { return true };
+      }
+      return false;
+    }
+
+    for (const c of document.querySelectorAll(".hl.lean .token")) {
+        if (c.dataset.binding != "") {
+            c.addEventListener("mouseover", (event) => {
+                if (blockedByTactic(c)) {return;}
+                const context = c.closest(".hl.lean").dataset.leanContext;
+                for (const example of document.querySelectorAll(".hl.lean")) {
+                    if (example.dataset.leanContext == context) {
+                        for (const tok of example.querySelectorAll(".token")) {
+                            if (c.dataset.binding == tok.dataset.binding) {
+                                tok.classList.add("binding-hl");
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        c.addEventListener("mouseout", (event) => {
+            for (const tok of document.querySelectorAll(".hl.lean .token")) {
+                tok.classList.remove("binding-hl");
+            }
+        });
+    }
+    /* Render docstrings */
+    if ('undefined' !== typeof marked) {
+        for (const d of document.querySelectorAll("code.docstring, pre.docstring")) {
+            const str = d.innerText;
+            const html = marked.parse(str);
+            const rendered = document.createElement("div");
+            rendered.classList.add("docstring");
+            rendered.innerHTML = html;
+            d.parentNode.replaceChild(rendered, d);
+        }
+    }
+    // Add hovers
+    let docsJson = "-verso-docs.json";
+    fetch(docsJson).then((resp) => resp.json()).then((versoDocData) => {
+
+      function hideParentTooltips(element) {
+        let parent = element.parentElement;
+        while (parent) {
+          const tippyInstance = parent._tippy;
+          if (tippyInstance) {
+            tippyInstance.hide();
+          }
+          parent = parent.parentElement;
+        }
+      }
+
+
+
+      const defaultTippyProps = {
+        /* DEBUG -- remove the space: * /
+        onHide(any) { return false; },
+        trigger: "click",
+        // */
+        /* theme: "lean", */
+        maxWidth: "none",
+        appendTo: () => document.body,
+        interactive: true,
+        delay: [100, null],
+        /* ignoreAttributes: true, */
+        followCursor: 'initial',
+        onShow(inst) {
+          if (inst.reference.className == 'tactic') {
+
+            const toggle = inst.reference.querySelector("input.tactic-toggle");
+            if (toggle && toggle.checked) {
+              return false;
+            }
+            hideParentTooltips(inst.reference);
+            //if (blockedByTippy(inst.reference)) { return false; }
+
+          } else if (inst.reference.querySelector(".hover-info") || "versoHover" in inst.reference.dataset) {
+            if (blockedByTactic(inst.reference)) { return false };
+            if (blockedByTippy(inst.reference)) { return false; }
+          } else { // Nothing to show here!
+            return false;
+          }
+        },
+        content (tgt) {
+          const content = document.createElement("span");
+          if (tgt.className == 'tactic') {
+            const state = tgt.querySelector(".tactic-state").cloneNode(true);
+            state.style.display = "block";
+            content.appendChild(state);
+            content.style.display = "block";
+            content.className = "hl lean popup";
+          } else {
+            content.className = "hl lean";
+            content.style.display = "block";
+            content.style.maxHeight = "300px";
+            content.style.overflowY = "auto";
+            content.style.overflowX = "hidden";
+            const hoverId = tgt.dataset.versoHover;
+            const hoverInfo = tgt.querySelector(".hover-info");
+            if (hoverId) { // Docstrings from the table
+              // TODO stop doing an implicit conversion from string to number here
+              let data = versoDocData[hoverId];
+              if (data) {
+                const info = document.createElement("span");
+                info.className = "hover-info";
+                info.style.display = "block";
+                info.innerHTML = data;
+                content.appendChild(info);
+                /* Render docstrings - TODO server-side */
+                if ('undefined' !== typeof marked) {
+                    for (const d of content.querySelectorAll("code.docstring, pre.docstring")) {
+                        const str = d.innerText;
+                        const html = marked.parse(str);
+                        const rendered = document.createElement("div");
+                        rendered.classList.add("docstring");
+                        rendered.innerHTML = html;
+                        d.parentNode.replaceChild(rendered, d);
+                    }
+                }
+              } else {
+                content.innerHTML = "Failed to load doc ID: " + hoverId;
+              }
+            } else if (hoverInfo) { // The inline info, still used for compiler messages
+              content.appendChild(hoverInfo.cloneNode(true));
+            }
+            const extraLinks = tgt.parentElement.dataset['versoLinks'];
+            if (extraLinks) {
+              try {
+                const extras = JSON.parse(extraLinks);
+                const links = document.createElement('ul');
+                links.className = 'extra-doc-links';
+                extras.forEach((l) => {
+                  const li = document.createElement('li');
+                  li.innerHTML = "<a href=\"" + l['href'] + "\" title=\"" + l.long + "\">" + l.short + "</a>";
+                  links.appendChild(li);
+                });
+                content.appendChild(links);
+              } catch (error) {
+                console.error(error);
+              }
+            }
+          }
+          return content;
+        }
+      };
+
+
+      document.querySelectorAll('.hl.lean .const.token, .hl.lean .keyword.token, .hl.lean .literal.token, .hl.lean .option.token, .hl.lean .var.token, .hl.lean .typed.token, .hl.lean .level-var, .hl.lean .level-const, .hl.lean .level-op, .hl.lean .sort').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'lean');
+      });
+      document.querySelectorAll('.hl.lean .has-info.warning').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'warning message');
+      });
+      document.querySelectorAll('.hl.lean .has-info.information').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'info message');
+      });
+      document.querySelectorAll('.hl.lean .has-info.error').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'error message');
+      });
+      document.querySelectorAll('.hl.lean .tactic').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'tactic');
+      });
+      let insts = tippy('.hl.lean .const.token, .hl.lean .keyword.token, .hl.lean .literal.token, .hl.lean .option.token, .hl.lean .var.token, .hl.lean .typed.token, .hl.lean .has-info, .hl.lean .tactic, .hl.lean .level-var, .hl.lean .level-const, .hl.lean .level-op, .hl.lean .sort', defaultTippyProps);
+  });
+}
+</script>
+    <script src="-verso-search/search-highlight.js" defer="defer"></script>
+    </head>
+  <body>
+    <header>
+      <div class="header-logo-wrapper"></div>
+      <div class="header-title-wrapper">
+        <a href="" class="header-title"><h1>
+            Funktionale Programmierung in Lean</h1>
+          </a></div>
+      </header>
+    <label for="toggle-toc" id="toggle-toc-click"><span class="line line1"></span><span class="line line2"></span><span class="line line3"></span></label><div class="with-toc">
+      <div class="toc-backdrop" onclick="document.getElementById('toggle-toc-click')?.click()"></div>
+      <nav id="toc">
+        <input type="checkbox" id="toggle-toc"><div class="first">
+          <a href="" class="toc-title"><h1>
+              Funktionale Programmierung in Lean</h1>
+            </a><div class="split-tocs">
+            <div class="split-toc book">
+              <div class="title">
+                <label for="--verso-manual-toc-----bookRoot" class="toggle-split-toc"><input type="checkbox" class="toggle-split-toc" id="--verso-manual-toc-----bookRoot"></label><span class="">Table of Contents</span></div>
+              <table><tr class="current numbered"><td class="num">1.</td><td><a href="Erste-Begegnung-mit-Lean/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean">Erste Begegnung mit Lean</a></td></tr><tr class="numbered"><td class="num">2.</td><td><a href="Datentypen-definieren-und-verwenden/#Funktionale-Programmierung-in-Lean--Datentypen-definieren-und-verwenden">Datentypen definieren und verwenden</a></td></tr><tr class="numbered"><td class="num">3.</td><td><a href="Weitere-eingebaute-Typen/#Funktionale-Programmierung-in-Lean--Weitere-eingebaute-Typen">Weitere eingebaute Typen</a></td></tr><tr class="numbered"><td class="num">4.</td><td><a href="Verkettete-Listen-und-Arrays/#Funktionale-Programmierung-in-Lean--Verkettete-Listen-und-Arrays">Verkettete Listen und Arrays</a></td></tr><tr class="numbered"><td class="num">5.</td><td><a href="Ausf___hrbare-Programme-erzeugen/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen">Ausführbare Programme erzeugen</a></td></tr><tr class="numbered"><td class="num">6.</td><td><a href="Typklassen/#Funktionale-Programmierung-in-Lean--Typklassen">Typklassen</a></td></tr><tr class="numbered"><td class="num">7.</td><td><a href="Logische-Verifikation/#Funktionale-Programmierung-in-Lean--Logische-Verifikation">Logische Verifikation</a></td></tr><tr class="numbered"><td class="num">8.</td><td><a href="Programmierung-mit-Effekten/#Funktionale-Programmierung-in-Lean--Programmierung-mit-Effekten">Programmierung mit Effekten</a></td></tr><tr class="numbered"><td class="num">9.</td><td><a href="Mehr-___ber-Mondaden/#Funktionale-Programmierung-in-Lean--Mehr-___ber-Mondaden">Mehr über Mondaden</a></td></tr><tr class="numbered"><td class="num">10.</td><td><a href="Abh___ngige-Typen/#Funktionale-Programmierung-in-Lean--Abh___ngige-Typen">Abhängige Typen</a></td></tr><tr class="numbered"><td class="num">11.</td><td><a href="Anhang/#Funktionale-Programmierung-in-Lean--Anhang">Anhang</a></td></tr></table></div>
+            <div class="split-toc">
+              <div class="title">
+                <label for="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean" class="toggle-split-toc"><input type="checkbox" class="toggle-split-toc" id="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean" checked="checked"></label><span class="number">1.</span> <span class=""><a href="Erste-Begegnung-mit-Lean/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean">Erste Begegnung mit Lean</a></span></div>
+              <table><tr class="numbered"><td class="num">1.1.</td><td><a href="Erste-Begegnung-mit-Lean/Paradigmen-von-Programmiersprachen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Paradigmen-von-Programmiersprachen">Paradigmen von Programmiersprachen</a></td></tr><tr class="numbered"><td class="num">1.2.</td><td><a href="Erste-Begegnung-mit-Lean/Charakteristika-von-Lean/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Charakteristika-von-Lean">Charakteristika von Lean</a></td></tr><tr class="numbered"><td class="num">1.3.</td><td><a href="Erste-Begegnung-mit-Lean/Ausdr___cke-und-ihre-Auswertung/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Ausdr___cke-und-ihre-Auswertung">Ausdrücke und ihre Auswertung</a></td></tr><tr class="current numbered"><td class="num">1.4.</td><td><a href="Erste-Begegnung-mit-Lean/Typen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen">Typen</a></td></tr><tr class="numbered"><td class="num">1.5.</td><td><a href="Erste-Begegnung-mit-Lean/Definitionen-und-Funktionen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Definitionen-und-Funktionen">Definitionen und Funktionen</a></td></tr><tr class="numbered"><td class="num">1.6.</td><td><a href="Erste-Begegnung-mit-Lean/Funktionen-h___herer-Ordnung/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Funktionen-h___herer-Ordnung">Funktionen höherer Ordnung</a></td></tr><tr class="numbered"><td class="num">1.7.</td><td><a href="Erste-Begegnung-mit-Lean/Verketten-von-Funktionen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Verketten-von-Funktionen">Verketten von Funktionen</a></td></tr><tr class="numbered"><td class="num">1.8.</td><td><a href="Erste-Begegnung-mit-Lean/Rekursion-und-Endrekursion/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Rekursion-und-Endrekursion">Rekursion und Endrekursion</a></td></tr><tr class="numbered"><td class="num">1.9.</td><td><a href="Erste-Begegnung-mit-Lean/Beweise-von-Eigenschaften-von-Funktionen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Beweise-von-Eigenschaften-von-Funktionen">Beweise von Eigenschaften von Funktionen</a></td></tr><tr class="numbered"><td class="num">1.10.</td><td><a href="Erste-Begegnung-mit-Lean/Zusammenfassung/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Zusammenfassung">Zusammenfassung</a></td></tr></table></div>
+            <div class="split-toc">
+              <div class="title">
+                <label for="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen" class="toggle-split-toc"><input type="checkbox" class="toggle-split-toc" id="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen" checked="checked"></label><span class="number">1.4.</span> <span class="current"><a href="Erste-Begegnung-mit-Lean/Typen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen">Typen</a></span></div>
+              <table><tr class="numbered"><td class="num">1.4.1.</td><td><a href="Erste-Begegnung-mit-Lean/Typen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Nat___rliche-Zahlen">Natürliche Zahlen</a></td></tr><tr class="numbered"><td class="num">1.4.2.</td><td><a href="Erste-Begegnung-mit-Lean/Typen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Ganze-Zahlen">Ganze Zahlen</a></td></tr><tr class="numbered"><td class="num">1.4.3.</td><td><a href="Erste-Begegnung-mit-Lean/Typen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Gleitkommazahlen">Gleitkommazahlen</a></td></tr><tr class="numbered"><td class="num">1.4.4.</td><td><a href="Erste-Begegnung-mit-Lean/Typen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Boolesche-Werte">Boolesche Werte</a></td></tr></table></div>
+            </div>
+          </div>
+        <div class="last"></div>
+        </nav>
+      <main><div class="content-wrapper">
+          <nav class="prev-next-buttons">
+            <a class="local-button active" href="Erste-Begegnung-mit-Lean/Ausdr___cke-und-ihre-Auswertung/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Ausdr___cke-und-ihre-Auswertung" rel="prev" title="1.3. Ausdrücke und ihre Auswertung"><span class="arrow">←</span><span class="where">1.3. Ausdrücke und ihre Auswertung</span></a><a class="local-button active" href="Erste-Begegnung-mit-Lean/Definitionen-und-Funktionen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Definitionen-und-Funktionen" rel="next" title="1.5. Definitionen und Funktionen"><span class="where">1.5. Definitionen und Funktionen</span><span class="arrow">→</span></a></nav>
+          <section>
+            <h1>
+              1.4. Typen<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen" title="Permalink">🔗</a></span></h1>
+            <p>
+              Lean hat ein Typsystem, das extrem ausdrucksstark ist. Es verwendet
+<em>dependent type theory</em>, was nicht nur erlaubt, dass man Typen
+definieren kann wie die natürlichen Zahlen, Strings, Listen von Strings
+usw., sondern auch Typen folgenden Inhalts:</p>
+            <ul>
+              <li>
+                <p>
+                  Diese Sortierfunktion hat eine Permutation der eingegebenen Liste zum Ergebnis.</p>
+                </li>
+              <li>
+                <p>
+                  Die Ergebnisse dieser Funktion haben verschiedenen Typ abhängig vom
+  Wert der Argumente.</p>
+                </li>
+              <li>
+                <p>
+                  Der Typ dieser Funktion ist eine Aussage, die gerade den Satz von
+  <a href="https://de.wikipedia.org/wiki/Satz_von_Feit-Thompson">Feit-Thompson</a>
+  beinhaltet, der aussagt, dass jede Gruppe ungerader Ordnung auflösbar ist.</p>
+                </li>
+              </ul>
+            <p>
+              Dass Lean eine funktionale Sprache und zugleich ein Beweissystem ist,
+rührt daher, dass Lean dieses Typsystem hat und die Typüberprüfung von
+Typen der Sorte <code>Prop</code> (für <em>Proposition</em>) nichts anderes ist als das Beweisen von
+logischen Aussagen. Man nennt diesen Zusammenhang gerne den
+<em>Curry-Howard-Isomorphismus</em>. Da in diesem Kurs die funktionale
+Programmierung in Lean im Vordergrund steht, wird es bis ins letzte
+Kapitel des Kurses dauern, bis wir diese Korrespondenz von logischen
+Aussagen mit Typen im Detail ansehen werden.</p>
+            <p>
+              Wir befassen uns jetzt aber zuerst mit "einfachen" Typen.</p>
+            <p>
+              Entscheidend ist zunächst, dass jeder Ausdruck in Lean, und damit jedes
+Programm einen Typ haben muss. Nur dann kann der Ausdruck ausgewertet
+werden.</p>
+            <p>
+              Das Kommando <code>#check</code> ermittelt den Typ eines Ausdrucks:</p>
+            <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">1</span><span class="inter-text"> </span><span class="const token" data-binding="const-HAdd.hAdd" data-verso-hover="21">+</span><span class="inter-text"> </span><span class="unknown token" data-binding="">41</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-1826">#check</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">41</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+              In vielen Situationen kann Lean den Typ eines Ausdrucks selbst
+ermitteln (Typinferenz). Wenn dies jedoch nicht der Fall ist, kann man
+den Typ explizit angeben.</p>
+            <p>
+              Die Subtraktion kann bei natürlichen Zahlen 0 ergeben:</p>
+            <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">1</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-2070" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">0</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-2082" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">1</span><span class="inter-text"> </span><span class="const token" data-binding="const-HSub.hSub" data-verso-hover="22">-</span><span class="inter-text"> </span><span class="unknown token" data-binding="">2</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-2094">#check</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+              Wenn wir jedoch die ganzen Zahlen haben wollen, müssen wir dies
+explizit angeben, da bei einer literalen Zahl Lean als Typ automatisch <code>Nat</code> annimmt:</p>
+            <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="unknown token" data-binding="">-</span><span class="unknown token" data-binding="">1</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-2271" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="23">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="23">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">1</span><span class="inter-text"> </span><span class="const token" data-binding="const-HSub.hSub" data-verso-hover="22">-</span><span class="inter-text"> </span><span class="unknown token" data-binding="">2</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-2291">#check</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="23">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="23">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+              Falsche Typen haben Fehlermeldungen zur Folge:</p>
+            <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-2378" data-verso-hover="0">#eval</span><span class="inter-text"> </span><span class="has-info error"><span class="hover-container"><span class="hover-info messages"><code class="verso-message error"><span class="text"></span><span class="text">failed to synthesize instance of type class</span><span class="text">
+  </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-HAdd" data-verso-hover="25">HAdd</span><span class="inter-text"> </span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"> </span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text"> </span><span class="unknown token" data-binding="">?m.1</span></span><span class="text"></span><span class="text">
+</span><span class="text">
+</span><span class="text">Hint: </span><span class="text">Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.</span><span class="text"></span></code></span></span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="16">"A"</span></span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="27">"Hello"</span><span class="inter-text"></span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.append" data-verso-hover="15">append</span><span class="inter-text"> </span><span class="unknown token" data-binding="">sorry</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-2410">#check</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.append" data-verso-hover="15">String.append</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="27">"Hello"</span><span class="inter-text"> </span><span class="has-info error"><span class="hover-container"><span class="hover-info messages"><code class="verso-message error"><span class="text"></span><span class="text">Application type mismatch: The </span><span class="text">argument</span><span class="text">
+  </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">[</span><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="29">" "</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="30">"world"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">]</span></span><span class="text"></span><span class="text">
+</span><span class="text"></span><span class="text">has type</span><span class="text">
+  </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-List" data-verso-hover="31">List</span><span class="inter-text"> </span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span></span><span class="text"></span><span class="text">
+</span><span class="text">but is expected to have type</span><span class="text">
+  </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text"></span></span><span class="text"></span><span class="text">
+</span><span class="text"></span><span class="text">in the application</span><span class="text">
+  </span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="27">"Hello"</span><span class="inter-text"></span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.append" data-verso-hover="15">append</span><span class="inter-text"> </span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">[</span><span class="literal string token" data-binding="" data-verso-hover="29">" "</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="30">"world"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">]</span></span><span class="text"></span></code></span></span><span class="unknown token" data-binding="">[</span><span class="literal string token" data-binding="" data-verso-hover="29">" "</span><span class="unknown token" data-binding="">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="30">"world"</span><span class="unknown token" data-binding="">]</span></span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+              Lean hat folgende (einfache) Datentypen in der Bibliothek <code>Init.Data</code>
+bereits definiert:</p>
+            <table class="tabular"><thead><tr><th><p>
+                      <code>Nat</code></p>
+                    </th><th><p>
+                      Natürliche Zahlen</p>
+                    </th></tr></thead><tr><td><p>
+                    <code>Int</code></p>
+                  </td><td><p>
+                    Ganze Zahlen</p>
+                  </td></tr><tr><td><p>
+                    <code>Float</code></p>
+                  </td><td><p>
+                    Gleitkommazahlen</p>
+                  </td></tr><tr><td><p>
+                    <code>Bool</code></p>
+                  </td><td><p>
+                    Boolesche Werte</p>
+                  </td></tr><tr><td><p>
+                    <code>Char</code></p>
+                  </td><td><p>
+                    Zeichen (Unicode = gültiger Unicode-Skalar-Wert)</p>
+                  </td></tr><tr><td><p>
+                    <code>String</code></p>
+                  </td><td><p>
+                    Zeichenketten</p>
+                  </td></tr></table><p>
+              Es gibt in der <code>mathlib4</code> natürlich auch die rationalen Zahlen, die wir aber später selbst in Lean definieren und implementieren werden (jedenfalls eine einfache Variante).</p>
+            <p>
+              <strong>[01.2]</strong> Gegeben sei die Funktion <code>twice</code>:</p>
+            <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-3119">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-Uebung0102.twice" data-verso-hover="32" id="Uebung0102___twice">twice</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="var token" data-binding="var-_uniq.2" data-verso-hover="1">n</span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.2" data-verso-hover="1">n</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+              Ermitteln Sie den Typ folgender Ausdrücke und erläutern Sie die Ergebnisse:</p>
+            <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">25</span><span class="inter-text"> </span><span class="const token" data-binding="const-HSub.hSub" data-verso-hover="22">-</span><span class="inter-text"> </span><span class="unknown token" data-binding="">30</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-3340">#check</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="1">25</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">30</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><a href="Erste-Begegnung-mit-Lean/Typen/#Uebung0102___twice" title="Definition of example"><span class="const token" data-binding="const-Uebung0102.twice" data-verso-hover="32">twice</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">21</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-3357">#check</span></span><span class="inter-text"> </span><a href="Erste-Begegnung-mit-Lean/Typen/#Uebung0102___twice" title="Definition of example"><span class="const token" data-binding="const-Uebung0102.twice" data-verso-hover="32">twice</span></a><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">21</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><a href="Erste-Begegnung-mit-Lean/Typen/#Uebung0102___twice" title="Definition of example"><span class="const token" data-binding="const-Uebung0102.twice" data-verso-hover="32">twice</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">10</span><span class="inter-text"> </span><span class="const token" data-binding="const-HAdd.hAdd" data-verso-hover="21">+</span><span class="inter-text"> </span><span class="unknown token" data-binding="">22</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-3373">#check</span></span><span class="inter-text"> </span><a href="Erste-Begegnung-mit-Lean/Typen/#Uebung0102___twice" title="Definition of example"><span class="const token" data-binding="const-Uebung0102.twice" data-verso-hover="32">twice</span></a><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">10</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">22</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><a href="Erste-Begegnung-mit-Lean/Typen/#Uebung0102___twice" title="Definition of example"><span class="const token" data-binding="const-Uebung0102.twice" data-verso-hover="32">Uebung0102.twice</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="var token" data-binding="var-_pp_uniq.1" data-verso-hover="1">n</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-3394">#check</span></span><span class="inter-text"> </span><a href="Erste-Begegnung-mit-Lean/Typen/#Uebung0102___twice" title="Definition of example"><span class="const token" data-binding="const-Uebung0102.twice" data-verso-hover="32">twice</span></a><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><section>
+              <h2 id="Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Nat___rliche-Zahlen">
+                1.4.1. Natürliche Zahlen<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Nat___rliche-Zahlen" title="Permalink">🔗</a></span></h2>
+              <p>
+                Der Typ <code>Nat</code> repräsentiert die natürlichen Zahlen, sie können also
+beliebig groß sein. Es gibt keine Overflows wie in Java etwa, wo
+<code>2147483647 + 1</code> den Wert <code>-2147483648</code> ergibt.</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">2147483648</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-3660" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2147483647</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">20000000000000001000000000000000000000</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-3681" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">100000000000000000</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">200000000000000000000</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text">
+      </span><span class="typed token" data-binding="" data-verso-hover="1">1000000000000000000000</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Ein Literal, das eine natürliche Zahl bezeichnet, wird intern stets als vom Typ <code>Nat</code> behandelt:</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">10</span><span class="inter-text"></span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-3872">#check</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">10</span><span class="inter-text">
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-3882">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-irgendwas" data-verso-hover="33" id="irgendwas">irgendwas</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">32</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><a href="Erste-Begegnung-mit-Lean/Typen/#irgendwas" title="Definition of example"><span class="const token" data-binding="const-irgendwas" data-verso-hover="33">irgendwas</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-3902">#check</span></span><span class="inter-text"> </span><a href="Erste-Begegnung-mit-Lean/Typen/#irgendwas" title="Definition of example"><span class="const token" data-binding="const-irgendwas" data-verso-hover="33">irgendwas</span></a><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><a href="Erste-Begegnung-mit-Lean/Typen/#irgendwas" title="Definition of example"><span class="const token" data-binding="const-irgendwas" data-verso-hover="33">irgendwas</span></a><span class="inter-text"> </span><span class="const token" data-binding="const-HAdd.hAdd" data-verso-hover="21">+</span><span class="inter-text"> </span><span class="unknown token" data-binding="">10</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-3919">#check</span></span><span class="inter-text"> </span><a href="Erste-Begegnung-mit-Lean/Typen/#irgendwas" title="Definition of example"><span class="const token" data-binding="const-irgendwas" data-verso-hover="33">irgendwas</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">10</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">42</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-3941" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><a href="Erste-Begegnung-mit-Lean/Typen/#irgendwas" title="Definition of example"><span class="const token" data-binding="const-irgendwas" data-verso-hover="33">irgendwas</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">10</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Subtraktion ergibt 0, wenn das Ergebnis als ganze Zahl negativ würde.
+Die Division natürlicher Zahlen ist die Division mit Rest. Ganz
+abweichend vom mathematischen Standpunkt ist die Division durch 0 erlaubt und ergibt 0.</p>
+              <p>
+                <em>Hinweis:</em> Division von natürlichen Zahlen ist in Lean eine Funktion, und Funktionen in Lean sind total. Deshalb haben sich die Entwickler dafür entschieden, den Fall der Division durch 0 so zu behandeln, dass sie definitionsgemäß 0 ergibt (siehe auch <a href="https://xenaproject.wordpress.com/2020/07/05/division-by-zero-in-type-theory-a-faq/">Division by zero in type theory: a FAQ</a>).</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">0</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-4584" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">43</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">8</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-4598" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">/</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">5</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">2</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-4611" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">%</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">5</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">0</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-4624" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">/</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">0</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Mehr zu den natürlichen Zahlen in Lean später in der Veranstaltung und in der <a href="https://lean-lang.org/doc/reference/latest////Basic-Types/Natural-Numbers/">Lean Language Reference 18.1</a>.</p>
+              </section>
+            <section>
+              <h2 id="Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Ganze-Zahlen">
+                1.4.2. Ganze Zahlen<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Ganze-Zahlen" title="Permalink">🔗</a></span></h2>
+              <p>
+                Der Typ <code>Int</code> repräsentiert ganze Zahlen beliebiger Größe, es gibt wie bei natürlichen Zahlen keine Overflows.</p>
+              <p>
+                Die Division ist Division mit Rest.</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">42</span><span class="inter-text"></span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-5007">#check</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">42</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="unknown token" data-binding="">-</span><span class="unknown token" data-binding="">42</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-5017">#check</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="typed token" data-binding="" data-verso-hover="23">42</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">42</span><span class="inter-text"></span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-5028">#check</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="23">42</span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">20000000000000001000000000000000000000</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-5046" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="23">100000000000000000</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="23">200000000000000000000</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text">
+      </span><span class="typed token" data-binding="" data-verso-hover="23">1000000000000000000000</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="unknown token" data-binding="">-</span><span class="unknown token" data-binding="">3</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-5135" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="23">10</span><span class="inter-text"> </span><span class="unknown token" data-binding="">/</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="typed token" data-binding="" data-verso-hover="23">3</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">1</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-5149" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="23">10</span><span class="inter-text"> </span><span class="unknown token" data-binding="">%</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="typed token" data-binding="" data-verso-hover="23">3</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Mehr zu den ganzen Zahlen in der <a href="https://lean-lang.org/doc/reference/latest////Basic-Types/Integers/">Lean Language Reference 18.2</a>.</p>
+              </section>
+            <section>
+              <h2 id="Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Gleitkommazahlen">
+                1.4.3. Gleitkommazahlen<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Gleitkommazahlen" title="Permalink">🔗</a></span></h2>
+              <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">0.42</span><span class="inter-text"></span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Float" data-verso-hover="34">Float</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-5330">#check</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">0.42</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">0.42</span><span class="inter-text"></span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Float" data-verso-hover="34">Float</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-5342">#check</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">42e-2</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="text">0.420000</span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-5356" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">0.42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="unknown token" data-binding="">42e-2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="unknown token" data-binding="">4.2e-1</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="text">1.000000</span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-5384" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">1.0</span><span class="unknown token" data-binding="">/</span><span class="typed token" data-binding="" data-verso-hover="35">3</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="unknown token" data-binding="">1.0</span><span class="unknown token" data-binding="">/</span><span class="typed token" data-binding="" data-verso-hover="35">3</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="unknown token" data-binding="">1.0</span><span class="unknown token" data-binding="">/</span><span class="typed token" data-binding="" data-verso-hover="35">3</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="text">0.333333</span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-5412" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">1.0</span><span class="unknown token" data-binding="">/</span><span class="typed token" data-binding="" data-verso-hover="35">3</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Mehr zu Gleitkommazahlen in der <a href="https://lean-lang.org/doc/reference/latest////Basic-Types/Floating-Point-Numbers/">Lean Language Reference 18.6</a>.</p>
+              </section>
+            <section>
+              <h2 id="Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Boolesche-Werte">
+                1.4.4. Boolesche Werte<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Boolesche-Werte" title="Permalink">🔗</a></span></h2>
+              <p>
+                Die beiden Booleschen Werte sind <code>true</code> und <code>false</code>.</p>
+              <p>
+                <em>Hinweis:</em> Es gibt auch <code>True</code> und <code>False</code>, die die Wahrheit respektive den Widerspruch als logische Aussagen repräsentieren. In der funktionalen Programmierung verwendet man den Typ <code>Bool</code>, wie in anderen Programmiersprachen auch. Wenn wir aber Eigenschaften von Funktionen beweisen wollen, dann geht es um die Wahrheit logischer Aussagen vom Typ <code>Prop</code>.</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">Bool.true</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool" data-verso-hover="36">Bool</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-6015">#check</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">Bool.false</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool" data-verso-hover="36">Bool</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-6027">#check</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6041" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">==</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">2</span><span class="inter-text"> </span><span class="const token" data-binding="const-BEq.beq" data-verso-hover="6">==</span><span class="inter-text"> </span><span class="unknown token" data-binding="">2</span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool" data-verso-hover="36">Bool</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-6054">#check</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">==</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6069" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"> </span><span class="unknown token" data-binding="">&&</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6089" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.and" data-verso-hover="38">and</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6110" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"> </span><span class="unknown token" data-binding="">||</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6130" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.or" data-verso-hover="39">or</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6150" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.xor" data-verso-hover="40">xor</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6171" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.xor" data-verso-hover="40">xor</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6191" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">¬</span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6204" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.not" data-verso-hover="41">not</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Mehr zu Booleschen Werten später in der Veranstaltung und in der <a href="https://lean-lang.org/doc/reference/latest////Basic-Types/Booleans/">Lean Language Reference 18.11</a>.</p>
+              <section>
+                <h3 id="Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Boolesche-Werte--Zeichen-_LPAR_Characters_RPAR_">
+                  1.4.4.1. Zeichen (Characters)<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Boolesche-Werte--Zeichen-_LPAR_Characters_RPAR_" title="Permalink">🔗</a></span></h3>
+                <p>
+                  Ein Zeichen ist ein Unicode-Skalarwert, repräsentiert intern als unsigned 32-bit integer.
+Zeichen werden in der Syntax mit einfachen Anführungszeichen dargestellt.</p>
+                <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">'a'</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6593" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">'a'</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6603" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-isValidChar" data-verso-hover="42">isValidChar</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="43">0xe4</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6626" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">'a'</span><span class="inter-text"> </span><span class="unknown token" data-binding="">&lt;</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'b'</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6642" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">'a'</span><span class="inter-text"> </span><span class="unknown token" data-binding="">==</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'ä'</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                  Mehr zu Characters in der <a href="https://lean-lang.org/doc/reference/latest////Basic-Types/Characters/">Lean Language Reference 18.7</a>.</p>
+                </section>
+              <section>
+                <h3 id="Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Boolesche-Werte--Strings">
+                  1.4.4.2. Strings<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Typen--Boolesche-Werte--Strings" title="Permalink">🔗</a></span></h3>
+                <p>
+                  Zeichenketten (Strings) sind Listen von Zeichen. Syntaktisch werden sie mit doppelten Anführungszeichen dargestellt.</p>
+                <p>
+                  Es gibt sehr viele Funktionen für Strings, von denen einige Beispiele folgen. Da Strings Listen von Zeichen sind, lernen wir dabei auch gleich viele Listenfunktionen kennen:</p>
+                <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="44">"Lean"</span><span class="inter-text"></span></span><span class="text"> : </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.check-7109">#check</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="44">"Lean"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="44">"Lean"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7123" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="44">"Lean"</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">4</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7137" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="45">"lean"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.length" data-verso-hover="46">length</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">4</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7157" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="47">"L∃∀N"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.length" data-verso-hover="46">length</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">4</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7181" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.length" data-verso-hover="46">String.length</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="45">"lean"</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">'l'</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7209" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="45">"lean"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.front" data-verso-hover="48">front</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">'n'</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7228" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="45">"lean"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.back" data-verso-hover="49">back</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="50">"abcd"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7247" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.push" data-verso-hover="52">push</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'d'</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="50">"abcd"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7268" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.push" data-verso-hover="52">String.push</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'d'</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="53">"abcdef"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7297" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.append" data-verso-hover="15">append</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="54">"def"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="53">"abcdef"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7322" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.append" data-verso-hover="15">String.append</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="54">"def"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="53">"abcdef"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7354" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text"> </span><span class="unknown token" data-binding="">++</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="54">"def"</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">[</span><span class="inter-text"></span><span class="unknown token" data-binding="">'a'</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'b'</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'c'</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">]</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7376" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.toList" data-verso-hover="55">toList</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7396" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text"> </span><span class="unknown token" data-binding="">&lt;</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="56">"abd"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7416" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text"> </span><span class="unknown token" data-binding="">&lt;</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="57">"abc "</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7437" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text"> </span><span class="unknown token" data-binding="">==</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="57">"abc "</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">[</span><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="58">"here"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="59">"is"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="60">"some"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="61">"text"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">]</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7460" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.splitOn" data-verso-hover="62">String.splitOn</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="63">"here is some text"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">[</span><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="64">"here is "</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="65">" text"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">]</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7501" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.splitOn" data-verso-hover="62">String.splitOn</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="63">"here is some text"</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="60">"some"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">[</span><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="63">"here is some text"</span><span class="const token" data-binding="const-List.cons" data-verso-hover="28">]</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7549" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.splitOn" data-verso-hover="62">String.splitOn</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="63">"here is some text"</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="66">""</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="67">"abcdefghi"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7594" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.join" data-verso-hover="68">String.join</span><span class="inter-text"> </span><span class="unknown token" data-binding="">[</span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="54">"def"</span><span class="unknown token" data-binding="">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="69">"ghi"</span><span class="unknown token" data-binding="">]</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="70">"abc, def, ghi"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7634" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.intercalate" data-verso-hover="71">String.intercalate</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="72">", "</span><span class="inter-text"> </span><span class="unknown token" data-binding="">[</span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="54">"def"</span><span class="unknown token" data-binding="">,</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="69">"ghi"</span><span class="unknown token" data-binding="">]</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7687" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.contains" data-verso-hover="73">contains</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'a'</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.false" data-verso-hover="37">false</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7712" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.contains" data-verso-hover="73">contains</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'ä'</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7738" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="53">"abcdef"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.startsWith" data-verso-hover="74">startsWith</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="53">"abcdef"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7770" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="75">" abcdef "</span><span class="unknown token" data-binding="">.</span><span class="has-info warning"><span class="hover-container"><span class="hover-info messages"><code class="verso-message warning"><span class="text"></span><span class="text">`</span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-String.trim" data-verso-hover="76">String.trim</span><span class="inter-text"></span></span><span class="text">` has been deprecated</span><span class="text">: Use `</span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-String.trimAscii" data-verso-hover="77">String.trimAscii</span><span class="inter-text"></span></span><span class="text">` instead</span><span class="text">
+</span><span class="text">
+</span><span class="text">Note: </span><span class="text">The updated constant has a different type:</span><span class="text">
+  </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text"> </span><span class="unknown token" data-binding="">→</span><span class="inter-text"> </span><span class="const token" data-binding="const-String.Slice" data-verso-hover="78">String.Slice</span></span><span class="text"></span><span class="text">
+</span><span class="text">instead of</span><span class="text">
+  </span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text"> </span><span class="unknown token" data-binding="">→</span><span class="inter-text"> </span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span></span></code></span></span><span class="const token" data-binding="const-String.trim" data-verso-hover="76">trim</span></span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="14">"ABC"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7793" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="const token" data-binding="const-String.toUpper" data-verso-hover="79">String.toUpper</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="80">"Abc"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7820" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="51">"abc"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.capitalize" data-verso-hover="81">capitalize</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="82">"äbc"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7843" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="82">"äbc"</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-String.capitalize" data-verso-hover="81">capitalize</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                  Man kann Strings auch mit Ergebnissen von Auswertungen mixen (<em>String interpolation</em>):</p>
+                <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-7967">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-triple" data-verso-hover="83" id="triple">triple</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.3" data-verso-hover="1">x</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.3" data-verso-hover="1">x</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">3</span><span class="inter-text">
+
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="literal string token" data-binding="" data-verso-hover="84">"Das Dreifache von 5 ist 15"</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7990" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-termS!_-7996">s!</span><span class="unknown token" data-binding="">"Das Dreifache von 5 ist {</span><a href="Erste-Begegnung-mit-Lean/Typen/#triple" title="Definition of example"><span class="const token" data-binding="const-triple" data-verso-hover="83">triple</span></a><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">5</span><span class="unknown token" data-binding="">}"</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                  Mehr zu Strings in der <a href="https://lean-lang.org/doc/reference/latest////Basic-Types/Strings/">Lean Language Reference 18.8</a>.</p>
+                <p>
+                  <strong>[01.3]</strong> Machen Sie sich mit den numerischen Typen und dem Booleschen
+Datentyp vertraut, indem Sie Ausdrücke auswerten:</p>
+                <code class="hl lean block" data-lean-context="examples"><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">42</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8439" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">21</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">3</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">7</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">168</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8456" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="1">21</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">3</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">7</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">1024</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8475" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="unknown token" data-binding="">^</span><span class="typed token" data-binding="" data-verso-hover="1">10</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="text">42.000000</span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8486" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="35">21</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="35">3</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="unknown token" data-binding="">7.0</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8505" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">3</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">4</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">5</span><span class="inter-text"> </span><span class="unknown token" data-binding="">==</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">5</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">6</span><span class="inter-text"> </span><span class="unknown token" data-binding="">/</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-Bool.true" data-verso-hover="8">true</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8542" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">3</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">4</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">5</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">6</span><span class="inter-text"> </span><span class="unknown token" data-binding="">==</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">6</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">7</span><span class="inter-text"> </span><span class="unknown token" data-binding="">/</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">21</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8583" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">6</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">7</span><span class="inter-text"> </span><span class="unknown token" data-binding="">/</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">18</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8599" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">6</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="1">7</span><span class="inter-text"> </span><span class="unknown token" data-binding="">/</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="unknown token" data-binding="">0</span><span class="inter-text"></span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8617" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">84</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="unknown token" data-binding="">-</span><span class="unknown token" data-binding="">42</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8631" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="23">42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">+</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="unknown token" data-binding="">-</span><span class="typed token" data-binding="" data-verso-hover="23">84</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="unknown token" data-binding="">-</span><span class="unknown token" data-binding="">42</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-8648" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="typed token" data-binding="" data-verso-hover="23">42</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Int" data-verso-hover="24">Int</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">-</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="23">84</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                  <strong>[01.4]</strong> Experimentieren Sie mit Strings. Gegeben sei:</p>
+                <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-8858">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-Uebung0104.hall" data-verso-hover="85" id="Uebung0104___hall">hall</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="86">"Hall"</span><span class="inter-text">
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-8877">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-Uebung0104.echo" data-verso-hover="87" id="Uebung0104___echo">echo</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="88">"Echo"</span><span class="inter-text">
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-8896">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-Uebung0104.ohho" data-verso-hover="89" id="Uebung0104___ohho">ohho</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="90">"ohoh"</span><span class="inter-text">
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-8915">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-Uebung0104.lean_" data-verso-hover="91" id="Uebung0104___lean_">lean_</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="44">"Lean"</span><span class="inter-text">
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-8935">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-Uebung0104.rufz" data-verso-hover="92" id="Uebung0104___rufz">rufz</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="unknown token" data-binding="">'!'</span><span class="inter-text">
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-8951">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-Uebung0104.leer" data-verso-hover="93" id="Uebung0104___leer">leer</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="unknown token" data-binding="">' '</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                  Erzeugen Sie aus diesen Definitionen die beiden folgenden Strings:
+  "Echo macht Hall, Hall, Hall"
+  "Hallo Lean!"</p>
+                </section>
+              </section>
+            </section>
+          <nav class="prev-next-buttons">
+            <a class="local-button active" href="Erste-Begegnung-mit-Lean/Ausdr___cke-und-ihre-Auswertung/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Ausdr___cke-und-ihre-Auswertung" rel="prev" title="1.3. Ausdrücke und ihre Auswertung"><span class="arrow">←</span><span class="where">1.3. Ausdrücke und ihre Auswertung</span></a><a class="local-button active" href="Erste-Begegnung-mit-Lean/Definitionen-und-Funktionen/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean--Definitionen-und-Funktionen" rel="next" title="1.5. Definitionen und Funktionen"><span class="where">1.5. Definitionen und Funktionen</span><span class="arrow">→</span></a></nav>
+          </div>
+        </main></div>
+    </body>
+  </html>
+

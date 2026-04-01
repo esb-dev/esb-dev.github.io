@@ -1,0 +1,1 @@
+window.docContents[184].resolve({"/Weitere-eingebaute-Typen/#Funktionale-Programmierung-in-Lean--Weitere-eingebaute-Typen":{"contents":"\n\n\n\n\n\n\n\n\n\n\n\n\n\n","context":"Funktionale Programmierung in Lean","header":"3. Weitere eingebaute Typen","id":"/Weitere-eingebaute-Typen/#Funktionale-Programmierung-in-Lean--Weitere-eingebaute-Typen"}});

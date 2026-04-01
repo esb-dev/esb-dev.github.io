@@ -1,0 +1,1 @@
+window.docContents[148].resolve({"/Logische-Verifikation/#Funktionale-Programmierung-in-Lean--Logische-Verifikation":{"contents":"variable {α : Type} {a : α} {as bs : List α}\n\n\n\n\n\n\n\n\n\n\n\n\n","context":"Funktionale Programmierung in Lean","header":"7. Logische Verifikation","id":"/Logische-Verifikation/#Funktionale-Programmierung-in-Lean--Logische-Verifikation"}});

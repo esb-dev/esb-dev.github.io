@@ -1,0 +1,1 @@
+window.docContents[126].resolve({"/Ich-wei___-noch-nicht/#Funktionale-Programmierung-in-Lean--Ich-wei___-noch-nicht":{"contents":"\n\n\n\n","context":"Funktionale Programmierung in Lean","header":"2. Ich weiß noch nicht","id":"/Ich-wei___-noch-nicht/#Funktionale-Programmierung-in-Lean--Ich-wei___-noch-nicht"}});

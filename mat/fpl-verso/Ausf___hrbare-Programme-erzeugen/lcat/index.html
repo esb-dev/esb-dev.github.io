@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      (function(){
+  const {protocol:proto, host:hostName, pathname:path, search:srch, hash:hsh} = window.location;
+  if (!(path.endsWith("/") || path.endsWith(".html"))) {
+    window.location.replace(`${proto}//${hostName}${path}/${srch}${hsh}`);
+  }
+})()</script>
+    <base href="./../../"><meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>lcat</title><link rel="stylesheet" href="book.css">
+    <link rel="stylesheet" href="verso-vars.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js" integrity="sha384-zbcZAIxlvJtNE3Dp5nxLXdXtXyxwOdnILY1TDPVmKFhl4r4nSUG1r8bcFXGVa4Te" crossorigin="anonymous"></script>
+    <script src="-verso-search/elasticlunr.min.js"></script>
+    <script src="-verso-search/fuzzysort.min.js"></script>
+    <script src="-verso-search/searchIndex.js"></script>
+    <script type="module" src="-verso-search/search-init.js"></script>
+    <link rel="stylesheet" href="-verso-search/search-box.css">
+    <link rel="stylesheet" href="-verso-search/search-highlight.css">
+    <link rel="stylesheet" href="-verso-search/domain-display.css">
+    <script src="-verso-data/popper.min.js"></script>
+    <script src="-verso-data/katex/math.js"></script>
+    <script src="-verso-data/tippy-bundle.umd.min.js"></script>
+    <script src="-verso-data/katex/katex.js"></script>
+    <link rel="stylesheet" href="-verso-data/tippy-border.css">
+    <link rel="stylesheet" href="-verso-data/katex/katex.css">
+    <style>
+table.tabular {
+  margin: auto;
+  border-spacing: 1rem;
+}
+table.tabular.left-align {
+  margin-right: auto;
+  margin-left: 0;
+}
+table.tabular.center-align {
+  margin: auto;
+}
+table.tabular.right-align {
+  margin-left auto;
+  margin-right: 0;
+}
+table.tabular td, table.tabular th {
+  text-align: left;
+  vertical-align: top;
+}
+table.tabular td > p:first-child, table.tabular th > p:first-child {
+  margin-top: 0;
+}
+table.tabular td > p:last-child, table.tabular th > p:first-child {
+  margin-bottom: 0;
+}
+</style><style>
+.marginalia .note {
+  position: relative;
+  padding: 0.5rem;
+}
+
+/* Wide viewport */
+@media screen and (min-width: 1400px) {
+  .marginalia .note {
+    float: right;
+    clear: right;
+    margin-right: -16rem;
+    width: 13rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Very wide viewport */
+@media screen and (min-width: 1600px) {
+  .marginalia .note {
+    margin-right: -19vw;
+    width: 15vw;
+  }
+}
+
+.marginalia:hover, .marginalia:hover .note, .marginalia:has(.note:hover) {
+  background-color: var(--lean-accent-light-blue);
+}
+
+/* Medium viewport */
+@media screen and (700px < width <= 1400px) {
+  .marginalia .note {
+    float: right;
+    clear: right;
+    width: 40%;
+    margin: 1rem 0;
+    margin-left: 10%;
+  }
+}
+
+/* Narrow viewport (e.g. phone) */
+@media screen and (width <= 700px) {
+  .marginalia .note {
+    float: left;
+    clear: left;
+    width: 90%;
+    margin: 1rem 5%;
+  }
+}
+
+body {
+  counter-reset: margin-note-counter;
+}
+.marginalia .note {
+  counter-increment: margin-note-counter;
+}
+.marginalia .note::before {
+  content: counter(margin-note-counter) ".";
+  position: absolute;
+  vertical-align: baseline;
+  font-size: 0.9em;
+  font-weight: bold;
+  left: -3rem;
+  width: 3rem;
+  text-align: right;
+}
+.marginalia::after {
+  content: counter(margin-note-counter);
+  vertical-align: super;
+  font-size: 0.7em;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+</style><style>
+
+.hl.lean {
+  white-space: pre;
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
+}
+
+.hl.lean .keyword {
+  color: var(--verso-code-keyword-color,);
+  font-weight: var(--verso-code-keyword-weight, bold);
+  font-style: var(--verso-code-keyword-style, normal);
+  font-family: var(--verso-code-keyword-font-family,);
+}
+
+.hl.lean .const {
+  color: var(--verso-code-const-color,);
+  font-weight: var(--verso-code-const-weight, normal);
+  font-style: var(--verso-code-const-style, normal);
+  font-family: var(--verso-code-const-font-family,);
+}
+
+.hl.lean .var {
+  color: var(--verso-code-var-color,);
+  font-weight: var(--verso-code-var-weight, normal);
+  font-style: var(--verso-code-var-style, italic);
+  font-family: var(--verso-code-var-font-family,);
+
+  position: relative;
+}
+
+.hl.lean .literal, .hl.lean .unknown {
+  color: var(--verso-code-color,);
+  font-weight: normal;
+  font-style: normal;
+  font-family: var(--verso-code-font-family,);
+}
+
+.hover-container {
+  width: 0;
+  height: 0;
+  position: relative;
+  display: inline;
+}
+
+.hl.lean a {
+  color: inherit;
+  text-decoration: currentcolor underline dotted;
+}
+
+.hl.lean a:hover {
+  text-decoration: currentcolor underline solid;
+}
+
+.hl.lean .hover-info {
+  white-space: normal;
+}
+
+.hl.lean .token .hover-info {
+  display: none;
+  position: absolute;
+  background-color: #e5e5e5;
+  border: 1px solid black;
+  padding: 0.5rem;
+  z-index: 300;
+}
+
+.hl.lean .hover-info.messages {
+  max-height: 10rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  padding: 0 0.5rem 0 0;
+  display: block;
+}
+
+.hl.lean .hover-info code {
+  white-space: pre-wrap;
+  background: none;
+  color: black;
+}
+
+.hl.lean .hover-info.messages > code {
+  padding: 0.5rem;
+  display: block;
+  width: fit-content;
+}
+
+.hl.lean .hover-info.messages > code:only-child {
+  margin: 0;
+}
+
+.hl.lean .hover-info.messages > code {
+  margin: 0.1rem;
+}
+
+.hl.lean .hover-info.messages > code:not(:first-child) {
+  margin-top: 0rem;
+}
+
+.hl.lean {
+}
+
+.hl.lean.block {
+  display: block;
+}
+
+.hl.lean.inline {
+  display: inline;
+  white-space: pre-wrap;
+}
+
+.hl.lean * {
+}
+
+.hl.lean .token {
+  transition: all 0.25s; /* Slight fade for highlights */
+}
+
+@media (hover: hover) {
+  .hl.lean .token.binding-hl, .hl.lean .literal.string:hover, .hl.lean .token.typed:hover {
+    background-color: #eee;
+    border-radius: 2px;
+    transition: none;
+  }
+}
+
+
+.hl.lean .has-info .token:not(.tactic-state):not(.tactic-state *), .hl.lean .has-info .inter-text:not(.tactic-state):not(.tactic-state *) {
+  text-decoration-style: wavy;
+  text-decoration-line: underline;
+  text-decoration-thickness: from-font;
+  text-decoration-skip-ink: none;
+}
+
+.hl.lean .has-info .hover-info {
+  display: none;
+  position: absolute;
+  transform: translate(0.25rem, 0.3rem);
+  border: 1px solid black;
+  padding: 0.5rem;
+  z-index: 400;
+  text-align: left;
+}
+
+.hl.lean .has-info.error :not(.tactic-state):not(.tactic-state *){
+  text-decoration-color: red;
+}
+
+@media (hover: hover) {
+  .hl.lean .has-info.error:hover {
+    background-color: #ffb3b3;
+  }
+}
+
+.hl.lean .hover-info.messages > code.error {
+  background-color: #e5e5e5;
+  border-left: 0.2rem solid #ffb3b3;
+}
+
+.tippy-box[data-theme~='error'] .hl.lean .hover-info.messages > code.error {
+  background: none;
+  border: none;
+}
+
+.error .verso-message, .error .verso-message .token, .error .verso-message label {
+  color: var(--verso-error-color);
+}
+
+.error .verso-message .case-label:has(input[type="checkbox"])::before {
+  background-color: var(--verso-error-color) !important;
+}
+
+.hl.lean .has-info.warning :not(.tactic-state):not(.tactic-state *) {
+  text-decoration-color: var(--verso-warning-indicator-color);
+}
+
+@media (hover: hover) {
+  .hl.lean .has-info.warning:hover {
+    background-color:var(--verso-warning-color);
+  }
+}
+
+.hl.lean .hover-info.messages > code.warning {
+  background-color: var(--verso-warning-color);
+}
+
+.lean-output {
+  border-left: 0.2em solid transparent;
+  padding: 0 0 0 0.5em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.lean-output.error {
+  border-color: var(--verso-error-indicator-color);
+}
+
+.lean-output.information {
+  border-color: var(--verso-info-indicator-color);
+}
+
+.lean-output.warning {
+  border-color: var(--verso-warning-indicator-color);
+}
+
+.hl.lean .hover-info.messages > code.error {
+  background-color: #e5e5e5;
+  border-left: 0.2rem solid var(--verso-warning-color);
+}
+
+.tippy-box[data-theme~='warning'] .hl.lean .hover-info.messages > code.warning {
+  background: none;
+  border: none;
+}
+
+
+.hl.lean .has-info.information :not(.tactic-state):not(.tactic-state *) {
+  text-decoration-color: var(--verso-info-indicator-color, blue);
+}
+
+@media (hover: hover) {
+  .hl.lean .has-info.information:hover {
+    background-color: #4777ff;
+  }
+}
+
+
+.hl.lean .hover-info.messages > code.information {
+  background-color: #e5e5e5;
+  border-left: 0.2rem solid #4777ff;
+}
+
+.tippy-box[data-theme~='info'] .hl.lean .hover-info.messages > code.information {
+  background: none;
+  border: none;
+}
+
+.hl.lean div.docstring {
+  font-family: var(--verso-text-font-family, sans-serif);
+  white-space: normal;
+  max-width: calc(min(40rem, 90vw));
+  width: max-content;
+}
+
+.hl.lean div.docstring > :last-child {
+  margin-bottom: 0;
+}
+
+.hl.lean div.docstring > :first-child {
+  margin-top: 0;
+}
+
+.hl.lean .hover-info .sep {
+  display: block;
+  width: auto;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  height: 1px;
+  border-top: 1px solid #ccc;
+}
+
+.hl.lean code {
+  font-family: var(--verso-code-font-family);
+}
+
+.hl.lean .tactic-state {
+  display: none;
+  position: relative;
+  width: fit-content;
+  border: 1px solid #888888;
+  border-radius: 0.1rem;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  background-color: #ffffff;
+}
+
+.hl.lean.popup .tactic-state {
+  position: static;
+  display: block;
+  width: auto;
+  border: none;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  background-color: #ffffff;
+}
+
+
+.hl.lean .tactic {
+  position: relative;
+  display: inline;
+  vertical-align: top;
+  /* Without these, mobile Safari will start making font sizes inconsistent when its text size adjustment feature is triggered.*/
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.hl.lean .tactic:has(.tactic-toggle:checked) {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+}
+
+.hl.lean .tactic-toggle:checked ~ .tactic-state {
+  display: inline-block;
+  vertical-align: top;
+  grid-row: 2;
+  justify-self: start;
+}
+
+.hl.lean .tactic > label {
+  position: relative;
+  grid-row: 1;
+  display: inline;
+}
+
+@media (hover: hover) {
+  .hl.lean .tactic:has(.tactic-toggle:not(:checked)) > label:hover {
+    background-color: #eeeeee;
+  }
+}
+
+.hl.lean .tactic-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  z-index: -10;
+}
+
+.hl.lean .tactic > label::after {
+  content: "";
+  border: 1px solid #bbbbbb;
+  /* These need to be em, not rem, to scale with the font */
+  border-radius: 1em;
+  height: 0.25em;
+  vertical-align: middle;
+  width: 0.6em;
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+  display: inline-block;
+  transition: all 0.5s;
+}
+
+/*
+@media (hover: hover) {
+  .hl.lean .tactic > label:hover::after {
+    border: 1px solid #aaaaaa;
+    background-color: #aaaaaa;
+    transition: all 0.5s;
+  }
+}
+*/
+
+.hl.lean .tactic > label:has(+ .tactic-toggle:checked)::after {
+  border: 1px solid #999999;
+  background-color: #999999;
+  transition: all 0.5s;
+}
+
+.hl.lean .tactic-state .goal + .goal {
+  margin-top: 1.5em;
+}
+
+/*
+Some CSS frameworks customize details/summary in ways not compatible with Verso's output.
+*/
+
+.hl.lean details {
+  display: block !important;
+  margin: 0;
+}
+
+.hl.lean details summary {
+  display: list-item !important;
+  margin: 0;
+}
+
+.hl.lean details summary:focus {
+  outline: none;
+  outline-offset: none;
+  color: inherit;
+}
+
+.hl.lean ul > li {
+  margin-bottom: 0;
+}
+
+.hl.lean details summary::marker {
+  display: inline !important;
+}
+
+.hl.lean details > summary:first-of-type {
+  list-style-type: disclosure-closed;
+  list-style-position: inside;
+}
+
+.hl.lean details[open] > summary:first-of-type {
+  list-style-type: disclosure-open;
+}
+
+.hl.lean details summary::before, .hl.lean details summary::after {
+  content: "" !important;
+  background: none;
+  display: none;
+}
+
+.hl.lean .tactic-state summary {
+  /* These need to be em, not rem, to scale with the font */
+  margin-left: -0.5em;
+}
+
+.hl.lean .tactic-state details {
+  /* These need to be em, not rem, to scale with the font */
+  padding-left: 0.5em;
+}
+
+.hl.lean .case-label {
+  display: block;
+  position: relative;
+}
+
+.hl.lean .case-label input[type="checkbox"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  z-index: -10;
+}
+
+.hl.lean .case-label:has(input[type="checkbox"])::before {
+  display: inline-block;
+  background-color: black;
+  content: ' ';
+  transition: ease 0.2s;
+  margin-right: 0.7em;
+  clip-path: polygon(100% 0, 0 0, 50% 100%);
+  width: 0.6em;
+  height: 0.6em;
+  vertical-align: middle;
+}
+
+.hl.lean .case-label:has(input[type="checkbox"]:not(:checked))::before {
+  transform: rotate(-90deg);
+}
+
+.hl.lean .case-label:has(input[type="checkbox"]) {
+
+}
+
+.hl.lean .case-label:has(input[type="checkbox"]:checked) {
+
+}
+
+
+.hl.lean .labeled-case > :not(:first-child) {
+  max-height: 0px;
+  display: block;
+  overflow: hidden;
+  transition: max-height 0.1s ease-in;
+  /* These need to be em, not rem, to scale with the font */
+  margin-left: 0.5em;
+  margin-top: 0.1em;
+}
+
+.hl.lean .labeled-case:has(.case-label input[type="checkbox"]:checked) > :not(:first-child) {
+  max-height: 100%;
+}
+
+
+.hl.lean .goal-name::before {
+  font-style: normal;
+  content: "case ";
+}
+
+.hl.lean .goal-name {
+  font-style: italic;
+  font-family: var(--verso-code-font-family);
+  color: inherit;
+}
+
+.hl.lean .hypotheses {
+  display: table;
+}
+
+.hl.lean .hypothesis {
+  display: table-row;
+}
+
+.hl.lean .hypothesis > * {
+  display: table-cell;
+}
+
+
+.hl.lean .hypotheses .colon {
+  text-align: center;
+  /* This needs to be em, not rem, to scale with the font */
+  min-width: 1em;
+}
+
+.hl.lean .hypotheses .name {
+  text-align: right;
+}
+
+.hl.lean .hypotheses .name,
+.hl.lean .hypotheses .type,
+.hl.lean .conclusion .type {
+  font-family: var(--verso-code-font-family);
+}
+
+.tippy-box {
+  /* Without these, mobile Safari will start making font sizes inconsistent when its text size adjustment feature is triggered.*/
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+}
+
+.tippy-box[data-theme~='lean'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 1px solid black;
+}
+.tippy-box[data-theme~='lean'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #e5e5e5;
+}
+.tippy-box[data-theme~='lean'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: #e5e5e5;
+}
+.tippy-box[data-theme~='lean'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #e5e5e5;
+}
+.tippy-box[data-theme~='lean'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #e5e5e5;
+}
+
+.tippy-box[data-theme~='message'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #e5e5e5;
+  border-width: 11px 11px 0;
+}
+.tippy-box[data-theme~='message'][data-placement^='top'] > .tippy-arrow::after {
+  bottom: -11px;
+  border-width: 11px 11px 0;
+}
+.tippy-box[data-theme~='message'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-width: 0 11px 11px;
+}
+.tippy-box[data-theme~='message'][data-placement^='bottom'] > .tippy-arrow::after {
+  top: -11px;
+  border-width: 0 11px 11px;
+}
+.tippy-box[data-theme~='message'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #e5e5e5;
+  border-width: 11px 0 11px 11px;
+}
+.tippy-box[data-theme~='message'][data-placement^='left'] > .tippy-arrow::after {
+  right: -11px;
+  border-width: 11px 0 11px 11px;
+}
+
+.tippy-box[data-theme~='message'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #e5e5e5;
+  border-width: 11px 11px 11px 0;
+}
+.tippy-box[data-theme~='message'][data-placement^='right'] > .tippy-arrow::after {
+  left: -11px;
+  border-width: 11px 11px 11px 0;
+}
+
+
+
+.tippy-box[data-theme~='warning'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 3px solid var(--verso-warning-color);
+}
+
+.tippy-box[data-theme~='error'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 3px solid #f7a7af;
+}
+
+.tippy-box[data-theme~='info'] {
+  background-color: #e5e5e5;
+  color: black;
+  border: 3px solid #99b3c2;
+}
+
+.tippy-box[data-theme~='tactic'] {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: white;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: white;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: white;
+}
+.tippy-box[data-theme~='tactic'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: white;
+}
+
+.extra-doc-links {
+  list-style-type: none;
+  margin-left: 0;
+  padding: 0;
+}
+
+.extra-doc-links > li {
+  display: inline-block;
+}
+
+.extra-doc-links > li:not(:last-child)::after {
+  content: '|';
+  display: inline-block;
+  margin: 0 0.25em;
+}
+
+.verso-message .trace {
+  display: block;
+}
+
+.verso-message .trace > summary::marker {
+  color: var(--verso-text-color);
+}
+
+.verso-message .trace-children {
+  margin: 0;
+  padding: 0;
+}
+
+.verso-message .trace-children > li {
+  list-style-type: none;
+  margin-left: 1.5em;
+}
+
+.verso-message .trace-children > li:not(:has(.trace)) {
+  margin-left: 0;
+}
+
+.verso-message .trace-class {
+  color: color-mix(in srgb, currentColor 70%, transparent);
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+.verso-message .text {
+  white-space: pre-wrap;
+}
+
+</style><script>
+      
+window.onload = () => {
+
+    // Don't show hovers inside of closed tactic states
+    function blockedByTactic(elem) {
+      let parent = elem.parentNode;
+      while (parent && "classList" in parent) {
+        if (parent.classList.contains("tactic")) {
+          const toggle = parent.querySelector("input.tactic-toggle");
+          if (toggle) {
+            return !toggle.checked;
+          }
+        }
+        parent = parent.parentNode;
+      }
+      return false;
+    }
+
+    function blockedByTippy(elem) {
+      // Don't show a new hover until the old ones are all closed.
+      // Scoped to the nearest "top-level block" to avoid being O(n) in the size of the document.
+      var block = elem;
+      const topLevel = new Set(["section", "body", "html", "nav", "header"]);
+      while (block.parentNode && !topLevel.has(block.parentNode.nodeName.toLowerCase())) {
+        block = block.parentNode;
+      }
+      for (const child of block.querySelectorAll(".token, .has-info")) {
+        if (child._tippy && child._tippy.state.isVisible) { return true };
+      }
+      return false;
+    }
+
+    for (const c of document.querySelectorAll(".hl.lean .token")) {
+        if (c.dataset.binding != "") {
+            c.addEventListener("mouseover", (event) => {
+                if (blockedByTactic(c)) {return;}
+                const context = c.closest(".hl.lean").dataset.leanContext;
+                for (const example of document.querySelectorAll(".hl.lean")) {
+                    if (example.dataset.leanContext == context) {
+                        for (const tok of example.querySelectorAll(".token")) {
+                            if (c.dataset.binding == tok.dataset.binding) {
+                                tok.classList.add("binding-hl");
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        c.addEventListener("mouseout", (event) => {
+            for (const tok of document.querySelectorAll(".hl.lean .token")) {
+                tok.classList.remove("binding-hl");
+            }
+        });
+    }
+    /* Render docstrings */
+    if ('undefined' !== typeof marked) {
+        for (const d of document.querySelectorAll("code.docstring, pre.docstring")) {
+            const str = d.innerText;
+            const html = marked.parse(str);
+            const rendered = document.createElement("div");
+            rendered.classList.add("docstring");
+            rendered.innerHTML = html;
+            d.parentNode.replaceChild(rendered, d);
+        }
+    }
+    // Add hovers
+    let docsJson = "-verso-docs.json";
+    fetch(docsJson).then((resp) => resp.json()).then((versoDocData) => {
+
+      function hideParentTooltips(element) {
+        let parent = element.parentElement;
+        while (parent) {
+          const tippyInstance = parent._tippy;
+          if (tippyInstance) {
+            tippyInstance.hide();
+          }
+          parent = parent.parentElement;
+        }
+      }
+
+
+
+      const defaultTippyProps = {
+        /* DEBUG -- remove the space: * /
+        onHide(any) { return false; },
+        trigger: "click",
+        // */
+        /* theme: "lean", */
+        maxWidth: "none",
+        appendTo: () => document.body,
+        interactive: true,
+        delay: [100, null],
+        /* ignoreAttributes: true, */
+        followCursor: 'initial',
+        onShow(inst) {
+          if (inst.reference.className == 'tactic') {
+
+            const toggle = inst.reference.querySelector("input.tactic-toggle");
+            if (toggle && toggle.checked) {
+              return false;
+            }
+            hideParentTooltips(inst.reference);
+            //if (blockedByTippy(inst.reference)) { return false; }
+
+          } else if (inst.reference.querySelector(".hover-info") || "versoHover" in inst.reference.dataset) {
+            if (blockedByTactic(inst.reference)) { return false };
+            if (blockedByTippy(inst.reference)) { return false; }
+          } else { // Nothing to show here!
+            return false;
+          }
+        },
+        content (tgt) {
+          const content = document.createElement("span");
+          if (tgt.className == 'tactic') {
+            const state = tgt.querySelector(".tactic-state").cloneNode(true);
+            state.style.display = "block";
+            content.appendChild(state);
+            content.style.display = "block";
+            content.className = "hl lean popup";
+          } else {
+            content.className = "hl lean";
+            content.style.display = "block";
+            content.style.maxHeight = "300px";
+            content.style.overflowY = "auto";
+            content.style.overflowX = "hidden";
+            const hoverId = tgt.dataset.versoHover;
+            const hoverInfo = tgt.querySelector(".hover-info");
+            if (hoverId) { // Docstrings from the table
+              // TODO stop doing an implicit conversion from string to number here
+              let data = versoDocData[hoverId];
+              if (data) {
+                const info = document.createElement("span");
+                info.className = "hover-info";
+                info.style.display = "block";
+                info.innerHTML = data;
+                content.appendChild(info);
+                /* Render docstrings - TODO server-side */
+                if ('undefined' !== typeof marked) {
+                    for (const d of content.querySelectorAll("code.docstring, pre.docstring")) {
+                        const str = d.innerText;
+                        const html = marked.parse(str);
+                        const rendered = document.createElement("div");
+                        rendered.classList.add("docstring");
+                        rendered.innerHTML = html;
+                        d.parentNode.replaceChild(rendered, d);
+                    }
+                }
+              } else {
+                content.innerHTML = "Failed to load doc ID: " + hoverId;
+              }
+            } else if (hoverInfo) { // The inline info, still used for compiler messages
+              content.appendChild(hoverInfo.cloneNode(true));
+            }
+            const extraLinks = tgt.parentElement.dataset['versoLinks'];
+            if (extraLinks) {
+              try {
+                const extras = JSON.parse(extraLinks);
+                const links = document.createElement('ul');
+                links.className = 'extra-doc-links';
+                extras.forEach((l) => {
+                  const li = document.createElement('li');
+                  li.innerHTML = "<a href=\"" + l['href'] + "\" title=\"" + l.long + "\">" + l.short + "</a>";
+                  links.appendChild(li);
+                });
+                content.appendChild(links);
+              } catch (error) {
+                console.error(error);
+              }
+            }
+          }
+          return content;
+        }
+      };
+
+
+      document.querySelectorAll('.hl.lean .const.token, .hl.lean .keyword.token, .hl.lean .literal.token, .hl.lean .option.token, .hl.lean .var.token, .hl.lean .typed.token, .hl.lean .level-var, .hl.lean .level-const, .hl.lean .level-op, .hl.lean .sort').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'lean');
+      });
+      document.querySelectorAll('.hl.lean .has-info.warning').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'warning message');
+      });
+      document.querySelectorAll('.hl.lean .has-info.information').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'info message');
+      });
+      document.querySelectorAll('.hl.lean .has-info.error').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'error message');
+      });
+      document.querySelectorAll('.hl.lean .tactic').forEach(element => {
+        element.setAttribute('data-tippy-theme', 'tactic');
+      });
+      let insts = tippy('.hl.lean .const.token, .hl.lean .keyword.token, .hl.lean .literal.token, .hl.lean .option.token, .hl.lean .var.token, .hl.lean .typed.token, .hl.lean .has-info, .hl.lean .tactic, .hl.lean .level-var, .hl.lean .level-const, .hl.lean .level-op, .hl.lean .sort', defaultTippyProps);
+  });
+}
+</script>
+    <script src="-verso-search/search-highlight.js" defer="defer"></script>
+    </head>
+  <body>
+    <header>
+      <div class="header-logo-wrapper"></div>
+      <div class="header-title-wrapper">
+        <a href="" class="header-title"><h1>
+            Funktionale Programmierung in Lean</h1>
+          </a></div>
+      </header>
+    <label for="toggle-toc" id="toggle-toc-click"><span class="line line1"></span><span class="line line2"></span><span class="line line3"></span></label><div class="with-toc">
+      <div class="toc-backdrop" onclick="document.getElementById('toggle-toc-click')?.click()"></div>
+      <nav id="toc">
+        <input type="checkbox" id="toggle-toc"><div class="first">
+          <a href="" class="toc-title"><h1>
+              Funktionale Programmierung in Lean</h1>
+            </a><div class="split-tocs">
+            <div class="split-toc book">
+              <div class="title">
+                <label for="--verso-manual-toc-----bookRoot" class="toggle-split-toc"><input type="checkbox" class="toggle-split-toc" id="--verso-manual-toc-----bookRoot"></label><span class="">Table of Contents</span></div>
+              <table><tr class="numbered"><td class="num">1.</td><td><a href="Erste-Begegnung-mit-Lean/#Funktionale-Programmierung-in-Lean--Erste-Begegnung-mit-Lean">Erste Begegnung mit Lean</a></td></tr><tr class="numbered"><td class="num">2.</td><td><a href="Datentypen-definieren-und-verwenden/#Funktionale-Programmierung-in-Lean--Datentypen-definieren-und-verwenden">Datentypen definieren und verwenden</a></td></tr><tr class="numbered"><td class="num">3.</td><td><a href="Weitere-eingebaute-Typen/#Funktionale-Programmierung-in-Lean--Weitere-eingebaute-Typen">Weitere eingebaute Typen</a></td></tr><tr class="numbered"><td class="num">4.</td><td><a href="Verkettete-Listen-und-Arrays/#Funktionale-Programmierung-in-Lean--Verkettete-Listen-und-Arrays">Verkettete Listen und Arrays</a></td></tr><tr class="current numbered"><td class="num">5.</td><td><a href="Ausf___hrbare-Programme-erzeugen/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen">Ausführbare Programme erzeugen</a></td></tr><tr class="numbered"><td class="num">6.</td><td><a href="Typklassen/#Funktionale-Programmierung-in-Lean--Typklassen">Typklassen</a></td></tr><tr class="numbered"><td class="num">7.</td><td><a href="Logische-Verifikation/#Funktionale-Programmierung-in-Lean--Logische-Verifikation">Logische Verifikation</a></td></tr><tr class="numbered"><td class="num">8.</td><td><a href="Programmierung-mit-Effekten/#Funktionale-Programmierung-in-Lean--Programmierung-mit-Effekten">Programmierung mit Effekten</a></td></tr><tr class="numbered"><td class="num">9.</td><td><a href="Mehr-___ber-Mondaden/#Funktionale-Programmierung-in-Lean--Mehr-___ber-Mondaden">Mehr über Mondaden</a></td></tr><tr class="numbered"><td class="num">10.</td><td><a href="Abh___ngige-Typen/#Funktionale-Programmierung-in-Lean--Abh___ngige-Typen">Abhängige Typen</a></td></tr><tr class="numbered"><td class="num">11.</td><td><a href="Anhang/#Funktionale-Programmierung-in-Lean--Anhang">Anhang</a></td></tr></table></div>
+            <div class="split-toc">
+              <div class="title">
+                <label for="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen" class="toggle-split-toc"><input type="checkbox" class="toggle-split-toc" id="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen" checked="checked"></label><span class="number">5.</span> <span class=""><a href="Ausf___hrbare-Programme-erzeugen/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen">Ausführbare Programme erzeugen</a></span></div>
+              <table><tr class="numbered"><td class="num">5.1.</td><td><a href="Ausf___hrbare-Programme-erzeugen/Hello___-World___/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--Hello___-World___">Hello, World!</a></td></tr><tr class="current numbered"><td class="num">5.2.</td><td><a href="Ausf___hrbare-Programme-erzeugen/lcat/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat">lcat</a></td></tr><tr class="numbered"><td class="num">5.3.</td><td><a href="Ausf___hrbare-Programme-erzeugen/Aufbau-komplexerer-Programme/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--Aufbau-komplexerer-Programme">Aufbau komplexerer Programme</a></td></tr><tr class="numbered"><td class="num">5.4.</td><td><a href="Ausf___hrbare-Programme-erzeugen/Zusammenfassung/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--Zusammenfassung">Zusammenfassung</a></td></tr></table></div>
+            <div class="split-toc">
+              <div class="title">
+                <label for="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat" class="toggle-split-toc"><input type="checkbox" class="toggle-split-toc" id="--verso-manual-toc-Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat" checked="checked"></label><span class="number">5.2.</span> <span class="current"><a href="Ausf___hrbare-Programme-erzeugen/lcat/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat">lcat</a></span></div>
+              <table><tr class="numbered"><td class="num">5.2.1.</td><td><a href="Ausf___hrbare-Programme-erzeugen/lcat/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat--Behandlung-des-Aufrufs-von-lcat">Behandlung des Aufrufs von lcat</a></td></tr><tr class="numbered"><td class="num">5.2.2.</td><td><a href="Ausf___hrbare-Programme-erzeugen/lcat/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat--Lesen-von-Dateien">Lesen von Dateien</a></td></tr></table></div>
+            </div>
+          </div>
+        <div class="last"></div>
+        </nav>
+      <main><div class="content-wrapper">
+          <nav class="prev-next-buttons">
+            <a class="local-button active" href="Ausf___hrbare-Programme-erzeugen/Hello___-World___/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--Hello___-World___" rel="prev" title="5.1. Hello, World!"><span class="arrow">←</span><span class="where">5.1. Hello, World!</span></a><a class="local-button active" href="Ausf___hrbare-Programme-erzeugen/Aufbau-komplexerer-Programme/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--Aufbau-komplexerer-Programme" rel="next" title="5.3. Aufbau komplexerer Programme"><span class="where">5.3. Aufbau komplexerer Programme</span><span class="arrow">→</span></a></nav>
+          <section>
+            <h1>
+              5.2. lcat<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat" title="Permalink">🔗</a></span></h1>
+            <p>
+              Wir wollen eine einfache Variante von <code>cat</code> in Lean implementieren. Man
+startet <code>cat</code>, in dem man Dateien als Argumente angibt. <code>cat</code> liest diese
+Dateien und "verkettet" sie (<em>concatenate</em>) und gibt sie dann auf
+<code>stdout</code> aus.</p>
+            <p>
+              Wir beginnen damit, ein neues Projekt anzulegen: <code>lake new lcat exe</code> und
+wir erzeugen gleich ein ausführbares Programm durch <code>lake build</code> im
+Verzeichnis <code>lcat</code>.</p>
+            <p>
+              Es lässt sich dann starten mit <code>.lake/build/bin/lcat</code> und gibt <code>Hello,
+world!</code> aus.</p>
+            <section>
+              <h2 id="Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat--Behandlung-des-Aufrufs-von-lcat">
+                5.2.1. Behandlung des Aufrufs von lcat<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat--Behandlung-des-Aufrufs-von-lcat" title="Permalink">🔗</a></span></h2>
+              <p>
+                Wir beginnen mit der Behandlung der Kommandozeile für <code>lcat</code>. Zunächst
+geben wir einfach die übergebenen Argumente aus. Wenn keine Argumente
+angegeben wurden, soll <code>lcat</code> von <code>stdin</code> lesen, was wir durch ein <code>-</code>
+markieren.</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-1084">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-main" data-verso-hover="382" id="main">main</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="var token" data-binding="var-_uniq.3" data-verso-hover="383">args</span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-List" data-verso-hover="31">List</span><span class="inter-text"> </span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="const token" data-binding="const-Unit" data-verso-hover="273">Unit</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text">
+  </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.match-1128" data-verso-hover="110">match</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.3" data-verso-hover="383">args</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.match-1128" data-verso-hover="110">with</span><span class="inter-text">
+  </span><span class="unknown token" data-binding="">|</span><span class="inter-text"> </span><span class="unknown token" data-binding="">[</span><span class="unknown token" data-binding="">]</span><span class="inter-text"> </span><span class="unknown token" data-binding="">=&gt;</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.println" data-verso-hover="385">IO.println</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="386">"-"</span><span class="inter-text">
+  </span><span class="unknown token" data-binding="">|</span><span class="inter-text"> </span><span class="unknown token" data-binding="">_</span><span class="inter-text">  </span><span class="unknown token" data-binding="">=&gt;</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.println" data-verso-hover="385">IO.println</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.3" data-verso-hover="383">args</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Es gibt drei Möglichkeiten für die Kommandozeile:</p>
+              <ul>
+                <li>
+                  <p>
+                    <code>main: IO Unit</code> ist ein Programm, das keine Argumente hat und immer
+  den Exit-Code <code>0</code>.</p>
+                  </li>
+                <li>
+                  <p>
+                    <code>main: IO UInt32</code> ist ein Programm ohne Argument mit einem Exit-Code.</p>
+                  </li>
+                <li>
+                  <p>
+                    <code>main (args: List String) : IO UInt32</code> ist ein Programm mit Argumenten
+  und einem Exit-Code.</p>
+                  </li>
+                </ul>
+              <p>
+                In unserem Fall brauchen wir die dritte Möglichkeit.</p>
+              </section>
+            <section>
+              <h2 id="Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat--Lesen-von-Dateien">
+                5.2.2. Lesen von Dateien<span class="permalink-widget inline"><a href="find/?domain=Verso.Genre.Manual.section&amp;name=Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--lcat--Lesen-von-Dateien" title="Permalink">🔗</a></span></h2>
+              <p>
+                Wir brauchen einen Zugriff auf den Inhalt der Dateien, deren Name als
+Argument übergeben wurde. Dazu definieren wir die Methode <code>fileStream</code>,
+die ein Handle auf einen POSIX-Stream zum Zugriff auf den Inhalt der
+Datei erzeugt.</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-1831">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-fileStream" data-verso-hover="387" id="fileStream">fileStream</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="var token" data-binding="var-_uniq.2" data-verso-hover="388">filename</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath" data-verso-hover="389">System.FilePath</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text">
+    </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="const token" data-binding="const-Option" data-verso-hover="303">Option</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.FS.Stream" data-verso-hover="390">IO.FS.Stream</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.do-1909">do</span><span class="inter-text">
+  </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doLetArrow-1914">let</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.110" data-verso-hover="99">fileExists</span><span class="inter-text"> </span><span class="unknown token" data-binding="">←</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.2" data-verso-hover="388">filename</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-System.FilePath.pathExists" data-verso-hover="391">pathExists</span><span class="inter-text">
+  </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doIf-1955">if</span><span class="inter-text"> </span><span class="const token" data-binding="const-Bool.not" data-verso-hover="41">not</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.110" data-verso-hover="99">fileExists</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doIf-1955">then</span><span class="inter-text">
+    </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doLetArrow-1982">let</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.263" data-verso-hover="392">stderr</span><span class="inter-text"> </span><span class="unknown token" data-binding="">←</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.getStderr" data-verso-hover="393">IO.getStderr</span><span class="inter-text">
+    </span><span class="var token" data-binding="var-_uniq.263" data-verso-hover="392">stderr</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-IO.FS.Stream.putStrLn" data-verso-hover="394">putStrLn</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-termS!_-2030">s!</span><span class="unknown token" data-binding="">"File not found: {</span><span class="var token" data-binding="var-_uniq.2" data-verso-hover="388">filename</span><span class="unknown token" data-binding="">}"</span><span class="inter-text">
+    </span><span class="const token" data-binding="const-Pure.pure" data-verso-hover="395">pure</span><span class="inter-text"> </span><span class="const token" data-binding="const-Option.none" data-verso-hover="241">none</span><span class="inter-text">
+  </span><span class="keyword token" data-binding="kw-occ-null-2077">else</span><span class="inter-text">
+    </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doLetArrow-2086">let</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.456" data-verso-hover="396">handle</span><span class="inter-text"> </span><span class="unknown token" data-binding="">←</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.FS.Handle.mk" data-verso-hover="397">IO.FS.Handle.mk</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.2" data-verso-hover="388">filename</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.FS.Mode.read" data-verso-hover="398">IO.FS.Mode.read</span><span class="inter-text">
+    </span><span class="const token" data-binding="const-Pure.pure" data-verso-hover="395">pure</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="const token" data-binding="const-Option.some" data-verso-hover="239">some</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="const token" data-binding="const-IO.FS.Stream.ofHandle" data-verso-hover="399">IO.FS.Stream.ofHandle</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.456" data-verso-hover="396">handle</span><span class="unknown token" data-binding="">)</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Wir übergeben der Methode eine Instanz von <code>System.FilePath</code>, die die
+Datei namens <code>filename</code> repräsentiert. Als Ergebnis werden wir einen
+<code>IO IO.FS.Stream</code> verpackt in eine <code>Option</code> bekommen. Hier sehen wir, wie
+man <code>Option</code> zu sauberem Fehlerhandling einsetzt.</p>
+              <p>
+                <code>System.FilePath</code> hat eine Reihe von Funktionen, die zum Teil in
+<code>Init.System.FilePath</code> definiert sind, aber auch in <code>Init.System.IO</code>, so
+auch <code>System.FilePath.pathExists</code>.</p>
+              <p>
+                Wenn die Datei nicht existiert, wird eine Fehlermeldung erzeugt und ein
+<code>IO (Option IO.FS.Stream)</code>. Der Wert, den <code>fileStream</code> zurückgibt, ist
+vom Typ <code>Option IO.FS.Stream</code>. Die Funktion <code>pure</code> von <code>IO</code> erstellt zu einem
+übergebenen Wert eine <code>Option</code>. Der übergebene Wert <code>none</code> ist der
+Konstruktor von <code>Option</code> für den fehlenden Wert.</p>
+              <p>
+                Wenn die Datei existiert, brauchen wir den Zugriff auf sie im lesenden
+Modus. Dies geschieht in der Zeile</p>
+              <pre>    let handle ← IO.FS.Handle.mk filename IO.FS.Mode.read
+</pre><p>
+                <code>handle</code> hat den Typ <code>IO IO.FS.Handle</code> und <code>IO.FS.Stream.ofHandle</code>
+fertigt daraus einen POSIX-Stream, mit dem man auf den Inhalt der Datei
+zugreifen kann. Auch hier müssen wir die Funktion <code>pure</code> von <code>IO</code>
+verwenden.</p>
+              <p>
+                (<code>pure</code> ist eine Funktion einer Monade. Wir werden später noch
+ausführlich auf Monaden zu sprechen kommen.)</p>
+              <p>
+                Konzeptionell ist der POSIX-Stream in Lean durch die folgende Struktur
+repräsentiert:</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.structureTk-3618">structure</span><span class="inter-text"> </span><span class="const token" data-binding="const-Hidden.Stream" data-verso-hover="400" id="Hidden___Stream">Stream</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-null-3635">where</span><span class="inter-text">
+  </span><span class="const token" data-binding="const-Hidden.Stream.flush" data-verso-hover="401" id="Hidden___Stream___flush">flush</span><span class="inter-text">   </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="const token" data-binding="const-Unit" data-verso-hover="273">Unit</span><span class="inter-text">
+  </span><span class="const token" data-binding="const-Hidden.Stream.read" data-verso-hover="402" id="Hidden___Stream___read">read</span><span class="inter-text">    </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-USize" data-verso-hover="403">USize</span><span class="inter-text"> </span><span class="unknown token" data-binding="">→</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="const token" data-binding="const-ByteArray" data-verso-hover="404">ByteArray</span><span class="inter-text">
+  </span><span class="const token" data-binding="const-Hidden.Stream.write" data-verso-hover="405" id="Hidden___Stream___write">write</span><span class="inter-text">   </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-ByteArray" data-verso-hover="404">ByteArray</span><span class="inter-text"> </span><span class="unknown token" data-binding="">→</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="const token" data-binding="const-Unit" data-verso-hover="273">Unit</span><span class="inter-text">
+  </span><span class="const token" data-binding="const-Hidden.Stream.getLine" data-verso-hover="406" id="Hidden___Stream___getLine">getLine</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text">
+  </span><span class="const token" data-binding="const-Hidden.Stream.putStr" data-verso-hover="407" id="Hidden___Stream___putStr">putStr</span><span class="inter-text">  </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-String" data-verso-hover="26">String</span><span class="inter-text"> </span><span class="unknown token" data-binding="">→</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="const token" data-binding="const-Unit" data-verso-hover="273">Unit</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Die Felder sind die IO-Aktionen, die den Operationen eines POSIX-Streams
+entsprechen.</p>
+              <p>
+                Wir schreiben jetzt eine IO-Aktion, die die Dateien tatsächlich verarbeitet.
+Die Signatur der Funktion ist:</p>
+              <pre>process (exitCode : UInt32) (args : List String) : IO UInt32
+</pre><p>
+                Das erste Argument ist der Exit-Code, der später den Exit-Code des
+gesamten Programms ergeben soll und das zweite Argument ist die Liste
+der Namen der zu bearbeitenden Dateien.</p>
+              <p>
+                In der Funktion erfolgt die eigentliche Ausgabe des Inhalts einer Datei
+durch die Funktion <code>dump</code>, die wir gleich definieren werden.</p>
+              <p>
+                Die Funktion <code>process</code>:</p>
+              <pre>def process (exitCode : UInt32) (args : List String) : IO UInt32 := do
+  match args with
+  | [] =&gt; pure exitCode
+  | "-" :: args =&gt;
+    let stdin ← IO.getStdin
+    dump stdin
+    process exitCode args
+  | filename :: args =&gt;
+    let stream ← fileStream ⟨filename⟩
+    match stream with
+    | none =&gt;
+      process 1 args
+    | some stream =&gt;
+      dump stream
+      process exitCode args
+</pre><p>
+                Die Funktion unterscheidet drei Möglichkeiten:</p>
+              <ul>
+                <li>
+                  <p>
+                    Die Argumentliste ist leer, dann endet das Programm und gibt den
+  Exit-Code als <code>IO UInt32</code> zurück.</p>
+                  </li>
+                <li>
+                  <p>
+                    Die Argumentliste beginnt mit dem String <code>"-"</code>. In diesem Fall soll
+  <code>stdin</code> ausgegeben werden. Danach wird die Funktion <code>process</code> mit dem
+  bisherigen Exit-Code und den restlichen Dateinamen in der Argumentliste
+  aufgerufen.</p>
+                  </li>
+                <li>
+                  <p>
+                    Die Argumentliste beginnt mit einem Dateinamen. Hier kommt jetzt die
+  Funktion <code>fileStream</code> ins Spiel. Wir unterscheiden die beiden
+  Möglichkeiten der Option:</p>
+                  <ul>
+                    <li>
+                      <p>
+                        Bei <code>none</code> tun wir gar nichts und fahren mit <code>process</code> fort, aber
+    jetzt mit dem ExitCode 1, weil ja ein Fehler aufgetreten ist</p>
+                      </li>
+                    <li>
+                      <p>
+                        Gibt es einen Stream, dann verwenden wir ihn und fahren dann fort.</p>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              <p>
+                Die Funktion hat eine wichtige Eigenschaft: sie ist <em>endrekursiv</em>. Das
+sieht man daran, dass beim rekursiven Aufruf <code>process</code> stets an letzter
+Stelle der Verarbeitung steht und einfach nur den Aufruf ohne weitere
+Berechnung oder Manipulation enthält. Das bedeutet, dass der Compiler
+Code erzeugen kann, bei dem der Funktionsaufruf durch einen Sprung
+erfolgen kann und keinen Stack benötigt. Deshalb müssen wir keine Sorge
+haben, dass bei sehr großen Dateien Probleme durch die begrenzte Größe
+des Stacks entstehen könnten.</p>
+              <p>
+                Bevor zur Funktion <code>dump</code> kommen, ein kleiner Exkurs:</p>
+              <p>
+                <strong>Exkurs zu Konstruktorklammern (<em>constructor brackets</em>)</strong></p>
+              <p>
+                In der Funktion, die wir eben analysiert haben, kommt die Zeile</p>
+              <pre>   let stream ← fileStream ⟨filename⟩ -- Constructor brackets!
+</pre><p>
+                vor, die ein bisschen Erläuterung braucht.</p>
+              <p>
+                In Kapitel 2 haben wir Strukturen in Lean kennengelernt. Unser Beispiel war:</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.namespace-6505" data-verso-hover="162">namespace</span><span class="inter-text"> </span><span class="unknown token" data-binding="">HiddenPoint</span><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.structureTk-6528">structure</span><span class="inter-text"> </span><span class="const token" data-binding="const-HiddenPoint.Point" data-verso-hover="408" id="HiddenPoint___Point">Point</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-null-6544">where</span><span class="inter-text">
+  </span><span class="const token" data-binding="const-HiddenPoint.Point.x" data-verso-hover="409" id="HiddenPoint___Point___x">x</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text">
+  </span><span class="const token" data-binding="const-HiddenPoint.Point.y" data-verso-hover="410" id="HiddenPoint___Point___y">y</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-Nat" data-verso-hover="3">Nat</span><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-6571">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-HiddenPoint.p01" data-verso-hover="411" id="HiddenPoint___p01">p01</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="const token" data-binding="const-HiddenPoint.Point.mk" data-verso-hover="412">Point.mk</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="text">{ x := 1, y := 2 }</span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6595" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#HiddenPoint___p01" title="Definition of example"><span class="const token" data-binding="const-HiddenPoint.p01" data-verso-hover="411">p01</span></a><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-6606">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-HiddenPoint.p02" data-verso-hover="413" id="HiddenPoint___p02">p02</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#HiddenPoint___Point" title="Definition of example"><span class="const token" data-binding="const-HiddenPoint.Point" data-verso-hover="408">Point</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="unknown token" data-binding="">{</span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#HiddenPoint___Point___x" title="Definition of example"><span class="const token" data-binding="const-HiddenPoint.Point.x" data-verso-hover="222">x</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="unknown token" data-binding="">,</span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#HiddenPoint___Point___y" title="Definition of example"><span class="const token" data-binding="const-HiddenPoint.Point.y" data-verso-hover="222">y</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">}</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="text">{ x := 1, y := 2 }</span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6644" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#HiddenPoint___p02" title="Definition of example"><span class="const token" data-binding="const-HiddenPoint.p02" data-verso-hover="413">p02</span></a><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-6655">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-HiddenPoint.p03" data-verso-hover="414" id="HiddenPoint___p03">p03</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#HiddenPoint___Point" title="Definition of example"><span class="const token" data-binding="const-HiddenPoint.Point" data-verso-hover="408">Point</span></a><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="unknown token" data-binding="const-HiddenPoint.Point.mk" data-verso-hover="412">⟨</span><span class="typed token" data-binding="" data-verso-hover="1">1</span><span class="unknown token" data-binding="const-HiddenPoint.Point.mk" data-verso-hover="412">,</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="1">2</span><span class="unknown token" data-binding="const-HiddenPoint.Point.mk" data-verso-hover="412">⟩</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="text">{ x := 1, y := 2 }</span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-6685" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#HiddenPoint___p03" title="Definition of example"><span class="const token" data-binding="const-HiddenPoint.p03" data-verso-hover="414">p03</span></a><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.end-6696" data-verso-hover="174">end</span><span class="inter-text"> </span><span class="unknown token" data-binding="">HiddenPoint</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Diese Notation verwendet die Konstruktorklammern (<em>constructor
+brackets</em>), die man in Visual Studio Code eingibt, in dem man <code>\&lt;</code> bzw.
+<code>\&gt;</code> tippt. (Je nach dem im Editor verwendeten Zeichensatz sind diese
+Klammern nicht gut von den runden Klammern zu unterscheiden.)</p>
+              <p>
+                In dem Beispiel</p>
+              <pre>   let stream ← fileStream ⟨filename⟩
+</pre><p>
+                ist <code>filename</code> ein String, die Funktion <code>fileStream</code> erwartet aber einen
+Wert vom Typ <code>System.FilePath</code>. Dieser Typ ist eine Struktur mit einem
+Feld, nämlich gerade der Stringrepräsentation des Werts. Wir müssen also
+einen Konstruktor für diese Struktur aufrufen. Dafür haben wir drei Möglichkeiten:</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-7376">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-pfad1" data-verso-hover="415" id="pfad1">pfad1</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">System.FilePath.mk</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="417">"filename"</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">{</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.toString" data-verso-hover="418">toString</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="417">"filename"</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">}</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7419" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#pfad1" title="Definition of example"><span class="const token" data-binding="const-pfad1" data-verso-hover="415">pfad1</span></a><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-7432">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-pfad2" data-verso-hover="419" id="pfad2">pfad2</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath" data-verso-hover="389">System.FilePath</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="unknown token" data-binding="">{</span><span class="const token" data-binding="const-System.FilePath.toString" data-verso-hover="418">toString</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="417">"filename"</span><span class="unknown token" data-binding="">}</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">{</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.toString" data-verso-hover="418">toString</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="417">"filename"</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">}</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7488" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#pfad2" title="Definition of example"><span class="const token" data-binding="const-pfad2" data-verso-hover="419">pfad2</span></a><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-7501">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-pfad3" data-verso-hover="420" id="pfad3">pfad3</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath" data-verso-hover="389">System.FilePath</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="unknown token" data-binding="const-System.FilePath.mk" data-verso-hover="416">⟨</span><span class="literal string token" data-binding="" data-verso-hover="417">"filename"</span><span class="unknown token" data-binding="const-System.FilePath.mk" data-verso-hover="416">⟩</span><span class="inter-text">
+</span><span class="has-info information"><span class="hover-container"><span class="hover-info messages"><code class="verso-message information"><span class="text"></span><span class="highlighted"><span class="inter-text"></span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">{</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.toString" data-verso-hover="418">toString</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">:=</span><span class="inter-text"> </span><span class="literal string token" data-binding="" data-verso-hover="417">"filename"</span><span class="inter-text"> </span><span class="const token" data-binding="const-System.FilePath.mk" data-verso-hover="416">}</span></span></code></span></span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.eval-7549" data-verso-hover="0">#eval</span></span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#pfad3" title="Definition of example"><span class="const token" data-binding="const-pfad3" data-verso-hover="420">pfad3</span></a><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Für unseren Fall ist die dritte Möglichkeit die eleganteste.</p>
+              <p>
+                Soweit der Exkurs zu den <em>constructor brackets</em>. Nun weiter mit <code>lcat</code>.</p>
+              <p>
+                Wir brauchen noch die Funktion <code>dump</code>:</p>
+              <code class="hl lean block" data-lean-context="examples"><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-7751">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-bufsize" data-verso-hover="421" id="bufsize">bufsize</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-USize" data-verso-hover="403">USize</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="422">20</span><span class="inter-text"> </span><span class="unknown token" data-binding="">*</span><span class="inter-text"> </span><span class="typed token" data-binding="" data-verso-hover="422">1024</span><span class="inter-text">
+
+</span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.partial-7785">partial</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Command.definition-7793">def</span><span class="inter-text"> </span><span class="const token" data-binding="const-dump" data-verso-hover="423" id="dump">dump</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="var token" data-binding="var-_uniq.108" data-verso-hover="392">stream</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.FS.Stream" data-verso-hover="390">IO.FS.Stream</span><span class="unknown token" data-binding="">)</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO" data-verso-hover="384">IO</span><span class="inter-text"> </span><span class="const token" data-binding="const-Unit" data-verso-hover="273">Unit</span><span class="inter-text"> </span><span class="unknown token" data-binding="">:=</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.do-7839">do</span><span class="inter-text">
+  </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doLetArrow-7844">let</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.174" data-verso-hover="424">buf</span><span class="inter-text"> </span><span class="unknown token" data-binding="">←</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.108" data-verso-hover="392">stream</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-IO.FS.Stream.read" data-verso-hover="425">read</span><span class="inter-text"> </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#bufsize" title="Definition of example"><span class="const token" data-binding="const-bufsize" data-verso-hover="421">bufsize</span></a><span class="inter-text">
+  </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doIf-7878">if</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.174" data-verso-hover="424">buf</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-ByteArray.isEmpty" data-verso-hover="426">isEmpty</span><span class="inter-text"> </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doIf-7878">then</span><span class="inter-text">
+    </span><span class="const token" data-binding="const-Pure.pure" data-verso-hover="395">pure</span><span class="inter-text"> </span><span class="unknown token" data-binding="">(</span><span class="unknown token" data-binding="">)</span><span class="inter-text">
+  </span><span class="keyword token" data-binding="kw-occ-null-7912">else</span><span class="inter-text">
+    </span><span class="keyword token" data-binding="kw-occ-Lean.Parser.Term.doLetArrow-7921">let</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.369" data-verso-hover="392">stdout</span><span class="inter-text"> </span><span class="unknown token" data-binding="">←</span><span class="inter-text"> </span><span class="const token" data-binding="const-IO.getStdout" data-verso-hover="427">IO.getStdout</span><span class="inter-text">
+    </span><span class="var token" data-binding="var-_uniq.369" data-verso-hover="392">stdout</span><span class="unknown token" data-binding="">.</span><span class="const token" data-binding="const-IO.FS.Stream.write" data-verso-hover="428">write</span><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.174" data-verso-hover="424">buf</span><span class="inter-text">
+    </span><a href="Ausf___hrbare-Programme-erzeugen/lcat/#dump" title="Definition of example"><span class="const token" data-binding="const-dump" data-verso-hover="423">dump</span></a><span class="inter-text"> </span><span class="var token" data-binding="var-_uniq.108" data-verso-hover="392">stream</span><span class="inter-text">
+</span><span class="unknown token" data-binding=""></span></code><p>
+                Die Funktion liest jeweils <code>bufsize</code> Bytes aus dem übergebenen Stream
+und schreibt sie auf <code>stdout</code>. Wenn der gelesene Puffer leer ist,
+endet die Funktion.</p>
+              <p>
+                Wir beobachten, dass auch diese Funktion endrekursiv ist.</p>
+              <p>
+                Außerdem ist sie mit dem Schlüsselwort <code>partial</code> gekennzeichnet. Dies
+bedeutet, dass Lean keinen Beweis benötigt, dass die Funktion auch
+wirklich terminiert. Das ließe sich in diesem Fall aber auch nicht
+beweisen, denn man kann nicht sicher sein, dass der gelesene Stream
+sukzessive kleiner wird. (Würde man zum Beispiel aus <code>/dev/random</code>
+lesen, wäre der Stream unendlich!)</p>
+              <p>
+                Nun haben wir alle Bestandteile für <code>lcat</code> beieinander und wir können
+<code>main</code> anpassen:</p>
+              <pre>def main (args : List String) : IO UInt32 :=
+  match args with
+  | [] =&gt; process 0 ["-"]
+  | _ =&gt;  process 0 args
+</pre><p>
+                In Lean müssen wir den Quellcode so organisieren, dass Symbole bereits
+definiert sind, wenn man sie verwenden möchte. Also erst <code>bufsize</code>, dann
+<code>dump</code> usw.</p>
+              <p>
+                <code>lake build</code> erzeugt das Programm.</p>
+              <p>
+                Wir erstellen Dateien, mit denen wir das Programm verwenden können.</p>
+              <pre>echo "Hallo, dies ist unser erstes" &gt; lcat1.txt
+
+echo "Programm in Lean. Cool." &gt; lcat2.txt
+
+lorem -l 200 &gt; lcat3.txt
+</pre><p>
+                Nun können wir das Programm mit diesen Dateien verwenden:</p>
+              <pre>.lake/build/bin/lcat lcat1.txt
+.lake/build/bin/lcat lcat1.txt lcat2.txt
+echo "und äußerst interessantes" | .lake/build/bin/lcat lcat1.txt - lcat2.txt
+.lake/build/bin/lcat lcat3.txt | wc -l
+.lake/build/bin/lcat lcat3.txt lcat3.txt | wc -l
+.lake/build/bin/lcat lcat4.txt -- File not found
+</pre></section>
+            </section>
+          <nav class="prev-next-buttons">
+            <a class="local-button active" href="Ausf___hrbare-Programme-erzeugen/Hello___-World___/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--Hello___-World___" rel="prev" title="5.1. Hello, World!"><span class="arrow">←</span><span class="where">5.1. Hello, World!</span></a><a class="local-button active" href="Ausf___hrbare-Programme-erzeugen/Aufbau-komplexerer-Programme/#Funktionale-Programmierung-in-Lean--Ausf___hrbare-Programme-erzeugen--Aufbau-komplexerer-Programme" rel="next" title="5.3. Aufbau komplexerer Programme"><span class="where">5.3. Aufbau komplexerer Programme</span><span class="arrow">→</span></a></nav>
+          </div>
+        </main></div>
+    </body>
+  </html>
+
