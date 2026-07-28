@@ -5,6 +5,9 @@ open util/integer
 // Hinweise von Peter Kriens und David Chemouil haben geholfen, diese
 // Version zu entwickeln
 
+/* Gefäße haben einen aktuellen Füllstand gallons, der sich auch
+   ändern kann. Sie haben einen maximalen Füllstand capacity.
+*/
 abstract sig Jug {
 	var gallons : Int,
 	capacity : Int
@@ -14,6 +17,8 @@ one sig Jug3 extends Jug {}{ capacity = 3 }
 one sig Jug5 extends Jug {}{ capacity = 5 }
 
 /*
+Wir brauchen ein Prädikat für das Füllen eines Gefäßes:
+
 pred fill[j: Jug] {
 	j.gallons' = j.capacity
 	all unchanged : Jug-j | unchanged.gallons' = unchanged.gallons
@@ -23,12 +28,15 @@ besser:
 gallons ist eine Relation Jug x Int
 j->j.capacity ist ein Tupel in dieser Relation (zum Jug j)
 Der Operator ++ überschreibt das Tupel j->Zahl in gallons
+und lässt alle anderen Tupel unverändert
 */
 pred fill[j: Jug] {
 	gallons' = gallons ++ j->j.capacity 
 }
 
 /*
+Prädikat für das Leeren eines Gefäßes:
+
 pred empty[ j : Jug ] {
 	j.gallons' = 0	
 	all unchanged : Jug-j | unchanged.gallons' = unchanged.gallons
@@ -56,7 +64,8 @@ Das ist alles, wenn es Platz hat, also from. gallons
 oder was reinpasst d.h. to.capacity - to.gallons
 
 also 
-Man beachte, dass das + nicht die Addition ist, sondern die Mengenvereinigung
+Man beachte, dass das + nicht die Addition ist, sondern die 
+Mengenvereinigung
 */
 pred pour[from, to: Jug] {
 	let amount = min[to.capacity.minus[to.gallons] + from.gallons] {
@@ -78,11 +87,13 @@ fact traces {
 	}
 }
 
-// Wir müssen in Alloy nicht einen Widerspruchsbeweis machen wie in TLA+,
-// sondern wir wollen uns einfach ein Beispiel erzeugen lassen, in dem
-// wir 4 Gallonen im größeren Krug haben
+/* Wir müssen in Alloy nicht einen Widerspruchsbeweis machen wie in TLA+,
+   sondern wir wollen uns einfach ein Beispiel erzeugen lassen, in dem
+   wir 4 Gallonen im größeren Krug haben. Dazu verwenden wir den teporalen
+	 Operator eventually:
+*/
 run {
 	eventually Jug5.gallons = 4
 }
-
-
+/* Wir laden das Thema diehard.thm für die Visualisierung des Ergebnisses
+*/
